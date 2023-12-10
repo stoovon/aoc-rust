@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::17 Problem Title TBC
+# 2021::17 Trick Shot
 
 ## Rubric summary
 

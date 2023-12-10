@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::11 Problem Title TBC
+# 2021::11 Dumbo Octopus
 
 ## Rubric summary
 

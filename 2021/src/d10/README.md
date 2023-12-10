@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::10 Problem Title TBC
+# 2021::10 Syntax Scoring
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::01 Problem Title TBC
+# 2021::01 Sonar Sweep
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2019::24 Problem Title TBC
+# 2019::24 Planet of Discord
 
 ## Rubric summary
 

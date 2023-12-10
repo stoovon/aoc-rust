@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::17 Problem Title TBC
+# 2020::17 Conway Cubes
 
 ## Rubric summary
 

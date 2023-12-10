@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::18 Problem Title TBC
+# 2021::18 Snailfish
 
 ## Rubric summary
 

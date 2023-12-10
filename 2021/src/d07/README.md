@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::07 Problem Title TBC
+# 2021::07 The Treachery of Whales
 
 ## Rubric summary
 

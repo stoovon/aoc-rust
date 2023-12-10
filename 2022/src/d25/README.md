@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::25 Problem Title TBC
+# 2022::25 Full of Hot Air
 
 ## Rubric summary
 

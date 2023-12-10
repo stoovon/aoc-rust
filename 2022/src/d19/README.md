@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::19 Problem Title TBC
+# 2022::19 Not Enough Minerals
 
 ## Rubric summary
 
@@ -12,3 +12,4 @@ The expectation is that the spec files will contain a single number, which is th
 
 ## Solution Sketch / Solving Notes
 
+- [A truly excellent video](https://www.youtube.com/watch?v%253D5rb0vvJ7NCY)

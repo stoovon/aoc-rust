@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::25 Problem Title TBC
+# 2021::25 Sea Cucumber
 
 ## Rubric summary
 

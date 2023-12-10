@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::02 Problem Title TBC
+# 2020::02 Password Philosophy
 
 ## Rubric summary
 

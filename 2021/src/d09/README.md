@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::09 Problem Title TBC
+# 2021::09 Smoke Basins
 
 ## Rubric summary
 

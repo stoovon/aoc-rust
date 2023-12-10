@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::15 Problem Title TBC
+# 2022::15 Beacon Exclusion Zone
 
 ## Rubric summary
 

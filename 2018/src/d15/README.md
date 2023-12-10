@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::15 Problem Title TBC
+# 2018::15 Beverage Bandits
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::09 Problem Title TBC
+# 2022::09 Rope Bridge
 
 ## Rubric summary
 

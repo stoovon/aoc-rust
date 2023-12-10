@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::03 Problem Title TBC
+# 2020::03 Toboggan Trajectory
 
 ## Rubric summary
 

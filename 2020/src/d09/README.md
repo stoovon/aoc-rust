@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::09 Problem Title TBC
+# 2020::09 Encoding Error
 
 ## Rubric summary
 

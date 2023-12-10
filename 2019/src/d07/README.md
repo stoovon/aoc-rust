@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2019::07 Problem Title TBC
+# 2019::07 Amplification Circuit
 
 ## Rubric summary
 

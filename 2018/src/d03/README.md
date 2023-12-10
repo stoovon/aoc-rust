@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::03 Problem Title TBC
+# 2018::03 No Matter How You Slice It
 
 ## Rubric summary
 

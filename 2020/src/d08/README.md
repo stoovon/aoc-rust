@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::08 Problem Title TBC
+# 2020::08 Handheld Halting
 
 ## Rubric summary
 

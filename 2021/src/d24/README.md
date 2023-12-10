@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::24 Problem Title TBC
+# 2021::24 Arithmetic Logic Unit
 
 ## Rubric summary
 

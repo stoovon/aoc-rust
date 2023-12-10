@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::14 Problem Title TBC
+# 2022::14 Regolith Reservoir
 
 ## Rubric summary
 

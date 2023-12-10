@@ -1,0 +1,13 @@
+{
+	"name": "Codespaces Rust Starter",
+	"dockerFile": "Dockerfile",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"rust-lang.rust-analyzer",
+				"ms-azuretools.vscode-docker",
+				"vadimcn.vscode-lldb"
+			]
+		}
+	}
+}

@@ -82,7 +82,7 @@ mod tests {
     use svutils::load_spec;
 
     #[test]
-    fn test_example_various_approaches() {
+    fn test_example() {
         assert_eq!(fn1(include_str!("example.txt")), load_spec(include_str!("example-spec.txt")));
     }
 

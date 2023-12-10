@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::1 JSAbacusFramework.io
+# 2023::12 JSAbacusFramework.io
 
 ## Rubric summary
 

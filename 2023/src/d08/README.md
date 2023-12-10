@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::08 Problem Title TBC
+# 2023::08 Haunted Wasteland
 
 ## Rubric summary
 
@@ -12,3 +12,4 @@ The expectation is that the spec files will contain a single number, which is th
 
 ## Solution Sketch / Solving Notes
 
+- Probably my favourite problem and solution for Week 1.

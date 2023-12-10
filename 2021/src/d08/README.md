@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::08 Problem Title TBC
+# 2021::08 Seven Segment Search
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::10 Problem Title TBC
+# 2018::10 The Stars Align
 
 ## Rubric summary
 

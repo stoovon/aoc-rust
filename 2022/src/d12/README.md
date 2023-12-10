@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::12 Problem Title TBC
+# 2022::12 Hill Climbing Algorithm
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::03 Problem Title TBC
+# 2022::03 Rucksack Reorganization
 
 ## Rubric summary
 

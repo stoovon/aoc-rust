@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::07 Problem Title TBC
+# 2020::07 Handy Haversacks
 
 ## Rubric summary
 

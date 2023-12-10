@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::05 Problem Title TBC
+# 2022::05 Supply Stacks
 
 ## Rubric summary
 

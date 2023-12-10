@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::13 Problem Title TBC
+# 2022::13 Distress Signal
 
 ## Rubric summary
 

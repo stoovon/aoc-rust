@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::21 Problem Title TBC
+# 2021::21 Dirac Dice
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::21 Problem Title TBC
+# 2020::21 Allergen Assessment
 
 ## Rubric summary
 

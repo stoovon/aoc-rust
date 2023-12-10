@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::02 Problem Title TBC
+# 2022::02 Rock Paper Scissors
 
 ## Rubric summary
 

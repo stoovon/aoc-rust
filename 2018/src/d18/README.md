@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::18 Problem Title TBC
+# 2018::18 Settlers of The North Pole
 
 ## Rubric summary
 

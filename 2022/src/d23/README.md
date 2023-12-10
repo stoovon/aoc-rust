@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::23 Problem Title TBC
+# 2022::23 Unstable Diffusion
 
 ## Rubric summary
 

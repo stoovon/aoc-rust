@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::22 Problem Title TBC
+# 2021::22 Reactor Reboot
 
 ## Rubric summary
 
@@ -12,3 +12,4 @@ The expectation is that the spec files will contain a single number, which is th
 
 ## Solution Sketch / Solving Notes
 
+Runtime can go very high if poorly optimised.

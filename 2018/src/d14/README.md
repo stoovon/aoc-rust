@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::14 Problem Title TBC
+# 2018::14 Chocolate Charts
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::12 Problem Title TBC
+# 2021::12 Passage Pathing
 
 ## Rubric summary
 

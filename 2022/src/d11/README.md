@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::11 Problem Title TBC
+# 2022::11 Monkey in the Middle
 
 ## Rubric summary
 

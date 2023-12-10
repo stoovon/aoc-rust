@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::20 Problem Title TBC
+# 2018::20 A Regular Map
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::05 Problem Title TBC
+# 2020::05 Binary Boarding
 
 ## Rubric summary
 

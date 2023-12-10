@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::15 Problem Title TBC
+# 2020::15 Rambunctious Recitation
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::03 Problem Title TBC
+# 2021::03 Binary Diagnostic
 
 ## Rubric summary
 

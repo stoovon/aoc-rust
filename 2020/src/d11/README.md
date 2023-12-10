@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::11 Problem Title TBC
+# 2020::11 Seating System
 
 ## Rubric summary
 

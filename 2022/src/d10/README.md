@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::10 Problem Title TBC
+# 2022::10 Cathode-Ray Tube
 
 ## Rubric summary
 

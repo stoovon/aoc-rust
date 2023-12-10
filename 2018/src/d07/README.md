@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::07 Problem Title TBC
+# 2018::07 The Sum of Its Parts
 
 ## Rubric summary
 

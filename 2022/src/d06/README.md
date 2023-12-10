@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::06 Problem Title TBC
+# 2022::06 Tuning Trouble
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::10 Problem Title TBC
+# 2023::10 Pipe Maze
 
 ## Rubric summary
 

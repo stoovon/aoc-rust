@@ -12,3 +12,4 @@ The expectation is that the spec files will contain a single number, which is th
 
 ## Solution Sketch / Solving Notes
 
+Can definitely solve more intelligently using quadratic formula.

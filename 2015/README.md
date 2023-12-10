@@ -5,7 +5,7 @@
 | Day                       | Puzzle Title                                  | Difficulty | Progress |
 |---------------------------|-----------------------------------------------|------------|----------|
 | [01](./src/d01/README.md) | Not Quite Lisp                                | *......... | **       |
-| [02](./src/d02/README.md) | I Was Told There Would Be No Math             | .......... | ..       |
+| [02](./src/d02/README.md) | I Was Told There Would Be No Math             | .......... | **       |
 | [03](./src/d03/README.md) | Perfectly Spherical Houses in a Vacuum        | .......... | ..       |
 | [04](./src/d04/README.md) | The Ideal Stocking Stuffer                    | .......... | ..       |
 | [05](./src/d05/README.md) | Doesn't He Have Intern-Elves For This?        | .......... | ..       |

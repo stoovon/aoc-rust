@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::02 Problem Title TBC
+# 2018::02 Inventory Management System
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::04 Problem Title TBC
+# 2022::04 Camp Cleanup
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::06 Problem Title TBC
+# 2020::06 Custom Customs
 
 ## Rubric summary
 

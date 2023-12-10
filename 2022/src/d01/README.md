@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::01 Problem Title TBC
+# 2022::01 Calorie Counting
 
 ## Rubric summary
 

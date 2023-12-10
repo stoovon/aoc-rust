@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::20 Problem Title TBC
+# 2020::20 Jurassic Jigsaw
 
 ## Rubric summary
 

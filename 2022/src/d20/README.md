@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::20 Problem Title TBC
+# 2022::20 Grove Positioning System
 
 ## Rubric summary
 

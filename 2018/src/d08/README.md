@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::08 Problem Title TBC
+# 2018::08 Memory Maneuver
 
 ## Rubric summary
 

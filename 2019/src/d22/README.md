@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2019::22 Problem Title TBC
+# 2019::22 Slam Shuffle
 
 ## Rubric summary
 

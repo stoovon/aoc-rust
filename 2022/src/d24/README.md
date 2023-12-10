@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::24 Problem Title TBC
+# 2022::24 Blizzard Basin
 
 ## Rubric summary
 

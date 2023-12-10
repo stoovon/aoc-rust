@@ -5,15 +5,15 @@
 | Day                       | Puzzle Title                                  | Difficulty | Progress |
 |---------------------------|-----------------------------------------------|------------|----------|
 | [01](./src/d01/README.md) | Trebuchet?!                                   | ****...... | **       |
-| [02](./src/d02/README.md) | TBC                                           | .......... | ..       |
-| [03](./src/d03/README.md) | TBC                                           | .......... | ..       |
-| [04](./src/d04/README.md) | TBC                                           | .......... | ..       |
-| [05](./src/d05/README.md) | TBC                                           | .......... | ..       |
-| [06](./src/d06/README.md) | TBC                                           | .......... | ..       |
-| [07](./src/d07/README.md) | TBC                                           | .......... | ..       |
-| [08](./src/d08/README.md) | TBC                                           | .......... | ..       |
-| [09](./src/d09/README.md) | TBC                                           | .......... | ..       |
-| [10](./src/d10/README.md) | TBC                                           | .......... | ..       |
+| [02](./src/d02/README.md) | Cube Conundrum                                | .......... | **       |
+| [03](./src/d03/README.md) | Gear Ratios                                   | .......... | **       |
+| [04](./src/d04/README.md) | Scratchcards                                  | .......... | **       |
+| [05](./src/d05/README.md) | If You Give A Seed A Fertilizer               | .......... | **       |
+| [06](./src/d06/README.md) | Wait For It                                   | .......... | **       |
+| [07](./src/d07/README.md) | Camel Cards                                   | .......... | **       |
+| [08](./src/d08/README.md) | Haunted Wasteland                             | .......... | **       |
+| [09](./src/d09/README.md) | Mirage Maintenance                            | .......... | **       |
+| [10](./src/d10/README.md) | Pipe Maze                                     | .......... | **       |
 | [11](./src/d11/README.md) | TBC                                           | .......... | ..       |
 | [12](./src/d12/README.md) | TBC                                           | .......... | ..       |
 | [13](./src/d13/README.md) | TBC                                           | .......... | ..       |

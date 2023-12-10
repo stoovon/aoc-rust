@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::22 Problem Title TBC
+# 2022::22 Monkey Map
 
 ## Rubric summary
 

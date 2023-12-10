@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::25 Problem Title TBC
+# 2018::25 Four-Dimensional Adventure
 
 ## Rubric summary
 

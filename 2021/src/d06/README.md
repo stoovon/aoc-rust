@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::06 Problem Title TBC
+# 2021::06 Lanternfish
 
 ## Rubric summary
 
@@ -12,3 +12,4 @@ The expectation is that the spec files will contain a single number, which is th
 
 ## Solution Sketch / Solving Notes
 
+- Runtime can balloon if you use a poorly-optimised approach.

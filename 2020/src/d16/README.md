@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::16 Problem Title TBC
+# 2020::16 Ticket Translation
 
 ## Rubric summary
 

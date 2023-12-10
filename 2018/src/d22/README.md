@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::22 Problem Title TBC
+# 2018::22 Mode Maze
 
 ## Rubric summary
 

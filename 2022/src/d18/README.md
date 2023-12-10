@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::18 Problem Title TBC
+# 2022::18 Boiling Boulders
 
 ## Rubric summary
 

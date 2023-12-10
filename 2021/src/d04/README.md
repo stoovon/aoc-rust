@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::04 Problem Title TBC
+# 2021::04 Giant Squid
 
 ## Rubric summary
 

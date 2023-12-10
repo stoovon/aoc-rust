@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2019::18 Problem Title TBC
+# 2019::18 Many-Worlds Interpretation
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::17 Problem Title TBC
+# 2022::17 Pyroclastic Flow
 
 ## Rubric summary
 

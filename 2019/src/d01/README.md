@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2019::01 Problem Title TBC
+# 2019::01 The Tyranny of the Rocket Equation
 
 ## Rubric summary
 

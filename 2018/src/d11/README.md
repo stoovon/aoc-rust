@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2018::11 Problem Title TBC
+# 2018::11 Chronal Charge
 
 ## Rubric summary
 

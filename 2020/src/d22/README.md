@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::22 Problem Title TBC
+# 2020::22 Crab Combat
 
 ## Rubric summary
 

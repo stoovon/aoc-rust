@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::24 Problem Title TBC
+# 2020::24 Lobby Layout
 
 ## Rubric summary
 

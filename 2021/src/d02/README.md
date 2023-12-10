@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::02 Problem Title TBC
+# 2021::02 Dive!
 
 ## Rubric summary
 

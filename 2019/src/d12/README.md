@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2019::12 Problem Title TBC
+# 2019::12 The N-Body Problem
 
 ## Rubric summary
 

@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::03 Problem Title TBC
+# 2023::03 Gear Ratios
 
 ## Rubric summary
 
@@ -12,3 +12,5 @@ The expectation is that the spec files will contain a single number, which is th
 
 ## Solution Sketch / Solving Notes
 
+- It's rarely possible to guess the probable path to the solution for Part 2 based on observations of Part 1 coupled with bearing in mind the problem title. Nevertheless, risky!
+  - `Don't try it` - Obi Wan

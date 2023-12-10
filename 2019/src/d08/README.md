@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2019::08 Problem Title TBC
+# 2019::08 Space Image Format
 
 ## Rubric summary
 

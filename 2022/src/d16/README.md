@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2022::16 Problem Title TBC
+# 2022::16 Proboscidea Volcanium
 
 ## Rubric summary
 

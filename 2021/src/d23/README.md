@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2021::23 Problem Title TBC
+# 2021::23 Amphipod
 
 ## Rubric summary
 

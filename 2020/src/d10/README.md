@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::10 Problem Title TBC
+# 2020::10 Adapter Array
 
 ## Rubric summary
 

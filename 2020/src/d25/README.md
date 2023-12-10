@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2020::25 Problem Title TBC
+# 2020::25 Combo Breaker
 
 ## Rubric summary
 

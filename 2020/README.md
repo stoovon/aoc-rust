@@ -4,7 +4,7 @@
 
 | Day                       | Puzzle Title                                  | Difficulty | Progress |
 |---------------------------|-----------------------------------------------|------------|----------|
-| [01](./src/d01/README.md) | Report Repair                                 | .......... | ..       |
+| [01](./src/d01/README.md) | Report Repair                                 | .......... | **       |
 | [02](./src/d02/README.md) | Password Philosophy                           | .......... | ..       |
 | [03](./src/d03/README.md) | Toboggan Trajectory                           | .......... | ..       |
 | [04](./src/d04/README.md) | Passport Processing                           | .......... | ..       |

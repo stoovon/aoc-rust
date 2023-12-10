@@ -4,7 +4,7 @@
 
 | Day                       | Puzzle Title                                  | Difficulty | Progress |
 |---------------------------|-----------------------------------------------|------------|----------|
-| [01](./src/d01/README.md) | Chronal Calibration                           | .......... | ..       |
+| [01](./src/d01/README.md) | Chronal Calibration                           | *......... | **       |
 | [02](./src/d02/README.md) | Inventory Management System                   | .......... | ..       |
 | [03](./src/d03/README.md) | No Matter How You Slice It                    | .......... | ..       |
 | [04](./src/d04/README.md) | Repose Record                                 | .......... | ..       |

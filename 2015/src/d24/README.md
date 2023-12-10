@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::1 It Hangs in the Balance
+# 2023::24 It Hangs in the Balance
 
 ## Rubric summary
 

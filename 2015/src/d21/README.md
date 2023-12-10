@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::1 RPG Simulator 20XX
+# 2023::21 RPG Simulator 20XX
 
 ## Rubric summary
 

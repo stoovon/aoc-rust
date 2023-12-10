@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::1 Wizard Simulator 20XX
+# 2023::22 Wizard Simulator 20XX
 
 ## Rubric summary
 

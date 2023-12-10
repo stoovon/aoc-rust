@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::1 Problem Title TBC
+# 2017::17 Spinlock
 
 ## Rubric summary
 

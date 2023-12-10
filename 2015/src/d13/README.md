@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::1 Knights of the Dinner Table
+# 2023::13 Knights of the Dinner Table
 
 ## Rubric summary
 

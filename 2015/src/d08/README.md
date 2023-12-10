@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::1 Matchsticks
+# 2023::08 Matchsticks
 
 ## Rubric summary
 

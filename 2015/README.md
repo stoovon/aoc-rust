@@ -5,7 +5,7 @@
 | Day                       | Puzzle Title                                  | Difficulty | Progress |
 |---------------------------|-----------------------------------------------|------------|----------|
 | [01](./src/d01/README.md) | Not Quite Lisp                                | *......... | **       |
-| [02](./src/d02/README.md) | I Was Told There Would Be No Math             | .......... | **       |
+| [02](./src/d02/README.md) | I Was Told There Would Be No Math             | *......... | **       |
 | [03](./src/d03/README.md) | Perfectly Spherical Houses in a Vacuum        | .......... | ..       |
 | [04](./src/d04/README.md) | The Ideal Stocking Stuffer                    | .......... | ..       |
 | [05](./src/d05/README.md) | Doesn't He Have Intern-Elves For This?        | .......... | ..       |
@@ -13,7 +13,7 @@
 | [07](./src/d07/README.md) | Some Assembly Required                        | .......... | ..       |
 | [08](./src/d08/README.md) | Matchsticks                                   | .......... | ..       |
 | [09](./src/d09/README.md) | All in a Single Night                         | .......... | ..       |
-| [10](./src/d10/README.md) | Elves Look, Elves Say                         | .......... | ..       |
+| [10](./src/d10/README.md) | Elves Look, Elves Say                         | ****...... | **       |
 | [11](./src/d11/README.md) | Corporate Policy                              | .......... | ..       |
 | [12](./src/d12/README.md) | JSAbacusFramework.io                          | .......... | ..       |
 | [13](./src/d13/README.md) | Knights of the Dinner Table                   | .......... | ..       |

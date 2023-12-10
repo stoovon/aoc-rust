@@ -5,7 +5,7 @@
 | Day                       | Puzzle Title                                  | Difficulty | Progress |
 |---------------------------|-----------------------------------------------|------------|----------|
 | [01](./src/d01/README.md) | Calorie Counting                              | *......... | **       |
-| [02](./src/d02/README.md) | Rock Paper Scissors                           | .......... | ..       |
+| [02](./src/d02/README.md) | Rock Paper Scissors                           | *......... | **       |
 | [03](./src/d03/README.md) | Rucksack Reorganization                       | .......... | ..       |
 | [04](./src/d04/README.md) | Camp Cleanup                                  | .......... | ..       |
 | [05](./src/d05/README.md) | Supply Stacks                                 | .......... | ..       |

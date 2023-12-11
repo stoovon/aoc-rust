@@ -116,7 +116,6 @@ pub fn fn2(input: &str) -> i64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use itertools::Itertools;
     use svutils::load_spec;
 
     #[test]

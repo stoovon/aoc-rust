@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::18 Problem Title TBC
+# 2023::18 Lavaduct Lagoon
 
 ## Rubric summary
 

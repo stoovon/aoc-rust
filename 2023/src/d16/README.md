@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::16 Problem Title TBC
+# 2023::16 The Floor Will Be Lava
 
 ## Rubric summary
 

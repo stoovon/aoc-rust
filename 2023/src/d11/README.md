@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::11 Problem Title TBC
+# 2023::11 Cosmic Expansion
 
 ## Rubric summary
 

@@ -10,24 +10,19 @@ pub struct Point {
 }
 
 impl Point {
-    #[inline]
-    #[must_use]
     pub const fn new(x: i32, y: i32) -> Self {
         Point { x, y }
     }
 
-    #[inline]
-    #[must_use]
     pub fn manhattan(self, other: Self) -> i32 {
         (self.x - other.x).abs() + (self.y - other.y).abs()
     }
 }
 
 impl Hash for Point {
-    #[inline]
-    fn hash<H: Hasher>(&self, hasher: &mut H) {
-        hasher.write_i32(self.x);
-        hasher.write_i32(self.y);
+    fn hash<H: Hasher>(&self, hashfn: &mut H) {
+        hashfn.write_i32(self.x);
+        hashfn.write_i32(self.y);
     }
 }
 
@@ -40,11 +35,11 @@ pub struct Grid<T> {
 
 impl Grid<u8> {
     pub fn parse(input: &str) -> Self {
-        let raw: Vec<_> = input.lines().map(str::as_bytes).collect();
-        let width = raw[0].len() as i32;
-        let height = raw.len() as i32;
+        let input_lines: Vec<_> = input.lines().map(str::as_bytes).collect();
+        let width = input_lines[0].len() as i32;
+        let height = input_lines.len() as i32;
         let mut bytes = Vec::with_capacity((width * height) as usize);
-        raw.iter().for_each(|slice| bytes.extend_from_slice(slice));
+        input_lines.iter().for_each(|slice| bytes.extend_from_slice(slice));
         Grid { width, height, bytes }
     }
 }
@@ -58,13 +53,13 @@ impl<T> Index<Point> for Grid<T> {
     }
 }
 
-pub struct Parsed {
+struct Parsed {
     points: Vec<Point>,
     horizontal: Vec<i32>,
     vertical: Vec<i32>,
 }
 
-pub fn parse(input: &str) -> Parsed {
+fn parse(input: &str) -> Parsed {
     let grid: Grid<u8> = Grid::parse(input);
     let size = grid.width as usize;
 

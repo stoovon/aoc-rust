@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::14 Problem Title TBC
+# 2023::14 Parabolic Reflector Dish
 
 ## Rubric summary
 

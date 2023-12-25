@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::24 Problem Title TBC
+# 2023::24 Never Tell Me The Odds
 
 ## Rubric summary
 

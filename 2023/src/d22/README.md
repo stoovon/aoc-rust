@@ -1,6 +1,6 @@
 [<<<](../../README.md)
 
-# 2023::22 Problem Title TBC
+# 2023::22 Sand Slabs
 
 ## Rubric summary
 

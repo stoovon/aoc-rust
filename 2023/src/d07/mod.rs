@@ -90,7 +90,7 @@ pub fn fn1(input: &str) -> i64 {
         let (cards, bid) = l.split_once(' ').unwrap();
         let p1key = hand_strength(cards, false);
         let p2key = hand_strength(cards, true);
-        (cards, bid.parse().unwrap(), p1key, p2key)
+        (cards, bid.parse::<usize>().unwrap(), p1key, p2key)
       }).collect::<Vec<_>>();
       cards.sort_unstable_by_key(|&(_,_,key,_)| key);
 
@@ -103,7 +103,7 @@ pub fn fn2(input: &str) -> i64 {
         let (cards, bid) = l.split_once(' ').unwrap();
         let p1key = hand_strength(cards, false);
         let p2key = hand_strength(cards, true);
-        (cards, bid.parse().unwrap(), p1key, p2key)
+        (cards, bid.parse::<usize>().unwrap(), p1key, p2key)
       }).collect::<Vec<_>>();
 
       // PAY CLOSE ATTENTION TO THE THREE UNDERBARS; it's two for fn1

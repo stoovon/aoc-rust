@@ -5,7 +5,6 @@ use std::hash::{Hash, Hasher};
 
 type Input = (i32, i32);
 
-pub const ORIGIN: Point = Point::new(0, 0);
 pub const UP: Point = Point::new(0, -1);
 pub const DOWN: Point = Point::new(0, 1);
 pub const LEFT: Point = Point::new(-1, 0);
@@ -161,16 +160,16 @@ mod tests {
 
     #[test]
     fn test_example() {
-        assert_eq!(fn1(include_str!("example.txt")), load_spec(include_str!("example-spec.1.txt")));
+        assert_eq!(fn1(include_str!("../../../input/2023/d10/example.txt")), load_spec(include_str!("../../../input/2023/d10/example-spec.1.txt")));
     }
 
     #[test]
     fn test_fn1_input() {
-        assert_eq!(fn1(include_str!("input.txt")), load_spec(include_str!("input-spec.1.txt")));
+        assert_eq!(fn1(include_str!("../../../input/2023/d10/input.txt")), load_spec(include_str!("../../../input/2023/d10/input-spec.1.txt")));
     }
 
     #[test]
     fn test_fn2_input() {
-        assert_eq!(fn2(include_str!("input.txt")), load_spec(include_str!("input-spec.2.txt")));
+        assert_eq!(fn2(include_str!("../../../input/2023/d10/input.txt")), load_spec(include_str!("../../../input/2023/d10/input-spec.2.txt")));
     }
 }

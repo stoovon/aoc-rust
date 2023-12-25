@@ -155,21 +155,21 @@ mod tests {
 
     #[test]
     fn fn1_test_example() {
-        assert_eq!(fn1(include_str!("example.txt")), load_spec(include_str!("example-spec.1.txt")));
+        assert_eq!(fn1(include_str!("../../../input/2023/d14/example.txt")), load_spec(include_str!("../../../input/2023/d14/example-spec.1.txt")));
     }
 
     #[test]
     fn test_fn1_test_case_name() {
-        assert_eq!(fn1(include_str!("input.txt")), load_spec(include_str!("input-spec.1.txt")));
+        assert_eq!(fn1(include_str!("../../../input/2023/d14/input.txt")), load_spec(include_str!("../../../input/2023/d14/input-spec.1.txt")));
     }
 
     #[test]
     fn fn2_test_example() {
-        assert_eq!(fn2(include_str!("example.txt")), load_spec(include_str!("example-spec.2.txt")));
+        assert_eq!(fn2(include_str!("../../../input/2023/d14/example.txt")), load_spec(include_str!("../../../input/2023/d14/example-spec.2.txt")));
     }
 
     #[test]
     fn test_fn2_test_case_name() {
-        assert_eq!(fn2(include_str!("input.txt")), load_spec(include_str!("input-spec.2.txt")));
+        assert_eq!(fn2(include_str!("../../../input/2023/d14/input.txt")), load_spec(include_str!("../../../input/2023/d14/input-spec.2.txt")));
     }
 }

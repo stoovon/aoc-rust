@@ -28,5 +28,5 @@
 | [22](./src/d22/README.md) | Sand Slabs                                    | *******... | **       |
 | [23](./src/d23/README.md) | A Long Walk                                   | ********.. | **       |
 | [24](./src/d24/README.md) | Never Tell Me The Odds                        | *********. | **       |
-| [25](./src/d25/README.md) | TBC                                           | .......... | ..       |
+| [25](./src/d25/README.md) | Snowverload                                   | .......... | ..       |
 

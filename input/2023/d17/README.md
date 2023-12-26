@@ -6,9 +6,12 @@
 
 ## Input files
 
-These can be downloaded and put into `example.txt`, `example-spec.1.txt`, `example-spec.2.txt`, `input.txt`, `input-spec.1.txt` and `input-spec.2.txt`.
+These can be downloaded and put into e.g.
 
-The expectation is that the spec files will contain a single number, which is the expected answer.
+| Input         | Yields                                     |
+|---------------|--------------------------------------------|
+| `example.txt` | `example-spec.1.txt`, `example-spec.2.txt` |
+| `input.txt`.  | `input-spec.1.txt`, `input-spec.2.txt`     |
 
 ## Solution Sketch / Solving Notes
 

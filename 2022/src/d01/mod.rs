@@ -102,33 +102,36 @@ pub fn fn2_terse(input: &str) -> i64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::load_spec;
+    use svutils::scaffold_test;
+
+    const YEAR: i16 = 2022;
+    const DAY: i16 = 1;
 
     #[test]
     fn test_fn1_example() {
-        assert_eq!(fn1_imperative(include_str!("example.txt")), load_spec(include_str!("example-spec.1.txt")));
-        assert_eq!(fn1_partially_iterators(include_str!("example.txt")), load_spec(include_str!("example-spec.1.txt")));
-        assert_eq!(fn1_fully_iterators_batching(include_str!("example.txt")), load_spec(include_str!("example-spec.1.txt")));
-        assert_eq!(fn1_fully_iterators_coalesce(include_str!("example.txt")), load_spec(include_str!("example-spec.1.txt")));
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1_imperative);
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1_partially_iterators);
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1_fully_iterators_batching);
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1_fully_iterators_coalesce);
     }
 
     #[test]
     fn test_fn1_input() {
-        assert_eq!(fn1_imperative(include_str!("input.txt")), load_spec(include_str!("input-spec.1.txt")));
-        assert_eq!(fn1_partially_iterators(include_str!("input.txt")), load_spec(include_str!("input-spec.1.txt")));
-        assert_eq!(fn1_fully_iterators_batching(include_str!("input.txt")), load_spec(include_str!("input-spec.1.txt")));
-        assert_eq!(fn1_fully_iterators_coalesce(include_str!("input.txt")), load_spec(include_str!("input-spec.1.txt")));
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1_imperative);
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1_partially_iterators);
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1_fully_iterators_batching);
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1_fully_iterators_coalesce);
     }
 
     #[test]
     fn test_fn2_example() {
-        assert_eq!(fn2_fully_iterators_batching(include_str!("example.txt")), load_spec(include_str!("example-spec.2.txt")));
-        assert_eq!(fn2_terse(include_str!("example.txt")), load_spec(include_str!("example-spec.2.txt")));
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2_fully_iterators_batching);
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2_terse);
     }
 
     #[test]
     fn test_fn2_input() {
-        assert_eq!(fn2_fully_iterators_batching(include_str!("input.txt")), load_spec(include_str!("input-spec.2.txt")));
-        assert_eq!(fn2_terse(include_str!("input.txt")), load_spec(include_str!("input-spec.2.txt")));
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2_fully_iterators_batching);
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2_terse);
     }
 }

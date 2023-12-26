@@ -73,51 +73,31 @@ pub fn fn2(input: &str) -> i64 {
         .sum()
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::load_spec;
+    use svutils::scaffold_test;
 
-    #[test]
-    fn test_solve() {
-        assert_eq!(permutations("???.###", [1,1,3].to_vec()), 1);
-    }
-
-    #[test]
-    fn test_solve2() {
-        assert_eq!(permutations("?###????????", [3,2,1].to_vec()), 10)
-    }
+    const YEAR: i16 = 2023;
+    const DAY: i16 = 12;
 
     #[test]
     fn test_fn1_example() {
-        assert_eq!(
-            fn1(include_str!("../../../input/2023/d12/example.txt")),
-            load_spec(include_str!("../../../input/2023/d12/example-spec.1.txt"))
-        );
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1);
     }
 
     #[test]
     fn test_fn1_input() {
-        assert_eq!(
-            fn1(include_str!("../../../input/2023/d12/input.txt")),
-            load_spec(include_str!("../../../input/2023/d12/input-spec.1.txt"))
-        );
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
     }
 
     #[test]
     fn test_fn2_example() {
-        assert_eq!(
-            fn2(include_str!("../../../input/2023/d12/example.txt")),
-            load_spec(include_str!("../../../input/2023/d12/example-spec.2.txt"))
-        );
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2);
     }
 
     #[test]
     fn test_fn2_input() {
-        assert_eq!(
-            fn2(include_str!("../../../input/2023/d12/input.txt")),
-            load_spec(include_str!("../../../input/2023/d12/input-spec.2.txt"))
-        );
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
     }
 }

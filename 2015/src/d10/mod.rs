@@ -298,7 +298,10 @@ pub fn fn2(input: &str) -> i64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::load_spec;
+    use svutils::scaffold_test;
+
+    const YEAR: i16 = 2015;
+    const DAY: i16 = 10;
 
     #[test]
     fn test_fn1_examples() {
@@ -314,11 +317,11 @@ mod tests {
 
     #[test]
     fn test_fn1_input() {
-        assert_eq!(fn1(include_str!("input.txt")), load_spec(include_str!("input-spec.1.txt")));
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
     }
 
     #[test]
     fn test_fn2_input() {
-        assert_eq!(fn2(include_str!("input.txt")), load_spec(include_str!("input-spec.2.txt")));
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
     }
 }

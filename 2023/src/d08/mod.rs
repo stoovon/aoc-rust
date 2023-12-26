@@ -75,30 +75,29 @@ pub fn fn2(input: &str) -> i64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::load_spec;
+    use svutils::scaffold_test;
+
+    const YEAR: i16 = 2023;
+    const DAY: i16 = 8;
 
     #[test]
-    fn test_fn1_example1() {
-        assert_eq!(fn1(include_str!("../../../input/2023/d08/example.1.txt")), load_spec(include_str!("../../../input/2023/d08/example-spec.1.1.txt")));
-    }
-
-    #[test]
-    fn test_fn1_example2() {
-        assert_eq!(fn1(include_str!("../../../input/2023/d08/example.2.txt")), load_spec(include_str!("../../../input/2023/d08/example-spec.1.2.txt")));
+    fn test_fn1_example() {
+        scaffold_test(YEAR, DAY, "example.1.txt", "example-spec.1.1.txt", fn1);
+        scaffold_test(YEAR, DAY, "example.2.txt", "example-spec.1.2.txt", fn1);
     }
 
     #[test]
     fn test_fn1_input() {
-        assert_eq!(fn1(include_str!("../../../input/2023/d08/input.txt")), load_spec(include_str!("../../../input/2023/d08/input-spec.1.txt")));
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
     }
 
     #[test]
-    fn test_fn2_example2() {
-        assert_eq!(fn2(include_str!("../../../input/2023/d08/example.3.txt")), load_spec(include_str!("../../../input/2023/d08/example-spec.2.txt")));
+    fn test_fn2_example() {
+        scaffold_test(YEAR, DAY, "example.3.txt", "example-spec.2.txt", fn2);
     }
 
     #[test]
     fn test_fn2_input() {
-        assert_eq!(fn2(include_str!("../../../input/2023/d08/input.txt")), load_spec(include_str!("../../../input/2023/d08/input-spec.2.txt")));
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
     }
 }

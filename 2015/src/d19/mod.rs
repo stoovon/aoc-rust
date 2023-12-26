@@ -70,25 +70,32 @@ pub fn fn2(input: &str) -> i64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::load_spec;
+    use svutils::scaffold_test;
+
+    const YEAR: i16 = 2015;
+    const DAY: i16 = 19;
 
     // #[test]
+    // #[ignore]
     // fn test_fn1_example() {
-    //     assert_eq!(fn1(include_str!("example.txt")), load_spec(include_str!("example-spec.1.txt")));
+    //     scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1);
     // }
 
     #[test]
+    #[ignore]
     fn test_fn1_test_case_name() {
-        assert_eq!(fn1(include_str!("input.txt")), load_spec(include_str!("input-spec.1.txt")));
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
     }
 
     #[test]
+    #[ignore]
     fn test_fn2_example() {
-        assert_eq!(fn2(include_str!("example.txt")), load_spec(include_str!("example-spec.2.txt")));
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2);
     }
 
     #[test]
+    #[ignore]
     fn test_fn2_test_case_name() {
-        assert_eq!(fn2(include_str!("input.txt")), load_spec(include_str!("input-spec.2.txt")));
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
     }
 }

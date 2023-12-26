@@ -9,16 +9,21 @@ pub fn fn1(_input: &str) -> i64 {
 
 #[cfg(test)]
 mod tests {
-    // use super::*;
-    // use svutils::load_spec;
+    use super::*;
+    use svutils::scaffold_test;
 
-    // #[test]
-    // fn test_fn1_example() {
-    //     assert_eq!(fn1(include_str!("../../../input/2023/d25/example.txt")), load_spec(include_str!("../../../input/2023/d25/example-spec.1.txt")));
-    // }
+    const YEAR: i16 = 2023;
+    const DAY: i16 = 25;
 
-    // #[test]
-    // fn test_fn1_input() {
-    //     assert_eq!(fn1(include_str!("../../../input/2023/d25/input.txt")), load_spec(include_str!("../../../input/2023/d25/input-spec.1.txt")));
-    // }
+    #[test]
+    #[ignore]
+    fn test_fn1_example() {
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1);
+    }
+
+    #[test]
+    #[ignore]
+    fn test_fn1_input() {
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
+    }
 }

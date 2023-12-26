@@ -4,28 +4,35 @@ pub fn fn1(_input: &str) -> i64 {
     todo!()
 }
 
-pub fn fn2(_input: &[&str]) -> i64 {
+pub fn fn2(_input: &str) -> i64 {
     todo!()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::load_spec;
-    use itertools::Itertools;
+    use svutils::scaffold_test;
+
+    const YEAR: i16 = 2019;
+    const DAY: i16 = 24;
 
     #[test]
-    fn test_example() {
-        assert_eq!(fn1(include_str!("example.txt")), load_spec(include_str!("example-spec.txt")));
+    fn test_fn1_example() {
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1);
     }
 
     #[test]
-    fn test_fn1_test_case_name() {
-        assert_eq!(fn1(include_str!("input.txt")), load_spec(include_str!("input-spec.1.txt")));
+    fn test_fn1_input() {
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
     }
 
     #[test]
-    fn test_fn2_test_case_name() {
-        assert_eq!(fn2(&include_str!("input.txt").lines().collect_vec()), load_spec(include_str!("input-spec.2.txt")));
+    fn test_fn2_example() {
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2);
+    }
+
+    #[test]
+    fn test_fn2_input() {
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
     }
 }

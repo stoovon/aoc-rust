@@ -4,6 +4,10 @@
 
 ## Rubric summary
 
+Quite similar to the boats. Each reindeer has a set of rules.
+
+1. What's the distance travelled by the fastest reindeer in 2503 seconds?
+
 ## Input files
 
 These can be downloaded and put into e.g.

@@ -4,6 +4,8 @@
 
 ## Rubric summary
 
+1. How many houses does Santa visit if he follows the directions?
+
 ## Input files
 
 These can be downloaded and put into e.g.

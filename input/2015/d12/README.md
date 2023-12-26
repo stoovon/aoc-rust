@@ -4,6 +4,8 @@
 
 ## Rubric summary
 
+1. Sum of all numbers in file.
+
 ## Input files
 
 These can be downloaded and put into e.g.

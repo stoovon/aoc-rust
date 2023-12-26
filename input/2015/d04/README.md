@@ -4,6 +4,8 @@
 
 ## Rubric summary
 
+Find lowest number which, when combined with the input string, produces an MD5 hash which starts with at least five zeroes.
+
 ## Input files
 
 These can be downloaded and put into e.g.

@@ -4,6 +4,10 @@
 
 ## Rubric summary
 
+A bit like dining philosophers.
+
+1. Total net happiness from optimal arrangement?
+
 ## Input files
 
 These can be downloaded and put into e.g.

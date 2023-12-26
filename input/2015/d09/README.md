@@ -4,6 +4,8 @@
 
 ## Rubric summary
 
+1. TSP
+
 ## Input files
 
 These can be downloaded and put into e.g.

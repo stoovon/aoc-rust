@@ -1,6 +1,6 @@
 example.txt
 example-spec.txt
-input.txt
+input.*
 
 *.1.txt
 *.2.txt

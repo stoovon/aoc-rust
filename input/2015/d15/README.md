@@ -4,6 +4,11 @@
 
 ## Rubric summary
 
+Knapsack
+
+1. Ignoring calories, what's the optimal combination?
+  - Score is zero if total is negative.
+
 ## Input files
 
 These can be downloaded and put into e.g.

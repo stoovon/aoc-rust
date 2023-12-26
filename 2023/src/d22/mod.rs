@@ -103,7 +103,7 @@ fn parse_bricks(input: &str) -> Vec<Brick> {
                     }
 
                     if !can_move_down {
-                        // cannot move any further down (collided with some brick)
+                        // cannot move any further down (collided)
                         // revert and break
                         raise(&mut brick);
                         break;

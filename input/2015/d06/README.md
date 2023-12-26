@@ -4,6 +4,8 @@
 
 ## Rubric summary
 
+Toggle lights on a 1000x1000 grid.
+
 ## Input files
 
 These can be downloaded and put into e.g.

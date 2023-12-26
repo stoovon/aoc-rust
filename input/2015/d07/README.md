@@ -4,6 +4,10 @@
 
 ## Rubric summary
 
+Circuit with electrical components.
+
+- 1. Output on Line A
+
 ## Input files
 
 These can be downloaded and put into e.g.

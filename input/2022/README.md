@@ -22,7 +22,7 @@
 | [16](./d16/README.md) | Proboscidea Volcanium                         | `US-HP.....` | `..`     |
 | [17](./d17/README.md) | Pyroclastic Flow                              | `US-HP.....` | `..`     |
 | [18](./d18/README.md) | Boiling Boulders                              | `US-MP.....` | `..`     |
-| [19](./d19/README.md) | Not Enough Minerals                           | `US-MP.....` | `..`     |
+| [19](./d19/README.md) | Not Enough Minerals                           | `*******...` | `**`     |
 | [20](./d20/README.md) | Grove Positioning System                      | `US-MP.....` | `..`     |
 | [21](./d21/README.md) | Monkey Math                                   | `US-EP.....` | `..`     |
 | [22](./d22/README.md) | Monkey Map                                    | `US-THP-Max` | `..`     |

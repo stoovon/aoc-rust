@@ -23,7 +23,7 @@
 | [17](./d17/README.md) | Conway Cubes                                  | `US-MP.....` | `..`     |
 | [18](./d18/README.md) | Operation Order                               | `US-HP.....` | `..`     |
 | [19](./d19/README.md) | Monster Messages                              | `US-HP.....` | `..`     |
-| [20](./d20/README.md) | Jurassic Jigsaw                               | `US-THP-Max` | `..`     |
+| [20](./d20/README.md) | Jurassic Jigsaw                               | `********..` | `**`     |
 | [21](./d21/README.md) | Allergen Assessment                           | `US-EP.....` | `..`     |
 | [22](./d22/README.md) | Crab Combat                                   | `US-MP.....` | `..`     |
 | [23](./d23/README.md) | Crab Cups                                     | `US-HP.....` | `..`     |

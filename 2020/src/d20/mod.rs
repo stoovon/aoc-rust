@@ -229,8 +229,8 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
     // Since two-way matches score two, and one-way matches score one, then we know that the four corners are the four tiles with score six.
     let corners = tiles.iter().filter(|t| t.side_scores.iter().sum::<i64>() == 6).collect::<Vec<&Tile>>();
 
-    // I'd like to improve on this but it greatly simplifies debugging.
-    let sides_to_tiles2 = tiles.iter().fold(HashMap::new(), |mut acc, tile| {
+    // Could we do this in-place? Would there be a performance benefit? Doesn't seem to be too much of a hit if we just allocate again as the data structures are small.
+    let sides_to_tiles_augmented = tiles.iter().fold(HashMap::new(), |mut acc, tile| {
         for side in 0..4 {
             let hash = tile.side_hashes[side];
             let entry = acc.entry(hash).or_insert(Vec::new());
@@ -280,7 +280,7 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
                 let top_tile_bottom_hash = top_tile.side_hashes[2];
 
                 // Find the entry in sides_to_tiles which matches top_tile_bottom_hash, and take the tile which isn't equal to top_tile.
-                let bottom_tile = sides_to_tiles2[&top_tile_bottom_hash].iter().find(|t| t.id != top_tile.id);
+                let bottom_tile = sides_to_tiles_augmented[&top_tile_bottom_hash].iter().find(|t| t.id != top_tile.id);
                 if bottom_tile.is_none() {
                     panic!("No bottom tile found");
                 }
@@ -335,7 +335,7 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
                 let left_tile_right_hash = left_tile.side_hashes[1];
 
                 // Find the entry in sides_to_tiles which matches left_tile_right_hash, and take the tile which isn't equal to left_tile.
-                let right_tile = sides_to_tiles2[&left_tile_right_hash].iter().find(|t| t.id != left_tile.id);
+                let right_tile = sides_to_tiles_augmented[&left_tile_right_hash].iter().find(|t| t.id != left_tile.id);
                 if right_tile.is_none() {
                     panic!("No right tile found");
                 }

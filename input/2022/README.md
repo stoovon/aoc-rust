@@ -25,7 +25,7 @@
 | [19](./d19/README.md) | Not Enough Minerals                           | `*******...` | `**`     |
 | [20](./d20/README.md) | Grove Positioning System                      | `US-MP.....` | `..`     |
 | [21](./d21/README.md) | Monkey Math                                   | `US-EP.....` | `..`     |
-| [22](./d22/README.md) | Monkey Map                                    | `US-THP-Max` | `..`     |
+| [22](./d22/README.md) | Monkey Map                                    | `*******...` | `**`     |
 | [23](./d23/README.md) | Unstable Diffusion                            | `US-MP.....` | `..`     |
 | [24](./d24/README.md) | Blizzard Basin                                | `US-MP.....` | `..`     |
 | [25](./d25/README.md) | Full of Hot Air                               | `US-MP.....` | `..`     |

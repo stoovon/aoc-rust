@@ -18,7 +18,7 @@
 | [12](./d12/README.md) | Subterranean Sustainability                   | `US-MP.....` | `..`     |
 | [13](./d13/README.md) | Mine Cart Madness                             | `US-HP.....` | `..`     |
 | [14](./d14/README.md) | Chocolate Charts                              | `US-MP.....` | `..`     |
-| [15](./d15/README.md) | Beverage Bandits                              | `US-THP-Max` | `..`     |
+| [15](./d15/README.md) | Beverage Bandits                              | `********..` | `**`     |
 | [16](./d16/README.md) | Chronal Classification                        | `US-MP.....` | `..`     |
 | [17](./d17/README.md) | Reservoir Research                            | `US-THP....` | `..`     |
 | [18](./d18/README.md) | Settlers of The North Pole                    | `US-MP.....` | `..`     |

@@ -1,11 +1,474 @@
 extern crate core;
 
-pub fn fn1(_input: &str) -> i64 {
-    todo!()
+use std::collections::HashMap;
+
+const SCANLINE_LENGTH: usize = 8;
+const FINAL_IMAGE_PIXELS_REAL: usize = 96;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+struct Tile {
+    id: i64,
+    data: [[char; 10]; 10],
+    trimmed_data: [[char; 8]; 8],
+    sides: [[char; 10]; 4],
+    side_hashes: [i64; 4],
+    side_scores: [i64; 4],
 }
 
-pub fn fn2(_input: &str) -> i64 {
-    todo!()
+fn hash_side(side: [char; 10]) -> i64 {
+    let mut forward_hash = 0;
+    for i in 0..10 {
+        forward_hash <<= 1;
+        if side[i] == '#' {
+            forward_hash |= 1;
+        }
+    }
+
+    let mut reverse_hash = 0;
+    for i in 0..10 {
+        reverse_hash <<= 1;
+        if side[9 - i] == '#' {
+            reverse_hash |= 1;
+        }
+    }
+
+    if forward_hash < reverse_hash {
+        forward_hash
+    } else {
+        reverse_hash
+    }
+}
+
+impl Tile {
+    fn new(id: i64, data: [[char; 10]; 10]) -> Tile {
+        let sides = Tile::data_to_sides(&data);
+        Tile {
+            id,
+            data,
+            trimmed_data: [['x'; 8]; 8],
+            sides: sides,
+            side_hashes: Tile::side_hashes(sides),
+            side_scores: [0; 4],
+        }
+    }
+
+    fn trimmed_data(&mut self) -> [[char; 8]; 8] {
+        if self.trimmed_data[0][0] != 'x' {
+            return self.trimmed_data;
+        }
+
+        let mut new_data = [['.'; 8]; 8];
+        for row in 1..9 {
+            for col in 1..9 {
+                new_data[row - 1][col - 1] = self.data[row][col];
+            }
+        }
+        self.trimmed_data = new_data;
+        self.trimmed_data
+    }
+
+    fn side_hashes(sides: [[char; 10]; 4]) -> [i64; 4] {
+        let mut hashes = [0; 4];
+        for i in 0..4 {
+            hashes[i] = hash_side(sides[i]);
+        }
+        hashes
+    }
+
+    fn set_side_score(&mut self, side: usize, score: i64) {
+        self.side_scores[side] = score;
+    }
+
+    // URDL as normal
+    fn data_to_sides(data: &[[char; 10]; 10]) -> [[char; 10]; 4] {
+        let mut sides: [[char; 10]; 4] = [['.'; 10]; 4];
+
+        sides[0] = Tile::horizontal_scan(data, 0);
+
+        sides[1] = Tile::vertical_scan(data, 9);
+
+        sides[2] = Tile::horizontal_scan(data, 9);
+
+        sides[3] = Tile::vertical_scan(data, 0);
+
+        sides
+    }
+
+    fn horizontal_scan(data: &[[char; 10]; 10], row: usize) -> [char; 10] {
+        let mut result = ['.'; 10];
+        for i in 0..10 {
+            result[i] = data[row][i];
+        }
+        result
+    }
+
+    fn vertical_scan(data: &[[char; 10]; 10], col: usize) -> [char; 10] {
+        let mut result = ['.'; 10];
+        for i in 0..10 {
+            result[i] = data[i][col];
+        }
+        result
+    }
+
+    fn rotate_90_degrees_clockwise(&mut self) {
+        let mut new_data = [['.'; 10]; 10];
+        for row in 0..10 {
+            for col in 0..10 {
+                new_data[col][9 - row] = self.data[row][col];
+            }
+        }
+        self.data = new_data;
+        self.sides = Tile::data_to_sides(&self.data);
+        self.side_hashes = Tile::side_hashes(self.sides);
+
+        let mut new_side_scores = [0; 4];
+        for side in 0..4 {
+            new_side_scores[(side + 1) % 4] = self.side_scores[side];
+        }
+        self.side_scores = new_side_scores;
+    }
+
+    fn flip_horizontal(&mut self) {
+        let mut new_data = [['.'; 10]; 10];
+        for row in 0..10 {
+            for col in 0..10 {
+                new_data[row][9 - col] = self.data[row][col];
+            }
+        }
+        self.data = new_data;
+        self.sides = Tile::data_to_sides(&self.data);
+        self.side_hashes = Tile::side_hashes(self.sides);
+
+        let mut new_side_scores = [0; 4];
+        new_side_scores[0] = self.side_scores[0];
+        new_side_scores[1] = self.side_scores[3];
+        new_side_scores[2] = self.side_scores[2];
+        new_side_scores[3] = self.side_scores[1];
+        self.side_scores = new_side_scores;
+    }
+}
+
+fn parse(input: &str) -> Vec<Tile> {
+    let mut tiles = Vec::new();
+    let mut id = 0;
+    let mut data = [['.'; 10]; 10];
+    let mut row = 0;
+    for line in input.lines() {
+        if line.starts_with("Tile") {
+            id = line[5..9].parse::<i64>().unwrap();
+        } else if line.is_empty() {
+            tiles.push(Tile::new(id, data));
+            data = [['.'; 10]; 10];
+            row = 0
+        } else {
+            data[row] = line.chars().collect::<Vec<char>>().try_into().unwrap();
+            row += 1;
+        }
+    }
+    tiles.push(Tile::new(id, data));
+    tiles
+}
+
+fn rotate_image_90_degrees_clockwise(
+    original_image: [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL],
+) -> [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL] {
+    let mut new_data = [['.'; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL];
+    for row in 0..FINAL_IMAGE_PIXELS_REAL {
+        for col in 0..FINAL_IMAGE_PIXELS_REAL {
+            new_data[col][FINAL_IMAGE_PIXELS_REAL - 1 - row] = original_image[row][col];
+        }
+    }
+    new_data
+}
+
+fn flip_image_horizontal(
+    original_image: [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL],
+) -> [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL] {
+    let mut new_data = [['.'; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL];
+    for row in 0..FINAL_IMAGE_PIXELS_REAL {
+        for col in 0..FINAL_IMAGE_PIXELS_REAL {
+            new_data[row][FINAL_IMAGE_PIXELS_REAL - 1 - col] = original_image[row][col];
+        }
+    }
+    new_data
+}
+
+fn solve(input: &str, grid_size: usize) -> (i64, i64) {
+    let part1: i64;
+    let part2: i64;
+
+    let tiles = parse(input);
+    let sides_to_tiles = tiles.iter().fold(HashMap::new(), |mut acc, tile| {
+        for side in 0..4 {
+            let hash = tile.side_hashes[side];
+            let entry = acc.entry(hash).or_insert(Vec::new());
+            entry.push(tile);
+        }
+        acc
+    });
+
+    let mut tiles = tiles.clone();
+    for (hash, tile_ids) in sides_to_tiles.iter() {
+        let mut matching_tiles = tiles
+            .iter_mut()
+            .filter(|t| t.side_hashes.contains(hash))
+            .collect::<Vec<&mut Tile>>();
+
+        for tile in matching_tiles.iter_mut() {
+            for side in 0..4 {
+                if tile.side_hashes[side] == *hash {
+                    assert!(
+                        tile_ids.len() == 1 || tile_ids.len() == 2,
+                        "Unexpected number of matches for side hash"
+                    );
+                    tile.set_side_score(side, tile_ids.len() as i64);
+                }
+            }
+        }
+    }
+
+    // Since two-way matches score two, and one-way matches score one, then we know that the four corners are the four tiles with score six.
+    let corners = tiles
+        .iter()
+        .filter(|t| t.side_scores.iter().sum::<i64>() == 6)
+        .collect::<Vec<&Tile>>();
+
+    let sides_to_tiles2 = tiles.iter().fold(HashMap::new(), |mut acc, tile| {
+        for side in 0..4 {
+            let hash = tile.side_hashes[side];
+            let entry = acc.entry(hash).or_insert(Vec::new());
+            entry.push(tile);
+        }
+        acc
+    });
+
+    part1 = corners.iter().fold(1, |acc, t| acc * t.id);
+
+    // We'll start with the top-left corner, and rotate/flip it until the top and left sides are one-way matches.
+    let mut top_left_corner = corners[0].clone();
+    while top_left_corner.side_scores[0] != 1 || top_left_corner.side_scores[3] != 1 {
+        top_left_corner.rotate_90_degrees_clockwise();
+        if top_left_corner.side_scores[0] == 1 && top_left_corner.side_scores[3] == 1 {
+            break;
+        }
+        top_left_corner.flip_horizontal();
+    }
+
+    let mut image = [[top_left_corner; 12]; 12];
+
+    for row in 0..grid_size {
+        for col in 0..grid_size {
+            if row == 0 && col == 0 {
+                image[row][col] = top_left_corner;
+                continue;
+            } else if col == 0 {
+                // Special case: first column is matched to the bottom of the tile above it.
+                let top_tile = image[row - 1][col];
+                let top_tile_bottom_side = top_tile.sides[2];
+                let top_tile_bottom_hash = top_tile.side_hashes[2];
+
+                let bottom_tile = sides_to_tiles2[&top_tile_bottom_hash]
+                    .iter()
+                    .find(|t| t.id != top_tile.id);
+                if bottom_tile.is_none() {
+                    panic!("No bottom tile found");
+                }
+
+                let mut bottom_tile_matching_side = bottom_tile
+                    .unwrap()
+                    .sides
+                    .iter()
+                    .position(|s| hash_side(*s) == hash_side(top_tile_bottom_side))
+                    .unwrap();
+                let mut bottom_tile = (*(bottom_tile.unwrap())).clone();
+
+                let mut flips_remaining = 1;
+                let mut spins_remaining = 4;
+                while bottom_tile_matching_side != 0 {
+                    if spins_remaining > 0 {
+                        bottom_tile.rotate_90_degrees_clockwise();
+                        spins_remaining -= 1;
+                    } else {
+                        if flips_remaining == 0 {
+                            panic!("Infinite loop");
+                        }
+                        bottom_tile.flip_horizontal();
+                        flips_remaining -= 1;
+                        spins_remaining = 4;
+                    }
+                    bottom_tile_matching_side = bottom_tile
+                        .sides
+                        .iter()
+                        .position(|s| hash_side(*s) == hash_side(top_tile_bottom_side))
+                        .unwrap();
+                }
+
+                // There are two other edge cases.
+                let mut horizontal_flip_needed = false;
+
+                if col == 0 {
+                    // Firstly, if we're on the first column, then the 1-score edge must be to the left.
+                    if bottom_tile.side_scores[3] != 1 {
+                        horizontal_flip_needed = true;
+                    }
+                } else {
+                    // Secondly, if we're on a column after the first, then left edge must match the tile to the left.
+                    let left_tile = image[row][col - 1];
+                    let left_tile_right_hash = left_tile.side_hashes[1];
+                    if left_tile_right_hash != bottom_tile.side_hashes[3] {
+                        horizontal_flip_needed = true;
+                    }
+                }
+
+                if horizontal_flip_needed {
+                    bottom_tile.flip_horizontal()
+                }
+
+                image[row][col] = bottom_tile;
+            } else {
+                let left_tile = image[row][col - 1];
+                let left_tile_right_side = left_tile.sides[1];
+                let left_tile_right_hash = left_tile.side_hashes[1];
+
+                let right_tile = sides_to_tiles2[&left_tile_right_hash]
+                    .iter()
+                    .find(|t| t.id != left_tile.id);
+                if right_tile.is_none() {
+                    panic!("No right tile found");
+                }
+
+                let mut right_tile_matching_side = right_tile
+                    .unwrap()
+                    .sides
+                    .iter()
+                    .position(|s| hash_side(*s) == hash_side(left_tile_right_side))
+                    .unwrap();
+                let mut right_tile = (*(right_tile.unwrap())).clone();
+
+                let mut flips_remaining = 1;
+                let mut spins_remaining = 4;
+                while right_tile_matching_side != 3 {
+                    if spins_remaining > 0 {
+                        right_tile.rotate_90_degrees_clockwise();
+                        spins_remaining -= 1;
+                    } else {
+                        if flips_remaining == 0 {
+                            panic!("Infinite loop");
+                        }
+                        right_tile.flip_horizontal();
+                        flips_remaining -= 1;
+                        spins_remaining = 4;
+                    }
+                    right_tile_matching_side = right_tile
+                        .sides
+                        .iter()
+                        .position(|s| hash_side(*s) == hash_side(left_tile_right_side))
+                        .unwrap();
+                }
+
+                // There are two other edge cases.
+                let mut vertical_flip_needed = false;
+
+                if row == 0 {
+                    // Firstly, if we're on the first row, then the 1-score edge must be above us.
+                    if right_tile.side_scores[0] != 1 {
+                        vertical_flip_needed = true;
+                    }
+                } else {
+                    // Secondly, if we're on a row after the first row, then top edge must match the tile above.
+                    let top_tile = image[row - 1][col];
+                    let top_tile_bottom_hash = top_tile.side_hashes[2];
+                    if top_tile_bottom_hash != right_tile.side_hashes[0] {
+                        vertical_flip_needed = true;
+                    }
+                }
+
+                if vertical_flip_needed {
+                    // We need to flip vertical (which we can achieve by flipping horizontal and rotating 180 degrees).
+                    right_tile.flip_horizontal();
+                    right_tile.rotate_90_degrees_clockwise();
+                    right_tile.rotate_90_degrees_clockwise();
+                }
+
+                image[row][col] = right_tile;
+            }
+        }
+    }
+
+    let mut final_image = [['.'; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL];
+
+    for row in 0..grid_size {
+        for h_scanline in 0..SCANLINE_LENGTH {
+            for col in 0..grid_size {
+                for v_scanline in 0..SCANLINE_LENGTH {
+                    final_image[row * SCANLINE_LENGTH + h_scanline]
+                        [col * SCANLINE_LENGTH + v_scanline] =
+                        image[row][col].trimmed_data()[h_scanline][v_scanline]
+                }
+            }
+        }
+    }
+
+    let mut rough_water = 0;
+
+    for row in 0..FINAL_IMAGE_PIXELS_REAL {
+        for col in 0..FINAL_IMAGE_PIXELS_REAL {
+            if final_image[row][col] == '#' {
+                rough_water += 1;
+            }
+        }
+    }
+
+    let mut monsters_found = 0;
+
+    for orientation in 0..8 {
+        for row in 0..FINAL_IMAGE_PIXELS_REAL - 3 {
+            for col in 0..FINAL_IMAGE_PIXELS_REAL - 20 {
+                if final_image[row][col + 18] == '#'
+                    && final_image[row + 1][col] == '#'
+                    && final_image[row + 1][col + 5] == '#'
+                    && final_image[row + 1][col + 6] == '#'
+                    && final_image[row + 1][col + 11] == '#'
+                    && final_image[row + 1][col + 12] == '#'
+                    && final_image[row + 1][col + 17] == '#'
+                    && final_image[row + 1][col + 18] == '#'
+                    && final_image[row + 1][col + 19] == '#'
+                    && final_image[row + 2][col + 1] == '#'
+                    && final_image[row + 2][col + 4] == '#'
+                    && final_image[row + 2][col + 7] == '#'
+                    && final_image[row + 2][col + 10] == '#'
+                    && final_image[row + 2][col + 13] == '#'
+                    && final_image[row + 2][col + 16] == '#'
+                {
+                    monsters_found += 1;
+                }
+            }
+        }
+
+        if monsters_found > 0 {
+            break;
+        }
+
+        if orientation == 3 {
+            final_image = flip_image_horizontal(final_image);
+        } else {
+            final_image = rotate_image_90_degrees_clockwise(final_image);
+        }
+    }
+
+    part2 = rough_water - 15 * monsters_found;
+
+    (part1, part2)
+}
+
+pub fn fn1(input: &str, grid_size: usize) -> i64 {
+    let (part1, _part2) = solve(input, grid_size);
+    part1
+}
+
+pub fn fn2(input: &str, grid_size: usize) -> i64 {
+    let (_part1, part2) = solve(input, grid_size);
+    part2
 }
 
 #[cfg(test)]
@@ -16,27 +479,86 @@ mod tests {
     const YEAR: i16 = 2020;
     const DAY: i16 = 20;
 
+    fn synthetic_tile() -> Tile {
+        let mut data = [['.'; 10]; 10];
+        for (row, col) in [(0, 1), (0, 4), (2, 9), (9, 6), (5, 0), (3, 5)] {
+            data[row][col] = '#';
+        }
+        Tile::new(41, data)
+    }
+
     #[test]
-    #[ignore]
+    fn test_data_to_sides() {
+        let tile = synthetic_tile();
+        let expected = [".#..#.....", "..#.......", "......#...", ".....#...."];
+        for (side, expected) in tile.sides.iter().zip(expected) {
+            assert_eq!(side.iter().collect::<String>(), expected);
+        }
+        assert_eq!(tile.side_hashes, [18, 4, 8, 16]);
+    }
+
+    #[test]
+    fn test_rotate_90_degrees_clockwise() {
+        let mut tile = synthetic_tile();
+        for side in 0..4 {
+            tile.set_side_score(side, side as i64 + 1);
+        }
+        let original = tile;
+        tile.rotate_90_degrees_clockwise();
+        let expected = ["....#.....", ".#..#.....", ".......#..", "......#..."];
+        for (side, expected) in tile.sides.iter().zip(expected) {
+            assert_eq!(side.iter().collect::<String>(), expected);
+        }
+        assert_eq!(tile.data[5][6], '#');
+        assert_eq!(tile.side_hashes, [16, 18, 4, 8]);
+        assert_eq!(tile.side_scores, [4, 1, 2, 3]);
+        for _ in 0..3 {
+            tile.rotate_90_degrees_clockwise();
+        }
+        assert_eq!(tile.data, original.data);
+        assert_eq!(tile.side_hashes, original.side_hashes);
+        assert_eq!(tile.side_scores, original.side_scores);
+    }
+
+    #[test]
+    fn test_flip_horizontal() {
+        let mut tile = synthetic_tile();
+        for side in 0..4 {
+            tile.set_side_score(side, side as i64 + 1);
+        }
+        let original = tile;
+        tile.flip_horizontal();
+        let expected = [".....#..#.", ".....#....", "...#......", "..#......."];
+        for (side, expected) in tile.sides.iter().zip(expected) {
+            assert_eq!(side.iter().collect::<String>(), expected);
+        }
+        assert_eq!(tile.data[3][4], '#');
+        assert_eq!(tile.side_hashes, [18, 16, 8, 4]);
+        assert_eq!(tile.side_scores, [1, 4, 3, 2]);
+        tile.flip_horizontal();
+        assert_eq!(tile.data, original.data);
+        assert_eq!(tile.side_hashes, original.side_hashes);
+        assert_eq!(tile.side_scores, original.side_scores);
+    }
+
+    #[test]
     fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1);
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| {
+            fn1(input, 3)
+        });
     }
 
     #[test]
-    #[ignore]
     fn test_fn1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| {
+            fn1(input, 12)
+        });
     }
 
     #[test]
-    #[ignore]
-    fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2);
-    }
-
-    #[test]
-    #[ignore]
     fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| {
+            fn2(input, 12)
+        });
     }
 }

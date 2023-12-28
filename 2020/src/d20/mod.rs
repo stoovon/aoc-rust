@@ -233,7 +233,7 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
         .filter(|t| t.side_scores.iter().sum::<i64>() == 6)
         .collect::<Vec<&Tile>>();
 
-    let sides_to_tiles2 = tiles.iter().fold(HashMap::new(), |mut acc, tile| {
+    let sides_to_tiles_augmented = tiles.iter().fold(HashMap::new(), |mut acc, tile| {
         for side in 0..4 {
             let hash = tile.side_hashes[side];
             let entry = acc.entry(hash).or_insert(Vec::new());
@@ -267,7 +267,7 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
                 let top_tile_bottom_side = top_tile.sides[2];
                 let top_tile_bottom_hash = top_tile.side_hashes[2];
 
-                let bottom_tile = sides_to_tiles2[&top_tile_bottom_hash]
+                let bottom_tile = sides_to_tiles_augmented[&top_tile_bottom_hash]
                     .iter()
                     .find(|t| t.id != top_tile.id);
                 if bottom_tile.is_none() {
@@ -330,7 +330,7 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
                 let left_tile_right_side = left_tile.sides[1];
                 let left_tile_right_hash = left_tile.side_hashes[1];
 
-                let right_tile = sides_to_tiles2[&left_tile_right_hash]
+                let right_tile = sides_to_tiles_augmented[&left_tile_right_hash]
                     .iter()
                     .find(|t| t.id != left_tile.id);
                 if right_tile.is_none() {

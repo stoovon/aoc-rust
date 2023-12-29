@@ -1,7 +1,7 @@
 extern crate core;
 
-use std::collections::HashMap;
 use itertools::Itertools;
+use std::collections::HashMap;
 use std::str::FromStr;
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
@@ -40,13 +40,15 @@ impl Store {
         let mut best_score = 0;
 
         for combination in self.ingredients.iter().combinations_with_replacement(100) {
-            let recipe = combination.iter().copied()
-            .fold(HashMap::new(), |mut map:HashMap<Ingredient, i64>, val|{
-                map.entry(val.clone())
-                   .and_modify(|frq|*frq+=1)
-                   .or_insert(1);
-                map
-            });
+            let recipe = combination.iter().copied().fold(
+                HashMap::new(),
+                |mut map: HashMap<Ingredient, i64>, val| {
+                    map.entry(val.clone())
+                        .and_modify(|frq| *frq += 1)
+                        .or_insert(1);
+                    map
+                },
+            );
 
             let mut capacity = 0;
             let mut durability = 0;
@@ -61,13 +63,13 @@ impl Store {
                 texture += ingredient.attributes.texture * frq;
                 calories += ingredient.attributes.calories * frq;
             }
-    
+
             let score = capacity.max(0) * durability.max(0) * flavor.max(0) * texture.max(0);
 
             if exact_desired_calories != -1 && calories != exact_desired_calories {
                 continue;
             }
-    
+
             if score > best_score {
                 best_score = score;
             }
@@ -90,13 +92,50 @@ impl FromStr for Store {
 
             for part in parts {
                 let mut parts = part.split(", ");
-                let capacity = parts.next().unwrap().split(" ").nth(1).unwrap().parse().unwrap();
-                let durability = parts.next().unwrap().split(" ").nth(1).unwrap().parse().unwrap();
-                let flavor = parts.next().unwrap().split(" ").nth(1).unwrap().parse().unwrap();
-                let texture = parts.next().unwrap().split(" ").nth(1).unwrap().parse().unwrap();
-                let calories = parts.next().unwrap().split(" ").nth(1).unwrap().parse().unwrap();
+                let capacity = parts
+                    .next()
+                    .unwrap()
+                    .split(" ")
+                    .nth(1)
+                    .unwrap()
+                    .parse()
+                    .unwrap();
+                let durability = parts
+                    .next()
+                    .unwrap()
+                    .split(" ")
+                    .nth(1)
+                    .unwrap()
+                    .parse()
+                    .unwrap();
+                let flavor = parts
+                    .next()
+                    .unwrap()
+                    .split(" ")
+                    .nth(1)
+                    .unwrap()
+                    .parse()
+                    .unwrap();
+                let texture = parts
+                    .next()
+                    .unwrap()
+                    .split(" ")
+                    .nth(1)
+                    .unwrap()
+                    .parse()
+                    .unwrap();
+                let calories = parts
+                    .next()
+                    .unwrap()
+                    .split(" ")
+                    .nth(1)
+                    .unwrap()
+                    .parse()
+                    .unwrap();
 
-                attributes.push(Attributes::new(capacity, durability, flavor, texture, calories));
+                attributes.push(Attributes::new(
+                    capacity, durability, flavor, texture, calories,
+                ));
             }
 
             ingredients.push(Ingredient {

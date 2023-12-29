@@ -16,7 +16,7 @@
 | [10](./d10/README.md) | Elves Look, Elves Say                         | `****......` | `**`     |
 | [11](./d11/README.md) | Corporate Policy                              | `***.......` | `**`     |
 | [12](./d12/README.md) | JSAbacusFramework.io                          | `**........` | `**`     | `serde_json is super effective`
-| [13](./d13/README.md) | Knights of the Dinner Table                   | `US-HP.....` | `..`     |
+| [13](./d13/README.md) | Knights of the Dinner Table                   | `***.......` | `**`     |
 | [14](./d14/README.md) | Reindeer Olympics                             | `US-EP.....` | `..`     |
 | [15](./d15/README.md) | Science for Hungry People                     | `US-HP.....` | `..`     |
 | [16](./d16/README.md) | Aunt Sue                                      | `US-EP.....` | `..`     |

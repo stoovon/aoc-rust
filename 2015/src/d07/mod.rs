@@ -96,21 +96,29 @@ mod tests {
 
     #[test]
     fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| {fn1(input, "h", "i")});
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| {
+            fn1(input, "h", "i")
+        });
     }
 
     #[test]
     fn test_fn1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| {fn1(input, "a", "b")});
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| {
+            fn1(input, "a", "b")
+        });
     }
 
     #[test]
     fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| {fn2(input, "h", "i")});
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| {
+            fn2(input, "h", "i")
+        });
     }
 
     #[test]
     fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| {fn2(input, "a", "b")});
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| {
+            fn2(input, "a", "b")
+        });
     }
 }

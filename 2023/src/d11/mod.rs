@@ -40,8 +40,14 @@ impl Grid<u8> {
         let width = input_lines[0].len() as i32;
         let height = input_lines.len() as i32;
         let mut bytes = Vec::with_capacity((width * height) as usize);
-        input_lines.iter().for_each(|slice| bytes.extend_from_slice(slice));
-        Grid { width, height, bytes }
+        input_lines
+            .iter()
+            .for_each(|slice| bytes.extend_from_slice(slice));
+        Grid {
+            width,
+            height,
+            bytes,
+        }
     }
 }
 
@@ -93,7 +99,11 @@ fn parse(input: &str) -> Parsed {
         vertical[i] = empty_cols;
     }
 
-    Parsed { points: points_seen, horizontal, vertical }
+    Parsed {
+        points: points_seen,
+        horizontal,
+        vertical,
+    }
 }
 
 fn expand(input: &Parsed, times: i32) -> u64 {
@@ -110,7 +120,11 @@ fn expand(input: &Parsed, times: i32) -> u64 {
         .collect();
 
     for (i, p1) in points.iter().enumerate().skip(1) {
-        result += points.iter().take(i).map(|&p2| p1.manhattan(p2) as u64).sum::<u64>();
+        result += points
+            .iter()
+            .take(i)
+            .map(|&p2| p1.manhattan(p2) as u64)
+            .sum::<u64>();
     }
 
     result
@@ -131,21 +145,29 @@ mod tests {
 
     #[test]
     fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| { fn2(input, 1) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| {
+            fn2(input, 1)
+        });
     }
 
     #[test]
     fn test_fn1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| { fn2(input, 1) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| {
+            fn2(input, 1)
+        });
     }
 
     #[test]
     fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| { fn2(input, 99) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| {
+            fn2(input, 99)
+        });
     }
 
     #[test]
     fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| { fn2(input, 999999) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| {
+            fn2(input, 999999)
+        });
     }
 }

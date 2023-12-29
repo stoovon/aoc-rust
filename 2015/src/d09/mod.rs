@@ -9,10 +9,10 @@ fn parse(input: &str) -> (HashSet<String>, HashMap<(String, String), i64>) {
     let mut cities: HashSet<String> = HashSet::new();
 
     for line in input.lines() {
-        let tokens = line.split_whitespace().collect_vec();  
+        let tokens = line.split_whitespace().collect_vec();
         let (from, to, dist) = (
-            tokens[0].to_string(), 
-            tokens[2].to_string(), 
+            tokens[0].to_string(),
+            tokens[2].to_string(),
             tokens[4].parse().unwrap(),
         );
 
@@ -32,7 +32,9 @@ pub fn fn1(input: &str) -> i64 {
     for route in cities.iter().permutations(cities.len()) {
         let mut dist = 0;
         for i in 0..route.len() - 1 {
-            dist += routes.get(&(route[i].clone(), route[i + 1].clone())).unwrap();
+            dist += routes
+                .get(&(route[i].clone(), route[i + 1].clone()))
+                .unwrap();
         }
         min_dist = min_dist.min(dist);
     }
@@ -48,7 +50,9 @@ pub fn fn2(input: &str) -> i64 {
     for route in cities.iter().permutations(cities.len()) {
         let mut dist = 0;
         for i in 0..route.len() - 1 {
-            dist += routes.get(&(route[i].clone(), route[i + 1].clone())).unwrap();
+            dist += routes
+                .get(&(route[i].clone(), route[i + 1].clone()))
+                .unwrap();
         }
         max_dist = max_dist.max(dist);
     }

@@ -1,11 +1,10 @@
 extern crate core;
 
-use std::collections::VecDeque;
 use std::collections::HashMap;
 use std::collections::HashSet;
+use std::collections::VecDeque;
 
 fn gcd(first: i64, second: i64) -> i64 {
-
     let mut a = first;
     let mut b = second;
 

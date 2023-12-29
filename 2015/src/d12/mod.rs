@@ -15,7 +15,7 @@ pub fn fn1(input: &str) -> i64 {
             Value::Object(o) => o.values().map(sum).sum(),
         }
     }
-    
+
     sum(&v)
 }
 
@@ -36,10 +36,10 @@ pub fn fn2(input: &str) -> i64 {
                 } else {
                     o.values().map(sum).sum()
                 }
-            },
+            }
         }
     }
-    
+
     sum(&v)
 }
 

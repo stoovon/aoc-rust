@@ -31,31 +31,39 @@ impl Grid {
                 break;
             }
             self.active.insert((row, col));
-            
+
             match self.device[row][col] {
-                '/' => direction = match direction {
-                    Direction::Up => Direction::Right,
-                    Direction::Right => Direction::Up,
-                    Direction::Down => Direction::Left,
-                    Direction::Left => Direction::Down,
-                },
-                '\\' => direction = match direction {
-                    Direction::Up => Direction::Left,
-                    Direction::Right => Direction::Down,
-                    Direction::Down => Direction::Right,
-                    Direction::Left => Direction::Up,
-                },
-                '-' => if direction == Direction::Up || direction == Direction::Down {
-                    self.beam(Direction::Right, col, row);
-                    direction = Direction::Left;
-                },
-                '|' => if direction == Direction::Left || direction == Direction::Right {
-                    self.beam(Direction::Up, col, row);
-                    direction = Direction::Down;
-                },
-                _ => {},
+                '/' => {
+                    direction = match direction {
+                        Direction::Up => Direction::Right,
+                        Direction::Right => Direction::Up,
+                        Direction::Down => Direction::Left,
+                        Direction::Left => Direction::Down,
+                    }
+                }
+                '\\' => {
+                    direction = match direction {
+                        Direction::Up => Direction::Left,
+                        Direction::Right => Direction::Down,
+                        Direction::Down => Direction::Right,
+                        Direction::Left => Direction::Up,
+                    }
+                }
+                '-' => {
+                    if direction == Direction::Up || direction == Direction::Down {
+                        self.beam(Direction::Right, col, row);
+                        direction = Direction::Left;
+                    }
+                }
+                '|' => {
+                    if direction == Direction::Left || direction == Direction::Right {
+                        self.beam(Direction::Up, col, row);
+                        direction = Direction::Down;
+                    }
+                }
+                _ => {}
             }
-    
+
             match direction {
                 Direction::Up if row > 0 => row -= 1,
                 Direction::Right if col < self.device[0].len() - 1 => col += 1,
@@ -64,7 +72,7 @@ impl Grid {
                 _ => break,
             }
         }
-    }    
+    }
 }
 
 fn activation_strength(grid: &mut Grid, direction: Direction, x: usize, y: usize, max: &mut i64) {
@@ -75,9 +83,7 @@ fn activation_strength(grid: &mut Grid, direction: Direction, x: usize, y: usize
 }
 
 pub fn fn1(input: &str) -> i64 {
-    let data: Vec<Vec<char>> = input.lines().map(|line| {
-        line.chars().collect()
-    }).collect();
+    let data: Vec<Vec<char>> = input.lines().map(|line| line.chars().collect()).collect();
     let mut grid = Grid::new(data);
     grid.beam(Direction::Right, 0, 0);
     grid.active.len() as i64
@@ -94,11 +100,11 @@ pub fn fn2(input: &str) -> i64 {
     let mut grid = Grid::new(data);
     let mut max = 0;
 
-    for col in 0..cols+1 {
+    for col in 0..cols + 1 {
         activation_strength(&mut grid, Direction::Down, col, 0, &mut max);
         activation_strength(&mut grid, Direction::Up, col, rows, &mut max);
     }
-    for row in 0..rows+1 {
+    for row in 0..rows + 1 {
         activation_strength(&mut grid, Direction::Right, 0, row, &mut max);
         activation_strength(&mut grid, Direction::Left, cols, row, &mut max);
     }

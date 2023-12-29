@@ -16,15 +16,18 @@ pub fn fn1(input: &str) -> i64 {
             _ => panic!("Unknown character: {}", c),
         }
 
-        houses.entry(pos).and_modify(|visits| *visits += 1 ).or_insert(1);
+        houses
+            .entry(pos)
+            .and_modify(|visits| *visits += 1)
+            .or_insert(1);
     }
 
     houses.len() as i64
 }
 
 pub fn fn2(input: &str) -> i64 {
-    let mut santa = (0,0);
-    let mut robo_santa = (0,0);
+    let mut santa = (0, 0);
+    let mut robo_santa = (0, 0);
     let mut houses: HashMap<(i32, i32), i32> = HashMap::new();
 
     // Lucky first house!
@@ -35,7 +38,11 @@ pub fn fn2(input: &str) -> i64 {
     let mut active: &mut (i32, i32);
 
     for (i, c) in input.chars().enumerate() {
-        active = if i % 2 == 0 { &mut santa } else { &mut robo_santa };
+        active = if i % 2 == 0 {
+            &mut santa
+        } else {
+            &mut robo_santa
+        };
 
         match c {
             '^' => active.1 += 1,
@@ -45,7 +52,10 @@ pub fn fn2(input: &str) -> i64 {
             _ => panic!("Unknown character: {}", c),
         }
 
-        houses.entry(*active).and_modify(|visits| *visits += 1 ).or_insert(1);
+        houses
+            .entry(*active)
+            .and_modify(|visits| *visits += 1)
+            .or_insert(1);
     }
 
     houses.len() as i64

@@ -3,7 +3,8 @@ extern crate core;
 use std::collections::HashSet;
 
 pub fn fn1(input: &str) -> i64 {
-    input.lines()
+    input
+        .lines()
         .map(|v| v.parse::<i64>().ok().unwrap_or_default())
         .sum()
 }
@@ -14,7 +15,7 @@ pub fn fn2(input: &str) -> i64 {
     let mut total = 0;
     let mut cache = HashSet::new();
 
-	let lines: Vec<i64> = input
+    let lines: Vec<i64> = input
         .lines()
         .map(|v| v.parse::<i64>().ok().unwrap_or_default())
         .collect();
@@ -26,7 +27,7 @@ pub fn fn2(input: &str) -> i64 {
         total += lines[offset];
 
         if !cache.insert(total) {
-            break
+            break;
         }
 
         offset += 1;

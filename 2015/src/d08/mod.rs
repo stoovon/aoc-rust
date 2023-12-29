@@ -40,11 +40,19 @@ fn encode_line(line: &str) -> (usize, usize) {
 }
 
 pub fn fn1(input: &str) -> i64 {
-    input.lines().map(read_line).map(|(m, c)| m - c).sum::<usize>() as i64
+    input
+        .lines()
+        .map(read_line)
+        .map(|(m, c)| m - c)
+        .sum::<usize>() as i64
 }
 
 pub fn fn2(input: &str) -> i64 {
-    input.lines().map(encode_line).map(|(m, c)| c - m).sum::<usize>() as i64
+    input
+        .lines()
+        .map(encode_line)
+        .map(|(m, c)| c - m)
+        .sum::<usize>() as i64
 }
 
 #[cfg(test)]
@@ -65,7 +73,7 @@ mod tests {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
     }
 
-    #[test]    
+    #[test]
     fn test_fn2_example() {
         scaffold_test(YEAR, DAY, "example.2.txt", "example-spec.2.txt", fn2);
     }

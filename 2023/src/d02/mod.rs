@@ -2,8 +2,8 @@ extern crate core;
 
 use csv::ReaderBuilder;
 use itertools::Itertools;
-use std::io::Cursor;
 use std::collections::HashMap;
+use std::io::Cursor;
 
 #[derive(Debug)]
 struct CubeDraw {
@@ -26,15 +26,12 @@ impl CubeDraw {
             red: *counts.get("red").unwrap_or(&0),
             green: *counts.get("green").unwrap_or(&0),
             blue: *counts.get("blue").unwrap_or(&0),
-         }
+        }
     }
 }
 
 fn parse_game(games: Vec<String>) -> Vec<CubeDraw> {
-    games
-        .into_iter()
-        .map(CubeDraw::new)
-        .collect_vec()
+    games.into_iter().map(CubeDraw::new).collect_vec()
 }
 
 fn parse_games(input: &str) -> HashMap<i64, Vec<CubeDraw>> {
@@ -68,7 +65,7 @@ fn parse_games(input: &str) -> HashMap<i64, Vec<CubeDraw>> {
         let games = parse_game(game_strs);
 
         map.insert(game_key, games);
-    };
+    }
 
     map
 }
@@ -79,21 +76,21 @@ pub fn fn1(input: &str) -> i64 {
     let valid_games = all_games.iter().filter(|g| {
         let game_has_invalid_draws = g.1.iter().any(|draw| {
             if draw.blue > 14 {
-                return true
+                return true;
             }
 
             if draw.green > 13 {
-                return true
+                return true;
             }
 
             if draw.red > 12 {
-                return true
+                return true;
             }
 
-            return false
+            return false;
         });
-        
-        return !game_has_invalid_draws
+
+        return !game_has_invalid_draws;
     });
 
     valid_games.map(|g| g.0).sum()
@@ -102,26 +99,39 @@ pub fn fn1(input: &str) -> i64 {
 pub fn fn2(input: &str) -> i64 {
     let all_games = parse_games(input);
 
-    all_games.iter().map(|g| {
-        let mut biggest_draw = CubeDraw{
-            red: 0,
-            green: 0,
-            blue: 0,
-        };
+    all_games
+        .iter()
+        .map(|g| {
+            let mut biggest_draw = CubeDraw {
+                red: 0,
+                green: 0,
+                blue: 0,
+            };
 
-        for x in g.1.iter() {
-            biggest_draw = CubeDraw{
-                red: if x.red > biggest_draw.red { x.red } else { biggest_draw.red },
-                green: if x.green > biggest_draw.green { x.green } else { biggest_draw.green },
-                blue: if x.blue > biggest_draw.blue { x.blue } else { biggest_draw.blue },
+            for x in g.1.iter() {
+                biggest_draw = CubeDraw {
+                    red: if x.red > biggest_draw.red {
+                        x.red
+                    } else {
+                        biggest_draw.red
+                    },
+                    green: if x.green > biggest_draw.green {
+                        x.green
+                    } else {
+                        biggest_draw.green
+                    },
+                    blue: if x.blue > biggest_draw.blue {
+                        x.blue
+                    } else {
+                        biggest_draw.blue
+                    },
+                }
             }
-        }
 
-        biggest_draw
-    }).map(|biggest_draw| {
-        biggest_draw.red * biggest_draw.green * biggest_draw.blue
-    })
-    .sum()
+            biggest_draw
+        })
+        .map(|biggest_draw| biggest_draw.red * biggest_draw.green * biggest_draw.blue)
+        .sum()
 }
 
 #[cfg(test)]

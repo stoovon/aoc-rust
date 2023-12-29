@@ -53,7 +53,8 @@ fn tilt_east(grid: &mut Vec<Vec<char>>) {
         for col in (0..grid[row].len()).rev() {
             if grid[row][col] == 'O' {
                 let mut new_resting_col = col;
-                while new_resting_col < grid[row].len() - 1 && grid[row][new_resting_col + 1] == '.' {
+                while new_resting_col < grid[row].len() - 1 && grid[row][new_resting_col + 1] == '.'
+                {
                     grid[row][new_resting_col] = '.';
                     grid[row][new_resting_col + 1] = 'O';
                     new_resting_col += 1;
@@ -107,7 +108,7 @@ pub fn fn2(input: &str) -> i64 {
     // (Numbers obfuscated so I don't give the game away)
 
     // Then we reduce our work significantly.
-    for j in 0..1000 { 
+    for j in 0..1000 {
         spin_cycle(&mut grid);
 
         let grid_fingerprint = grid
@@ -123,8 +124,8 @@ pub fn fn2(input: &str) -> i64 {
                 cache.clear();
                 cache.insert(grid_fingerprint, j); // <about half of low number> in example, <big number less about twice this> in input (numbers obfuscated)
 
-                // Could probably be a lot smarter than this, but makes sense to burn a few cycles and collect 
-                // grid fingerprints again on the assumption that the cycle repeats. Debugging revealed this 
+                // Could probably be a lot smarter than this, but makes sense to burn a few cycles and collect
+                // grid fingerprints again on the assumption that the cycle repeats. Debugging revealed this
                 // was always a reasonable number but we do lose a little performance here.
                 continue;
             }

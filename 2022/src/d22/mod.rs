@@ -150,16 +150,15 @@ fn example_strat(rowp: i32, colp: i32, dir: &Direction) -> (i32, i32, Direction)
                                                         |
                     A                 G                 |
                     v                 v                 v
-        1 B --> | (1,0) | <---->  | (1,1) | <----> |  (1,2) | <-- E 
-                    ^                 ^                 ^ 
+        1 B --> | (1,0) | <---->  | (1,1) | <----> |  (1,2) | <-- E
+                    ^                 ^                 ^
                     C                 D                 |
                                                         |                 E
                                                         v                 v
-        2                                    D -->  | (2,2) | <---->  | (2,3) | <-- F  
+        2                                    D -->  | (2,2) | <---->  | (2,3) | <-- F
                                                         ^                 ^
                                                         C                 B
          */
-
         (0, 2, Direction::U) => (1, 0, Direction::D), // FOLLOW A
         (0, 2, Direction::R) => (2, 3, Direction::L), // FOLLOW F
         (0, 2, Direction::D) => (1, 2, Direction::D), // INTRINSIC
@@ -179,7 +178,7 @@ fn example_strat(rowp: i32, colp: i32, dir: &Direction) -> (i32, i32, Direction)
         (1, 2, Direction::R) => (2, 3, Direction::D), // FOLLOW E
         (1, 2, Direction::D) => (2, 2, Direction::D), // INTRINSIC
         (1, 2, Direction::L) => (1, 1, Direction::L), // INTRINSIC
-        
+
         (2, 2, Direction::U) => (1, 2, Direction::U), // INTRINSIC
         (2, 2, Direction::R) => (2, 3, Direction::R), // INTRINSIC
         (2, 2, Direction::D) => (1, 0, Direction::U), // FOLLOW C
@@ -199,7 +198,7 @@ fn example_strat(rowp: i32, colp: i32, dir: &Direction) -> (i32, i32, Direction)
 fn input_strat(rowp: i32, colp: i32, dir: &Direction) -> (i32, i32, Direction) {
     let (cube_row, cube_col, new_dir) = match (rowp, colp, dir) {
         /*
-             0                        1                 2        
+             0                        1                 2
 
                                       B                 C
                                       v                 v
@@ -212,20 +211,19 @@ fn input_strat(rowp: i32, colp: i32, dir: &Direction) -> (i32, i32, Direction) {
 
                     G
                     v
-        2 A --> | (2,0) | <---->  | (2,1) | <-- D  
+        2 A --> | (2,0) | <---->  | (2,1) | <-- D
                                       ^
                                       F
 
-        3 B --> | (3,0) | <-- F 
+        3 B --> | (3,0) | <-- F
                     ^
                     C
          */
-
         (2, 0, Direction::U) => (1, 1, Direction::R), // FOLLOW G
         (2, 0, Direction::R) => (2, 1, Direction::R), // INTRINSIC
         (2, 0, Direction::D) => (3, 0, Direction::D), // INTRINSIC
         (2, 0, Direction::L) => (0, 1, Direction::R), // FOLLOW A
-        
+
         (3, 0, Direction::U) => (2, 0, Direction::U), // INTRINSIC
         (3, 0, Direction::R) => (2, 1, Direction::U), // FOLLOW F
         (3, 0, Direction::D) => (0, 2, Direction::D), // FOLLOW C
@@ -240,7 +238,7 @@ fn input_strat(rowp: i32, colp: i32, dir: &Direction) -> (i32, i32, Direction) {
         (1, 1, Direction::R) => (0, 2, Direction::U), // FOLLOW E
         (1, 1, Direction::D) => (2, 1, Direction::L), // INTRINSIC
         (1, 1, Direction::L) => (2, 0, Direction::D), // FOLLOW G
-        
+
         (0, 2, Direction::U) => (3, 0, Direction::U), // FOLLOW C
         (0, 2, Direction::R) => (2, 1, Direction::L), // FOLLOW D
         (0, 2, Direction::D) => (1, 1, Direction::L), // FOLLOW E
@@ -267,7 +265,7 @@ fn wrap_3d(pos: &Coord, dir: &Direction, edge_length: i32) -> (Coord, Direction)
 
     if edge_length == 50 {
         (cube_row, cube_col, new_dir) = input_strat(rowp, colp, dir);
-    } else if edge_length == 4{
+    } else if edge_length == 4 {
         (cube_row, cube_col, new_dir) = example_strat(rowp, colp, dir);
     } else {
         unreachable!()
@@ -430,11 +428,15 @@ mod tests {
 
     #[test]
     fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", | input | { fn2 (input, 4) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| {
+            fn2(input, 4)
+        });
     }
 
     #[test]
     fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", | input | { fn2(input, 50) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| {
+            fn2(input, 50)
+        });
     }
 }

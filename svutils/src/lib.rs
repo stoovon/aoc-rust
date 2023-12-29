@@ -27,6 +27,19 @@ pub fn scaffold_test(year: i16, day: i16, input: &str, spec: &str, func: impl Fn
     );
 }
 
+pub fn scaffold_test_string(year: i16, day: i16, input: &str, spec: &str, func: impl Fn(&str) -> String) {
+    let input_data = load_file(year, day, input);
+    let spec_data = load_file(year, day, spec);
+
+    assert!(input_data.is_ok());
+    assert!(spec_data.is_ok());
+    
+    assert_eq!(
+        func(input_data.unwrap().as_str()), 
+        spec_data.unwrap().to_string()
+    );
+}
+
 pub fn scaffold_test_wide(year: i16, day: i16, input: &str, spec: &str, func: impl Fn(&str) -> i128) {
     let input_data = load_file(year, day, input);
     let spec_data = load_file(year, day, spec);

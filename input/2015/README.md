@@ -14,7 +14,7 @@
 | [08](./d08/README.md) | Matchsticks                                   | `**........` | `**`     |
 | [09](./d09/README.md) | All in a Single Night                         | `****......` | `**`     |
 | [10](./d10/README.md) | Elves Look, Elves Say                         | `****......` | `**`     |
-| [11](./d11/README.md) | Corporate Policy                              | `US-MP.....` | `..`     |
+| [11](./d11/README.md) | Corporate Policy                              | `***.......` | `**`     |
 | [12](./d12/README.md) | JSAbacusFramework.io                          | `US-HP.....` | `..`     |
 | [13](./d13/README.md) | Knights of the Dinner Table                   | `US-HP.....` | `..`     |
 | [14](./d14/README.md) | Reindeer Olympics                             | `US-EP.....` | `..`     |

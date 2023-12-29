@@ -5,7 +5,7 @@ use std::collections::{HashMap, HashSet};
 #[derive(Debug, Clone, PartialEq)]
 struct Solve<'a> {
     molecule: &'a String,
-    combinations: &'a HashMap<String, String>
+    combinations: &'a HashMap<String, String>,
 }
 
 pub fn fn1(input: &str) -> i64 {

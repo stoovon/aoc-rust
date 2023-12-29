@@ -86,30 +86,44 @@ pub fn parse(input: &str) -> Vec<(&str, u8, (i64, i64), (i64, i64))> {
 }
 
 pub fn fn1(input: &str) -> i64 {
-    let mut cards = input.split('\n').map(|l| {
-        let (cards, bid) = l.split_once(' ').unwrap();
-        let p1key = hand_strength(cards, false);
-        let p2key = hand_strength(cards, true);
-        (cards, bid.parse::<usize>().unwrap(), p1key, p2key)
-      }).collect::<Vec<_>>();
-      cards.sort_unstable_by_key(|&(_,_,key,_)| key);
+    let mut cards = input
+        .split('\n')
+        .map(|l| {
+            let (cards, bid) = l.split_once(' ').unwrap();
+            let p1key = hand_strength(cards, false);
+            let p2key = hand_strength(cards, true);
+            (cards, bid.parse::<usize>().unwrap(), p1key, p2key)
+        })
+        .collect::<Vec<_>>();
+    cards.sort_unstable_by_key(|&(_, _, key, _)| key);
 
-    let result: usize = cards.iter().enumerate().map(|(i, (_,bid,_,_))| (i + 1) * bid).sum();
+    let result: usize = cards
+        .iter()
+        .enumerate()
+        .map(|(i, (_, bid, _, _))| (i + 1) * bid)
+        .sum();
     result as i64
 }
 
 pub fn fn2(input: &str) -> i64 {
-    let mut cards = input.split('\n').map(|l| {
-        let (cards, bid) = l.split_once(' ').unwrap();
-        let p1key = hand_strength(cards, false);
-        let p2key = hand_strength(cards, true);
-        (cards, bid.parse::<usize>().unwrap(), p1key, p2key)
-      }).collect::<Vec<_>>();
+    let mut cards = input
+        .split('\n')
+        .map(|l| {
+            let (cards, bid) = l.split_once(' ').unwrap();
+            let p1key = hand_strength(cards, false);
+            let p2key = hand_strength(cards, true);
+            (cards, bid.parse::<usize>().unwrap(), p1key, p2key)
+        })
+        .collect::<Vec<_>>();
 
-      // PAY CLOSE ATTENTION TO THE THREE UNDERBARS; it's two for fn1
-      cards.sort_unstable_by_key(|&(_,_,_,key)| key);
+    // PAY CLOSE ATTENTION TO THE THREE UNDERBARS; it's two for fn1
+    cards.sort_unstable_by_key(|&(_, _, _, key)| key);
 
-    let result: usize = cards.iter().enumerate().map(|(i, (_,bid,_,_))| (i + 1) * bid).sum();
+    let result: usize = cards
+        .iter()
+        .enumerate()
+        .map(|(i, (_, bid, _, _))| (i + 1) * bid)
+        .sum();
     result as i64
 }
 

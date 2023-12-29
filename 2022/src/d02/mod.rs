@@ -75,7 +75,10 @@ fn playing_exactly_per_guide(play: Game) -> i64 {
 
 pub fn fn1(input: &str) -> i64 {
     let input = parse_input(input);
-    input.into_iter().map(playing_exactly_per_guide).sum::<i64>()
+    input
+        .into_iter()
+        .map(playing_exactly_per_guide)
+        .sum::<i64>()
 }
 
 fn playing_to_get_result(play: Game) -> i64 {
@@ -121,13 +124,11 @@ mod tests {
     #[test]
     fn test_fn1_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
-        
     }
 
     #[test]
     fn test_fn2_example() {
         scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2);
-        
     }
 
     #[test]

@@ -10,9 +10,11 @@ pub fn parse(input: &str) -> (i64, i64) {
     let mut part_two = 0;
 
     for line in input.lines() {
-        current.extend(line.split_whitespace()
-        .map(|w| w.parse::<i64>().unwrap())
-        .collect::<Vec<_>>());
+        current.extend(
+            line.split_whitespace()
+                .map(|w| w.parse::<i64>().unwrap())
+                .collect::<Vec<_>>(),
+        );
 
         while current.iter().any(|&n| n != 0) {
             next.extend(current.windows(2).map(|w| w[1] - w[0]));

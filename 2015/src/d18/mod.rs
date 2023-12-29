@@ -14,12 +14,12 @@ impl FromStr for Grid {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut lights: Grid =Self {
+        let mut lights: Grid = Self {
             grid: HashMap::new(),
             rows: s.lines().count() as isize,
             cols: s.lines().next().unwrap().chars().count() as isize,
         };
-        
+
         for (row, line) in s.lines().enumerate() {
             for (col, ch) in line.chars().enumerate() {
                 let value = match ch {
@@ -68,12 +68,13 @@ impl Grid {
         self.grid.insert((0 as isize, 0 as isize), true);
         self.grid.insert((0 as isize, self.cols - 1 as isize), true);
         self.grid.insert((self.rows - 1 as isize, 0 as isize), true);
-        self.grid.insert((self.rows - 1 as isize, self.cols - 1 as isize), true);
+        self.grid
+            .insert((self.rows - 1 as isize, self.cols - 1 as isize), true);
     }
 
     fn next_flawed(&mut self) {
         let mut next_grid = HashMap::new();
-        
+
         for row in 0..self.rows {
             for col in 0..self.cols {
                 let mut count = 0;
@@ -142,21 +143,29 @@ mod tests {
 
     #[test]
     fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| { fn1(input, 4) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| {
+            fn1(input, 4)
+        });
     }
 
     #[test]
     fn test_fn1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| { fn1(input, 100) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| {
+            fn1(input, 100)
+        });
     }
 
     #[test]
     fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| { fn2(input, 5) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| {
+            fn2(input, 5)
+        });
     }
 
     #[test]
     fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| {fn2(input, 100) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| {
+            fn2(input, 100)
+        });
     }
 }

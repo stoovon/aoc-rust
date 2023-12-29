@@ -6,11 +6,8 @@ use std::cmp::Reverse;
 pub fn fn1_imperative(input: &str) -> i64 {
     let mut max = 0;
 
-    for group in input
-        .replace("\r\n", "\n")
-        .split("\n\n") 
-    {
-        let mut sum  = 0;
+    for group in input.replace("\r\n", "\n").split("\n\n") {
+        let mut sum = 0;
         for line in group.lines() {
             let value = line.parse::<i64>().unwrap();
             sum += value;
@@ -18,7 +15,7 @@ pub fn fn1_imperative(input: &str) -> i64 {
         if sum > max {
             max = sum;
         }
-    };
+    }
 
     max
 }
@@ -63,8 +60,8 @@ pub fn fn1_fully_iterators_coalesce(input: &str) -> i64 {
         .coalesce(|a, b| match (a, b) {
             (None, None) => Ok(None),
             (None, Some(b)) => Ok(Some(b)),
-            (Some(a), Some(b)) => Ok(Some(a+b)),
-            (Some(a), None) => Err((Some(a), None))
+            (Some(a), Some(b)) => Ok(Some(a + b)),
+            (Some(a), None) => Err((Some(a), None)),
         })
         .max()
         .flatten()
@@ -109,29 +106,83 @@ mod tests {
 
     #[test]
     fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1_imperative);
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1_partially_iterators);
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1_fully_iterators_batching);
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1_fully_iterators_coalesce);
+        scaffold_test(
+            YEAR,
+            DAY,
+            "example.txt",
+            "example-spec.1.txt",
+            fn1_imperative,
+        );
+        scaffold_test(
+            YEAR,
+            DAY,
+            "example.txt",
+            "example-spec.1.txt",
+            fn1_partially_iterators,
+        );
+        scaffold_test(
+            YEAR,
+            DAY,
+            "example.txt",
+            "example-spec.1.txt",
+            fn1_fully_iterators_batching,
+        );
+        scaffold_test(
+            YEAR,
+            DAY,
+            "example.txt",
+            "example-spec.1.txt",
+            fn1_fully_iterators_coalesce,
+        );
     }
 
     #[test]
     fn test_fn1_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1_imperative);
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1_partially_iterators);
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1_fully_iterators_batching);
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1_fully_iterators_coalesce);
+        scaffold_test(
+            YEAR,
+            DAY,
+            "input.txt",
+            "input-spec.1.txt",
+            fn1_partially_iterators,
+        );
+        scaffold_test(
+            YEAR,
+            DAY,
+            "input.txt",
+            "input-spec.1.txt",
+            fn1_fully_iterators_batching,
+        );
+        scaffold_test(
+            YEAR,
+            DAY,
+            "input.txt",
+            "input-spec.1.txt",
+            fn1_fully_iterators_coalesce,
+        );
     }
 
     #[test]
     fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2_fully_iterators_batching);
+        scaffold_test(
+            YEAR,
+            DAY,
+            "example.txt",
+            "example-spec.2.txt",
+            fn2_fully_iterators_batching,
+        );
         scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2_terse);
     }
 
     #[test]
     fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2_fully_iterators_batching);
+        scaffold_test(
+            YEAR,
+            DAY,
+            "input.txt",
+            "input-spec.2.txt",
+            fn2_fully_iterators_batching,
+        );
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2_terse);
     }
 }

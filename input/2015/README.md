@@ -17,8 +17,8 @@
 | [11](./d11/README.md) | Corporate Policy                              | `***.......` | `**`     |
 | [12](./d12/README.md) | JSAbacusFramework.io                          | `**........` | `**`     | `serde_json is super effective`
 | [13](./d13/README.md) | Knights of the Dinner Table                   | `***.......` | `**`     |
-| [14](./d14/README.md) | Reindeer Olympics                             | `US-EP.....` | `..`     |
-| [15](./d15/README.md) | Science for Hungry People                     | `US-HP.....` | `..`     |
+| [14](./d14/README.md) | Reindeer Olympics                             | `**........` | `**`     |
+| [15](./d15/README.md) | Science for Hungry People                     | `***.......` | `**`     |
 | [16](./d16/README.md) | Aunt Sue                                      | `US-EP.....` | `..`     |
 | [17](./d17/README.md) | No Such Thing as Too Much                     | `US-MP.....` | `..`     |
 | [18](./d18/README.md) | Like GIF For Your Yard                        | `***.......` | `**`     |

@@ -1,10 +1,10 @@
 extern crate core;
 
-use std::ops::Add;
 use std::cmp::Ordering;
-use std::collections::VecDeque;
 use std::collections::HashMap;
 use std::collections::HashSet;
+use std::collections::VecDeque;
+use std::ops::Add;
 
 // FIXME: Replace with the utility type
 #[derive(Copy, Clone, Eq, PartialEq, Hash)]
@@ -36,7 +36,10 @@ impl Add for Pos {
     type Output = Pos;
 
     fn add(self, other: Pos) -> Pos {
-        Pos { row: self.row + other.row, col: self.col + other.col }
+        Pos {
+            row: self.row + other.row,
+            col: self.col + other.col,
+        }
     }
 }
 
@@ -211,25 +214,23 @@ fn game_over(units: HashMap<Pos, Unit>) -> bool {
         };
     }
 
-    return elves == 0 || goblins == 0
+    return elves == 0 || goblins == 0;
 }
 
 fn move_towards_an_enemy(
     current_pos: &mut Pos,
     playing_team_elf: bool,
-    units: &mut HashMap<Pos, Unit>, 
+    units: &mut HashMap<Pos, Unit>,
     unit_positions: &mut Vec<bool>,
-    walls: Vec<bool>, 
-    width: usize, 
+    walls: Vec<bool>,
+    width: usize,
     height: usize,
 ) {
     let valid_positions_adjacent_to_an_enemy: HashSet<Pos> = units
         .iter()
         .filter(|(_, unit)| unit.team_elf != playing_team_elf)
         .flat_map(|(_, unit)| unit.pos.adjacency_iter(width, height))
-        .filter(|pos| {
-            !walls[pos.get_index(width)] && !unit_positions[pos.get_index(width)]
-        })
+        .filter(|pos| !walls[pos.get_index(width)] && !unit_positions[pos.get_index(width)])
         .collect();
 
     let mut parents: Vec<Pos> = vec![Pos::new(-1, -1); width * height];
@@ -240,9 +241,7 @@ fn move_towards_an_enemy(
     // node structure to perform breadth-first search
     let mut nodes: VecDeque<PathfindNode> = current_pos
         .adjacency_iter(width, height)
-        .filter(|pos| {
-            !walls[pos.get_index(width)] && !unit_positions[pos.get_index(width)]
-        })
+        .filter(|pos| !walls[pos.get_index(width)] && !unit_positions[pos.get_index(width)])
         .map(|pos| {
             let idx = pos.get_index(width);
             parents[idx] = *current_pos;
@@ -381,7 +380,6 @@ fn run(input: &str) -> (i64, i64) {
             // Update turn counter
             if units[&first_unit_pos].turn > current_turn {
                 current_turn += 1;
-
             }
 
             if game_over(units.clone()) {
@@ -411,7 +409,15 @@ fn run(input: &str) -> (i64, i64) {
             }
 
             // We can move
-            move_towards_an_enemy(&mut current_pos, current_team_elf, &mut units, &mut unit_positions, walls.clone(), width, height);
+            move_towards_an_enemy(
+                &mut current_pos,
+                current_team_elf,
+                &mut units,
+                &mut unit_positions,
+                walls.clone(),
+                width,
+                height,
+            );
 
             // We can try to attack after move
             attack_adjacent_enemy_if_able(
@@ -448,7 +454,6 @@ fn run(input: &str) -> (i64, i64) {
 
     (part1, part2)
 }
-
 
 pub fn fn1(input: &str) -> i64 {
     // FIXME: So we do this pattern a lot across solutions, but of course we've often inlined the part 2 solve for efficiency.

@@ -33,11 +33,13 @@ pub fn fn1(input: &str) -> i64 {
     let cards = parse_all(&input);
     let mut total = 0;
     for card in cards.iter() {
-        let numbers_won = card.held.iter()
+        let numbers_won = card
+            .held
+            .iter()
             .filter(|num| card.winning.contains(num))
             .count();
         if numbers_won > 0 {
-            total += 1<<(numbers_won-1);
+            total += 1 << (numbers_won - 1);
         }
     }
     total
@@ -48,7 +50,9 @@ pub fn fn2(input: &str) -> i64 {
     let len = cards.len();
     for idx in 0..len {
         let card = &cards[idx];
-        let numbers_won = card.held.iter()
+        let numbers_won = card
+            .held
+            .iter()
             .filter(|num| card.winning.contains(num))
             .count();
         let n = card.count;

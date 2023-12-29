@@ -58,7 +58,10 @@ impl FromStr for Hailstone {
         let start = start.parse::<Vec3>()?;
         let velocity = velocity.parse::<Vec3>()?;
 
-        Ok(Self { pos: start, vel: velocity })
+        Ok(Self {
+            pos: start,
+            vel: velocity,
+        })
     }
 }
 
@@ -294,12 +297,16 @@ mod tests {
 
     #[test]
     fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", | input | { fn1(input, 7., 27.) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| {
+            fn1(input, 7., 27.)
+        });
     }
 
     #[test]
     fn test_fn1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", | input | { fn1(input, 200000000000000., 400000000000000.) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| {
+            fn1(input, 200000000000000., 400000000000000.)
+        });
     }
 
     #[test]

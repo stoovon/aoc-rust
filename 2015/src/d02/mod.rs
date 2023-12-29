@@ -33,8 +33,8 @@ pub fn fn1(input: &str) -> i64 {
     parse_the_parcels(input)
         .iter()
         .map(|parcel| {
-            2 * (parcel.w * parcel.d + parcel.w * parcel.h + parcel.d * parcel.h) + 
-            parcel.w * parcel.d
+            2 * (parcel.w * parcel.d + parcel.w * parcel.h + parcel.d * parcel.h)
+                + parcel.w * parcel.d
         })
         .sum()
 }
@@ -58,7 +58,7 @@ mod tests {
 
     const YEAR: i16 = 2015;
     const DAY: i16 = 2;
-    
+
     #[test]
     fn test_fn1_example() {
         scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1);

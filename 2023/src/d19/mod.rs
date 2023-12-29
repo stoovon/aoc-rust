@@ -9,7 +9,7 @@ const ACCEPTED: WorkflowName = WorkflowName('A', ' ', ' ');
 #[derive(Debug, PartialEq)]
 enum Rating {
     // eXtremely Cool Looking
-    X, 
+    X,
     // Musical
     M,
     // Aerodynamic

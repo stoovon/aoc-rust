@@ -23,7 +23,7 @@ impl Grid {
             1 if (p + 1) % self.offset != 0 => p + 1,
             2 if p < self.data.len() - self.offset => p + self.offset,
             3 if p % self.offset != 0 => p - 1,
-            _ => { return None }
+            _ => return None,
         })
     }
     fn intersections_and_distances(&self, slopes: bool) -> Vec<Vec<(usize, usize)>> {
@@ -33,7 +33,9 @@ impl Grid {
             let mut f = 0;
             for d in 0..4u8 {
                 match self.next_pos(i, d).and_then(|j| self.data.get(j)) {
-                    Some(&aa) if aa != b'#' => { f += 1; }
+                    Some(&aa) if aa != b'#' => {
+                        f += 1;
+                    }
                     _ => {}
                 }
             }
@@ -55,14 +57,20 @@ impl Grid {
                     if slopes && ai < 4 && ai != di {
                         continue;
                     }
-                    let Some(np) = self.next_pos(i, di) else { continue };
+                    let Some(np) = self.next_pos(i, di) else {
+                        continue;
+                    };
                     match self.data.get(np) {
                         Some(&aa) if aa != b'#' => {
                             if !visited[np] {
                                 visited[np] = true;
                                 vpts.binary_search(&np).map_or_else(
-                                    |_| { q.push((np, d+1)); },
-                                    |idx| { iv.push((idx, d+1)); }
+                                    |_| {
+                                        q.push((np, d + 1));
+                                    },
+                                    |idx| {
+                                        iv.push((idx, d + 1));
+                                    },
                                 );
                             }
                         }
@@ -75,7 +83,14 @@ impl Grid {
     }
 }
 
-fn dfs(i: usize, d: usize, rmap: &[Vec<(usize, usize)>], visited: &mut [bool], end: usize, r: &mut usize) {
+fn dfs(
+    i: usize,
+    d: usize,
+    rmap: &[Vec<(usize, usize)>],
+    visited: &mut [bool],
+    end: usize,
+    r: &mut usize,
+) {
     visited[i] = true;
     if i == end {
         *r = (*r).max(d);

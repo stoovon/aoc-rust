@@ -48,7 +48,8 @@ pub fn fn1(input: &str) -> i64 {
             let (spring, counts) = line.split_once(' ').unwrap();
             let counts = counts
                 .split(',')
-                .map(|number| number.parse::<i64>().unwrap()).collect_vec();
+                .map(|number| number.parse::<i64>().unwrap())
+                .collect_vec();
             permutations(spring, counts)
         })
         .sum()
@@ -68,7 +69,10 @@ pub fn fn2(input: &str) -> i64 {
                 .collect_vec();
             let n = counts.len();
 
-            permutations(&spring, counts.into_iter().cycle().take(5 * n).collect_vec())
+            permutations(
+                &spring,
+                counts.into_iter().cycle().take(5 * n).collect_vec(),
+            )
         })
         .sum()
 }

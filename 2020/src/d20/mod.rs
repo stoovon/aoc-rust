@@ -44,11 +44,11 @@ fn hash_side(side: [char; 10]) -> i64 {
 impl Tile {
     fn new(id: i64, data: [[char; 10]; 10]) -> Tile {
         let sides = Tile::data_to_sides(&data);
-        Tile { 
-            id, 
+        Tile {
+            id,
             data,
             trimmed_data: [['x'; 8]; 8],
-            sides: sides, 
+            sides: sides,
             side_hashes: Tile::side_hashes(sides),
             side_scores: [0; 4],
         }
@@ -107,7 +107,7 @@ impl Tile {
         }
         result
     }
-    
+
     fn vertical_scan(data: &[[char; 10]; 10], col: usize) -> [char; 10] {
         let mut result = ['.'; 10];
         for i in 0..10 {
@@ -156,7 +156,7 @@ impl Tile {
     }
 }
 
-fn parse (input: &str) -> Vec<Tile> {
+fn parse(input: &str) -> Vec<Tile> {
     let mut tiles = Vec::new();
     let mut id = 0;
     let mut data = [['.'; 10]; 10];
@@ -177,7 +177,9 @@ fn parse (input: &str) -> Vec<Tile> {
     tiles
 }
 
-fn rotate_image_90_degrees_clockwise(original_image: [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL]) -> [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL] {
+fn rotate_image_90_degrees_clockwise(
+    original_image: [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL],
+) -> [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL] {
     let mut new_data = [['.'; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL];
     for row in 0..FINAL_IMAGE_PIXELS_REAL {
         for col in 0..FINAL_IMAGE_PIXELS_REAL {
@@ -187,7 +189,9 @@ fn rotate_image_90_degrees_clockwise(original_image: [[char; FINAL_IMAGE_PIXELS_
     new_data
 }
 
-fn flip_image_horizontal(original_image: [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL]) -> [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL] {
+fn flip_image_horizontal(
+    original_image: [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL],
+) -> [[char; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL] {
     let mut new_data = [['.'; FINAL_IMAGE_PIXELS_REAL]; FINAL_IMAGE_PIXELS_REAL];
     for row in 0..FINAL_IMAGE_PIXELS_REAL {
         for col in 0..FINAL_IMAGE_PIXELS_REAL {
@@ -214,12 +218,18 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
     let mut tiles = tiles.clone();
     for (hash, tile_ids) in sides_to_tiles.iter() {
         // Find each tile which has hash in side_hashes.
-        let mut matching_tiles = tiles.iter_mut().filter(|t| t.side_hashes.contains(hash)).collect::<Vec<&mut Tile>>();
+        let mut matching_tiles = tiles
+            .iter_mut()
+            .filter(|t| t.side_hashes.contains(hash))
+            .collect::<Vec<&mut Tile>>();
 
         for tile in matching_tiles.iter_mut() {
             for side in 0..4 {
                 if tile.side_hashes[side] == *hash {
-                    assert!(tile_ids.len() == 1 || tile_ids.len() == 2, "Unexpected number of matches for side hash");
+                    assert!(
+                        tile_ids.len() == 1 || tile_ids.len() == 2,
+                        "Unexpected number of matches for side hash"
+                    );
                     tile.set_side_score(side, tile_ids.len() as i64);
                 }
             }
@@ -227,7 +237,10 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
     }
 
     // Since two-way matches score two, and one-way matches score one, then we know that the four corners are the four tiles with score six.
-    let corners = tiles.iter().filter(|t| t.side_scores.iter().sum::<i64>() == 6).collect::<Vec<&Tile>>();
+    let corners = tiles
+        .iter()
+        .filter(|t| t.side_scores.iter().sum::<i64>() == 6)
+        .collect::<Vec<&Tile>>();
 
     // Could we do this in-place? Would there be a performance benefit? Doesn't seem to be too much of a hit if we just allocate again as the data structures are small.
     let sides_to_tiles_augmented = tiles.iter().fold(HashMap::new(), |mut acc, tile| {
@@ -280,13 +293,20 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
                 let top_tile_bottom_hash = top_tile.side_hashes[2];
 
                 // Find the entry in sides_to_tiles which matches top_tile_bottom_hash, and take the tile which isn't equal to top_tile.
-                let bottom_tile = sides_to_tiles_augmented[&top_tile_bottom_hash].iter().find(|t| t.id != top_tile.id);
+                let bottom_tile = sides_to_tiles_augmented[&top_tile_bottom_hash]
+                    .iter()
+                    .find(|t| t.id != top_tile.id);
                 if bottom_tile.is_none() {
                     panic!("No bottom tile found");
                 }
 
                 // // Rotate/flip bottom_tile until bottom_tile_matching_side is on the top.
-                let mut bottom_tile_matching_side = bottom_tile.unwrap().sides.iter().position(|s| hash_side(*s) == hash_side(top_tile_bottom_side)).unwrap();
+                let mut bottom_tile_matching_side = bottom_tile
+                    .unwrap()
+                    .sides
+                    .iter()
+                    .position(|s| hash_side(*s) == hash_side(top_tile_bottom_side))
+                    .unwrap();
                 let mut bottom_tile = (*(bottom_tile.unwrap())).clone(); // Change the type of bottom_tile to Tile
 
                 let mut flips_remaining = 1;
@@ -303,14 +323,18 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
                         flips_remaining -= 1;
                         spins_remaining = 4;
                     }
-                    bottom_tile_matching_side = bottom_tile.sides.iter().position(|s| hash_side(*s) == hash_side(top_tile_bottom_side)).unwrap();
+                    bottom_tile_matching_side = bottom_tile
+                        .sides
+                        .iter()
+                        .position(|s| hash_side(*s) == hash_side(top_tile_bottom_side))
+                        .unwrap();
                 }
 
-                // There are two other edge cases. 
+                // There are two other edge cases.
                 let mut horizontal_flip_needed = false;
 
                 if col == 0 {
-                    // Firstly, if we're on the first column, then the 1-score edge must be to the left. 
+                    // Firstly, if we're on the first column, then the 1-score edge must be to the left.
                     if bottom_tile.side_scores[3] != 1 {
                         horizontal_flip_needed = true;
                     }
@@ -335,13 +359,20 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
                 let left_tile_right_hash = left_tile.side_hashes[1];
 
                 // Find the entry in sides_to_tiles which matches left_tile_right_hash, and take the tile which isn't equal to left_tile.
-                let right_tile = sides_to_tiles_augmented[&left_tile_right_hash].iter().find(|t| t.id != left_tile.id);
+                let right_tile = sides_to_tiles_augmented[&left_tile_right_hash]
+                    .iter()
+                    .find(|t| t.id != left_tile.id);
                 if right_tile.is_none() {
                     panic!("No right tile found");
                 }
 
                 // Rotate/flip right_tile until right_tile_matching_side is on the left.
-                let mut right_tile_matching_side = right_tile.unwrap().sides.iter().position(|s| hash_side(*s) == hash_side(left_tile_right_side)).unwrap();
+                let mut right_tile_matching_side = right_tile
+                    .unwrap()
+                    .sides
+                    .iter()
+                    .position(|s| hash_side(*s) == hash_side(left_tile_right_side))
+                    .unwrap();
                 let mut right_tile = (*(right_tile.unwrap())).clone();
 
                 let mut flips_remaining = 1;
@@ -358,14 +389,18 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
                         flips_remaining -= 1;
                         spins_remaining = 4;
                     }
-                    right_tile_matching_side = right_tile.sides.iter().position(|s| hash_side(*s) == hash_side(left_tile_right_side)).unwrap();
+                    right_tile_matching_side = right_tile
+                        .sides
+                        .iter()
+                        .position(|s| hash_side(*s) == hash_side(left_tile_right_side))
+                        .unwrap();
                 }
 
-                // There are two other edge cases. 
+                // There are two other edge cases.
                 let mut vertical_flip_needed = false;
-                
+
                 if row == 0 {
-                    // Firstly, if we're on the first row, then the 1-score edge must be above us. 
+                    // Firstly, if we're on the first row, then the 1-score edge must be above us.
                     if right_tile.side_scores[0] != 1 {
                         vertical_flip_needed = true;
                     }
@@ -397,7 +432,9 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
         for h_scanline in 0..SCANLINE_LENGTH {
             for col in 0..grid_size {
                 for v_scanline in 0..SCANLINE_LENGTH {
-                    final_image[row * SCANLINE_LENGTH + h_scanline][col * SCANLINE_LENGTH + v_scanline] = image[row][col].trimmed_data()[h_scanline][v_scanline]
+                    final_image[row * SCANLINE_LENGTH + h_scanline]
+                        [col * SCANLINE_LENGTH + v_scanline] =
+                        image[row][col].trimmed_data()[h_scanline][v_scanline]
                 }
             }
         }
@@ -420,23 +457,24 @@ fn solve(input: &str, grid_size: usize) -> (i64, i64) {
         // Search for monsters
         for row in 0..FINAL_IMAGE_PIXELS_REAL - 3 {
             for col in 0..FINAL_IMAGE_PIXELS_REAL - 20 {
-                if final_image[row][col + 18] == '#' &&
-                    final_image[row + 1][col] == '#' &&
-                    final_image[row + 1][col + 5] == '#' &&
-                    final_image[row + 1][col + 6] == '#' &&
-                    final_image[row + 1][col + 11] == '#' &&
-                    final_image[row + 1][col + 12] == '#' &&
-                    final_image[row + 1][col + 17] == '#' &&
-                    final_image[row + 1][col + 18] == '#' &&
-                    final_image[row + 1][col + 19] == '#' &&
-                    final_image[row + 2][col + 1] == '#' &&
-                    final_image[row + 2][col + 4] == '#' &&
-                    final_image[row + 2][col + 7] == '#' &&
-                    final_image[row + 2][col + 10] == '#' &&
-                    final_image[row + 2][col + 13] == '#' &&
-                    final_image[row + 2][col + 16] == '#' {
-                        monsters_found += 1;
-                    }
+                if final_image[row][col + 18] == '#'
+                    && final_image[row + 1][col] == '#'
+                    && final_image[row + 1][col + 5] == '#'
+                    && final_image[row + 1][col + 6] == '#'
+                    && final_image[row + 1][col + 11] == '#'
+                    && final_image[row + 1][col + 12] == '#'
+                    && final_image[row + 1][col + 17] == '#'
+                    && final_image[row + 1][col + 18] == '#'
+                    && final_image[row + 1][col + 19] == '#'
+                    && final_image[row + 2][col + 1] == '#'
+                    && final_image[row + 2][col + 4] == '#'
+                    && final_image[row + 2][col + 7] == '#'
+                    && final_image[row + 2][col + 10] == '#'
+                    && final_image[row + 2][col + 13] == '#'
+                    && final_image[row + 2][col + 16] == '#'
+                {
+                    monsters_found += 1;
+                }
             }
         }
 
@@ -476,20 +514,63 @@ mod tests {
 
     #[test]
     fn test_data_to_sides() {
-        let tile = Tile::new(3079, [
-            "#.#.#####.".chars().collect::<Vec<char>>().try_into().unwrap(),
-            ".#..######".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.......".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "######....".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "####.#..#.".chars().collect::<Vec<char>>().try_into().unwrap(),
-            ".#...#.##.".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "#.#####.##".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.###...".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.......".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.###...".chars().collect::<Vec<char>>().try_into().unwrap(),
-        ]);
+        let tile = Tile::new(
+            3079,
+            [
+                "#.#.#####."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                ".#..######"
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#......."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "######...."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "####.#..#."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                ".#...#.##."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "#.#####.##"
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#.###..."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#......."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#.###..."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+            ],
+        );
 
-        // Note: we are always "canonical". This means we scan the same way 
+        // Note: we are always "canonical". This means we scan the same way
         // so that lefts and rights marry up, and tops and bottoms also.
         // So:
         // - We scan left to right for tops;
@@ -505,24 +586,67 @@ mod tests {
 
     #[test]
     fn test_rotate_90_degrees_clockwise() {
-        let mut tile = Tile::new(3079, [
-            "#.#.#####.".chars().collect::<Vec<char>>().try_into().unwrap(),
-            ".#..######".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.......".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "######....".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "####.#..#.".chars().collect::<Vec<char>>().try_into().unwrap(),
-            ".#...#.##.".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "#.#####.##".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.###...".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.......".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.###...".chars().collect::<Vec<char>>().try_into().unwrap(),
-        ]);
+        let mut tile = Tile::new(
+            3079,
+            [
+                "#.#.#####."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                ".#..######"
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#......."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "######...."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "####.#..#."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                ".#...#.##."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "#.#####.##"
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#.###..."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#......."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#.###..."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+            ],
+        );
 
         // We'll only ever have 1 or 2 in reality but using 3 and 4 for clarity in test.
         tile.set_side_score(0, 1);
         tile.set_side_score(1, 2);
-        tile.set_side_score(2,3);
-        tile.set_side_score(3,4);
+        tile.set_side_score(2, 3);
+        tile.set_side_score(3, 4);
 
         assert_eq!(tile.sides[0].iter().collect::<String>(), "#.#.#####.");
         assert_eq!(tile.sides[1].iter().collect::<String>(), ".#....#...");
@@ -530,20 +654,26 @@ mod tests {
         assert_eq!(tile.sides[3].iter().collect::<String>(), "#..##.#...");
 
         // The values of the hashes and scores stay the same (of course), but the order rotates, which is exactly what we want.
-        assert_eq!(tile.side_hashes, [0b0111110101, 0b0001000010, 0b0001110100, 0b0001011001]);
+        assert_eq!(
+            tile.side_hashes,
+            [0b0111110101, 0b0001000010, 0b0001110100, 0b0001011001]
+        );
         assert_eq!(tile.side_scores, [1, 2, 3, 4]);
 
         tile.rotate_90_degrees_clockwise();
 
-        // Remember the canonical order (mind-melting here for simpler matching 
+        // Remember the canonical order (mind-melting here for simpler matching
         // logic, which I think is a good trade), so as we rotate 90 things look weird.
         // For example, left is now up. We were reading left top-to-bottom, but we
         // read top left-to-right, so although the content is identical, it's inverted.
-        assert_eq!(tile.sides[0].iter().collect::<String>(), "...#.##..#"); 
+        assert_eq!(tile.sides[0].iter().collect::<String>(), "...#.##..#");
         assert_eq!(tile.sides[1].iter().collect::<String>(), "#.#.#####.");
         assert_eq!(tile.sides[2].iter().collect::<String>(), "...#....#.");
         assert_eq!(tile.sides[3].iter().collect::<String>(), "..#.###...");
-        assert_eq!(tile.side_hashes, [0b0001011001, 0b0111110101, 0b0001000010, 0b0001110100]);
+        assert_eq!(
+            tile.side_hashes,
+            [0b0001011001, 0b0111110101, 0b0001000010, 0b0001110100]
+        );
         assert_eq!(tile.side_scores, [4, 1, 2, 3]);
 
         tile.rotate_90_degrees_clockwise();
@@ -553,7 +683,10 @@ mod tests {
         assert_eq!(tile.sides[1].iter().collect::<String>(), "...#.##..#");
         assert_eq!(tile.sides[2].iter().collect::<String>(), ".#####.#.#");
         assert_eq!(tile.sides[3].iter().collect::<String>(), "...#....#.");
-        assert_eq!(tile.side_hashes, [0b0001110100, 0b0001011001, 0b0111110101, 0b0001000010]);
+        assert_eq!(
+            tile.side_hashes,
+            [0b0001110100, 0b0001011001, 0b0111110101, 0b0001000010]
+        );
         assert_eq!(tile.side_scores, [3, 4, 1, 2]);
 
         tile.rotate_90_degrees_clockwise();
@@ -563,7 +696,10 @@ mod tests {
         assert_eq!(tile.sides[0].iter().collect::<String>(), ".#....#...");
         assert_eq!(tile.sides[1].iter().collect::<String>(), "...###.#..");
         assert_eq!(tile.sides[2].iter().collect::<String>(), "#..##.#...");
-        assert_eq!(tile.side_hashes, [0b0001000010, 0b0001110100, 0b0001011001, 0b0111110101]);
+        assert_eq!(
+            tile.side_hashes,
+            [0b0001000010, 0b0001110100, 0b0001011001, 0b0111110101]
+        );
         assert_eq!(tile.side_scores, [2, 3, 4, 1]);
 
         tile.rotate_90_degrees_clockwise();
@@ -573,42 +709,91 @@ mod tests {
         assert_eq!(tile.sides[1].iter().collect::<String>(), ".#....#...");
         assert_eq!(tile.sides[2].iter().collect::<String>(), "..#.###...");
         assert_eq!(tile.sides[3].iter().collect::<String>(), "#..##.#...");
-        assert_eq!(tile.side_hashes, [0b0111110101, 0b0001000010, 0b0001110100, 0b0001011001]);
+        assert_eq!(
+            tile.side_hashes,
+            [0b0111110101, 0b0001000010, 0b0001110100, 0b0001011001]
+        );
         assert_eq!(tile.side_scores, [1, 2, 3, 4]);
     }
 
     #[test]
     fn test_flip_horizontal() {
-        let mut tile = Tile::new(3079, [
-            "#.#.#####.".chars().collect::<Vec<char>>().try_into().unwrap(),
-            ".#..######".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.......".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "######....".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "####.#..#.".chars().collect::<Vec<char>>().try_into().unwrap(),
-            ".#...#.##.".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "#.#####.##".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.###...".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.......".chars().collect::<Vec<char>>().try_into().unwrap(),
-            "..#.###...".chars().collect::<Vec<char>>().try_into().unwrap(),
-        ]);
+        let mut tile = Tile::new(
+            3079,
+            [
+                "#.#.#####."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                ".#..######"
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#......."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "######...."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "####.#..#."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                ".#...#.##."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "#.#####.##"
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#.###..."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#......."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+                "..#.###..."
+                    .chars()
+                    .collect::<Vec<char>>()
+                    .try_into()
+                    .unwrap(),
+            ],
+        );
 
         // We'll only ever have 1 or 2 in reality but using 3 and 4 for clarity in test.
         tile.set_side_score(0, 1);
         tile.set_side_score(1, 2);
-        tile.set_side_score(2,3);
-        tile.set_side_score(3,4);
+        tile.set_side_score(2, 3);
+        tile.set_side_score(3, 4);
 
         assert_eq!(tile.sides[0].iter().collect::<String>(), "#.#.#####.");
         assert_eq!(tile.sides[1].iter().collect::<String>(), ".#....#...");
         assert_eq!(tile.sides[2].iter().collect::<String>(), "..#.###...");
         assert_eq!(tile.sides[3].iter().collect::<String>(), "#..##.#...");
 
-        assert_eq!(tile.side_hashes, [0b0111110101, 0b0001000010, 0b0001110100, 0b0001011001]);
+        assert_eq!(
+            tile.side_hashes,
+            [0b0111110101, 0b0001000010, 0b0001110100, 0b0001011001]
+        );
         assert_eq!(tile.side_scores, [1, 2, 3, 4]);
 
         tile.flip_horizontal();
 
-        // Remember the canonical order (mind-melting here for simpler matching 
+        // Remember the canonical order (mind-melting here for simpler matching
         // logic, which I think is a good trade), so as we flip things look weird
         // (but less weird than rotate).
         // For example, right is now left, but we still read top to bottom.
@@ -620,9 +805,12 @@ mod tests {
         assert_eq!(tile.sides[3].iter().collect::<String>(), ".#....#..."); // Not reversed and exchanged
 
         // Further mind-twist, the hashes individually stay the same but the order flips about.
-        // (This is because the hashes try both ways and take the lowest, which is 
+        // (This is because the hashes try both ways and take the lowest, which is
         // a hefty assumption, but we can get fancier if we need to).
-        assert_eq!(tile.side_hashes, [0b0111110101, 0b0001011001, 0b0001110100, 0b0001000010]);
+        assert_eq!(
+            tile.side_hashes,
+            [0b0111110101, 0b0001011001, 0b0001110100, 0b0001000010]
+        );
         assert_eq!(tile.side_scores, [1, 4, 3, 2]);
 
         tile.flip_horizontal();
@@ -632,18 +820,25 @@ mod tests {
         assert_eq!(tile.sides[1].iter().collect::<String>(), ".#....#...");
         assert_eq!(tile.sides[2].iter().collect::<String>(), "..#.###...");
         assert_eq!(tile.sides[3].iter().collect::<String>(), "#..##.#...");
-        assert_eq!(tile.side_hashes, [0b0111110101, 0b0001000010, 0b0001110100, 0b0001011001]);
+        assert_eq!(
+            tile.side_hashes,
+            [0b0111110101, 0b0001000010, 0b0001110100, 0b0001011001]
+        );
         assert_eq!(tile.side_scores, [1, 2, 3, 4]);
     }
 
     #[test]
     fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", | input | { fn1(input, 3) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| {
+            fn1(input, 3)
+        });
     }
 
     #[test]
     fn test_fn1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", | input | { fn1(input, 12) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| {
+            fn1(input, 12)
+        });
     }
 
     // #[test]
@@ -654,6 +849,8 @@ mod tests {
 
     #[test]
     fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", | input | { fn2(input, 12) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| {
+            fn2(input, 12)
+        });
     }
 }

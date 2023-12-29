@@ -39,13 +39,20 @@ impl Party {
     }
 
     fn add(&mut self, person: &str, other: &str, happiness: isize) {
-        self.happiness.insert((person.to_string(), other.to_string()), happiness);
+        self.happiness
+            .insert((person.to_string(), other.to_string()), happiness);
         self.people.insert(person.to_string());
         self.people.insert(other.to_string());
     }
 
     fn happiness(&self, person: &str, other: &str) -> isize {
-        self.happiness.get(&(person.to_string(), other.to_string())).unwrap_or(&0) + self.happiness.get(&(other.to_string(), person.to_string())).unwrap_or(&0)
+        self.happiness
+            .get(&(person.to_string(), other.to_string()))
+            .unwrap_or(&0)
+            + self
+                .happiness
+                .get(&(other.to_string(), person.to_string()))
+                .unwrap_or(&0)
     }
 
     fn people(&self) -> Vec<String> {

@@ -13,7 +13,8 @@ fn parse(input: &str) -> Vec<Step> {
     let cut_re: Regex = Regex::new(r"cut\s([-01234567890]+)").unwrap();
     let deal_re: Regex = Regex::new(r"deal with increment\s([01234567890]+)").unwrap();
 
-    input.lines()
+    input
+        .lines()
         .map(|val| {
             if reverse_re.is_match(val) {
                 Step::Reverse
@@ -41,7 +42,7 @@ pub fn fn1(input: &str) -> i128 {
     // instead of division.
 
     // Each of the shuffle operations is a *linear congruence* of the form:
-    // 
+    //
     // `Xₙ₊₁ = (aXₙ + c) mod m`
     //
     // "Deal into new stack" (reverses deck) can be represented as:
@@ -55,7 +56,7 @@ pub fn fn1(input: &str) -> i128 {
     //
     // `Xₙ₊₁ = N * Xₙ + 0) mod m`
     //
-    // Using knowledge of modular identities and how they apply to linear congruences (see e.g. Applied Cryptography), 
+    // Using knowledge of modular identities and how they apply to linear congruences (see e.g. Applied Cryptography),
     // the shuffle operations can be combined into a single linear congruence using techniques such as:
     // `Xₙ₊₁ = a₂ * (a₁Xₙ + c₁) + c₂) mod m = (a₁a₂Xₙ + a₂c₁ + c₂) mod m`
 
@@ -134,7 +135,11 @@ fn linear_congruence(input: &str, m: i128) -> ShuffleStep {
     parse(input)
         .into_iter()
         .map(|step| match step {
-            Step::Reverse => ShuffleStep { a: m - 1, c: m - 1, m },
+            Step::Reverse => ShuffleStep {
+                a: m - 1,
+                c: m - 1,
+                m,
+            },
             Step::Cut(n) => {
                 let n = (m - n % m) % m;
                 ShuffleStep { a: 1, c: n, m }
@@ -168,7 +173,10 @@ pub fn fn2(input: &str) -> i128 {
     const DECK_LEN: i128 = 119_315_717_514_047;
     const SHUFFLE_COUNT: i128 = 101_741_582_076_661;
 
-    linear_congruence(input, DECK_LEN).inverse().power(SHUFFLE_COUNT).shuffle(2020)
+    linear_congruence(input, DECK_LEN)
+        .inverse()
+        .power(SHUFFLE_COUNT)
+        .shuffle(2020)
 }
 
 // deck(input, 10007).shuffle(2019)

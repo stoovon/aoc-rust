@@ -3,34 +3,42 @@ extern crate core;
 use fancy_regex::Regex;
 
 pub fn fn1(input: &str) -> i64 {
-    input.lines().filter(|line| {
-        let mut vowels = 0;
-        let mut double = false;
-        let mut bad = false;
-        let mut last = ' ';
-        for c in line.chars() {
-            if c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' {
-                vowels += 1;
+    input
+        .lines()
+        .filter(|line| {
+            let mut vowels = 0;
+            let mut double = false;
+            let mut bad = false;
+            let mut last = ' ';
+            for c in line.chars() {
+                if c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' {
+                    vowels += 1;
+                }
+                if c == last {
+                    double = true;
+                }
+                if (last == 'a' && c == 'b')
+                    || (last == 'c' && c == 'd')
+                    || (last == 'p' && c == 'q')
+                    || (last == 'x' && c == 'y')
+                {
+                    bad = true;
+                }
+                last = c;
             }
-            if c == last {
-                double = true;
-            }
-            if (last == 'a' && c == 'b') || (last == 'c' && c == 'd') || (last == 'p' && c == 'q') || (last == 'x' && c == 'y') {
-                bad = true;
-            }
-            last = c;
-        }
-        vowels >= 3 && double && !bad
-    }).count() as i64
+            vowels >= 3 && double && !bad
+        })
+        .count() as i64
 }
 
 pub fn fn2(input: &str) -> i64 {
     let re1 = Regex::new(r"(..).*\1").unwrap();
     let re2 = Regex::new(r"(.).\1").unwrap();
 
-    input.lines().filter(|line| {
-        re1.is_match(line).unwrap() && re2.is_match(line).unwrap()
-    }).count() as i64
+    input
+        .lines()
+        .filter(|line| re1.is_match(line).unwrap() && re2.is_match(line).unwrap())
+        .count() as i64
 }
 
 #[cfg(test)]

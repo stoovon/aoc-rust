@@ -51,7 +51,10 @@ pub fn parse(input: &str) -> Vec<Blueprint> {
             clay_robot,
             obsidian_robot,
             geode_robot,
-            max_ore_cost: ore_robot.max(clay_robot).max(obsidian_robot.0).max(geode_robot.0),
+            max_ore_cost: ore_robot
+                .max(clay_robot)
+                .max(obsidian_robot.0)
+                .max(geode_robot.0),
         });
         assert!(numbers.next().is_none());
     }
@@ -59,23 +62,22 @@ pub fn parse(input: &str) -> Vec<Blueprint> {
     result
 }
 
-
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 struct Pack {
-    pub ore_robot:      u8,
-    pub clay_robot:     u8,
+    pub ore_robot: u8,
+    pub clay_robot: u8,
     pub obsidian_robot: u8,
-    pub geode_robot:    u8,
-    pub ore:      u8,
-    pub clay:     u8,
+    pub geode_robot: u8,
+    pub ore: u8,
+    pub clay: u8,
     pub obsidian: u8,
-    pub geode:    u8,
+    pub geode: u8,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 struct State {
     pub minute: u8,
-    pub pack:   Pack,
+    pub pack: Pack,
 }
 
 impl State {
@@ -83,14 +85,14 @@ impl State {
         State {
             minute: 0,
             pack: Pack {
-                ore_robot:      1,
-                clay_robot:     0,
+                ore_robot: 1,
+                clay_robot: 0,
                 obsidian_robot: 0,
-                geode_robot:    0,
-                ore:      0,
-                clay:     0,
+                geode_robot: 0,
+                ore: 0,
+                clay: 0,
                 obsidian: 0,
-                geode:    0,
+                geode: 0,
             },
         }
     }
@@ -107,14 +109,12 @@ impl State {
 
     #[inline]
     pub fn can_build_obsidian_robot(&self, bp: &Blueprint) -> bool {
-            self.pack.ore  >= bp.obsidian_robot.0
-        && self.pack.clay >= bp.obsidian_robot.1
+        self.pack.ore >= bp.obsidian_robot.0 && self.pack.clay >= bp.obsidian_robot.1
     }
 
     #[inline]
     pub fn can_build_geode_robot(&self, bp: &Blueprint) -> bool {
-            self.pack.ore      >= bp.geode_robot.0
-        && self.pack.obsidian >= bp.geode_robot.1
+        self.pack.ore >= bp.geode_robot.0 && self.pack.obsidian >= bp.geode_robot.1
     }
 
     #[inline]
@@ -136,7 +136,7 @@ impl State {
     #[inline]
     pub fn build_obsidian_robot(self, bp: &Blueprint) -> Self {
         let mut result = self;
-        result.pack.ore  -= bp.obsidian_robot.0;
+        result.pack.ore -= bp.obsidian_robot.0;
         result.pack.clay -= bp.obsidian_robot.1;
         result.pack.obsidian_robot += 1;
         return result;
@@ -145,7 +145,7 @@ impl State {
     #[inline]
     pub fn build_geode_robot(self, bp: &Blueprint) -> Self {
         let mut result = self;
-        result.pack.ore      -= bp.geode_robot.0;
+        result.pack.ore -= bp.geode_robot.0;
         result.pack.obsidian -= bp.geode_robot.1;
         result.pack.geode_robot += 1;
         return result;
@@ -155,16 +155,22 @@ impl State {
     pub fn step(self) -> Self {
         let mut this = self;
         this.minute += 1;
-        this.pack.ore      += this.pack.ore_robot;
-        this.pack.clay     += this.pack.clay_robot;
+        this.pack.ore += this.pack.ore_robot;
+        this.pack.clay += this.pack.clay_robot;
         this.pack.obsidian += this.pack.obsidian_robot;
-        this.pack.geode    += this.pack.geode_robot;
+        this.pack.geode += this.pack.geode_robot;
         return this;
     }
 }
 
-fn solution(state: State, bp: &Blueprint, limit: u8, max_result: &mut u8,
-    can_ore: bool, can_clay: bool, can_obsidian: bool
+fn solution(
+    state: State,
+    bp: &Blueprint,
+    limit: u8,
+    max_result: &mut u8,
+    can_ore: bool,
+    can_clay: bool,
+    can_obsidian: bool,
 ) {
     // OUTATIME
     if state.minute == limit {
@@ -192,9 +198,16 @@ fn solution(state: State, bp: &Blueprint, limit: u8, max_result: &mut u8,
 
     // always try to build a geode robot, it's the best option (especially once we've reached steady-state throughput of resources)
     if state.can_build_geode_robot(bp) {
-        solution(state.step().build_geode_robot(bp), bp, limit, max_result, true, true, true);
-    }
-    else {
+        solution(
+            state.step().build_geode_robot(bp),
+            bp,
+            limit,
+            max_result,
+            true,
+            true,
+            true,
+        );
+    } else {
         let mut new_can_obsidian = true;
         if state.can_build_obsidian_robot(bp) {
             new_can_obsidian = false;
@@ -203,7 +216,15 @@ fn solution(state: State, bp: &Blueprint, limit: u8, max_result: &mut u8,
             // so if our throughput of resources is sufficient to enable us to produce a steady stream of geode bots,
             // then anything else is waste
             if can_obsidian && state.pack.obsidian_robot < bp.max_obsidian_cost() {
-                solution(state.step().build_obsidian_robot(bp), bp, limit, max_result, true, true, true);
+                solution(
+                    state.step().build_obsidian_robot(bp),
+                    bp,
+                    limit,
+                    max_result,
+                    true,
+                    true,
+                    true,
+                );
             }
         }
 
@@ -212,7 +233,15 @@ fn solution(state: State, bp: &Blueprint, limit: u8, max_result: &mut u8,
             new_can_clay = false;
 
             if can_clay && state.pack.clay_robot < bp.max_clay_cost() {
-                solution(state.step().build_clay_robot(bp), bp, limit, max_result, true, true, true);
+                solution(
+                    state.step().build_clay_robot(bp),
+                    bp,
+                    limit,
+                    max_result,
+                    true,
+                    true,
+                    true,
+                );
             }
         }
 
@@ -221,11 +250,27 @@ fn solution(state: State, bp: &Blueprint, limit: u8, max_result: &mut u8,
             new_can_ore = false;
 
             if can_ore && state.pack.ore_robot < bp.max_ore_cost() {
-                solution(state.step().build_ore_robot(bp), bp, limit, max_result, true, true, true);
+                solution(
+                    state.step().build_ore_robot(bp),
+                    bp,
+                    limit,
+                    max_result,
+                    true,
+                    true,
+                    true,
+                );
             }
         }
 
-        solution(state.step(), bp, limit, max_result, new_can_ore, new_can_clay, new_can_obsidian);
+        solution(
+            state.step(),
+            bp,
+            limit,
+            max_result,
+            new_can_ore,
+            new_can_clay,
+            new_can_obsidian,
+        );
     }
 }
 

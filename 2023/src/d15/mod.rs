@@ -56,29 +56,25 @@ impl<'a> FocusHashmap<'a> {
 }
 
 pub fn fn1(input: &str) -> i64 {
-    input
-        .trim_end_matches('\n')
-        .split(',')
-        .map(hash_fn)
-        .sum()
+    input.trim_end_matches('\n').split(',').map(hash_fn).sum()
 }
 
 pub fn fn2(input: &str) -> i64 {
     input
-    .trim_end_matches('\n')
-    .split(',')
-    .fold(FocusHashmap::new(), |mut hashmap, s| {
-        if s.contains('-') {
-            let key = s.trim_end_matches('-');
-            hashmap.remove(key);
-        } else {
-            // Do the elves not know to press shift?
-            let (key, value) = s.split_once('=').unwrap();
-            hashmap.insert(key, value.parse::<i64>().unwrap_or_default());
-        }
-        hashmap
-    })
-    .total_power() as i64
+        .trim_end_matches('\n')
+        .split(',')
+        .fold(FocusHashmap::new(), |mut hashmap, s| {
+            if s.contains('-') {
+                let key = s.trim_end_matches('-');
+                hashmap.remove(key);
+            } else {
+                // Do the elves not know to press shift?
+                let (key, value) = s.split_once('=').unwrap();
+                hashmap.insert(key, value.parse::<i64>().unwrap_or_default());
+            }
+            hashmap
+        })
+        .total_power() as i64
 }
 
 #[cfg(test)]

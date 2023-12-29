@@ -1,7 +1,7 @@
 extern crate core;
 
-use std::ops::{Add, AddAssign, Index, IndexMut};
 use std::hash::{Hash, Hasher};
+use std::ops::{Add, AddAssign, Index, IndexMut};
 
 type Input = (i32, i32);
 
@@ -65,7 +65,11 @@ impl Grid<u8> {
         let height = raw.len() as i32;
         let mut bytes = Vec::with_capacity((width * height) as usize);
         raw.iter().for_each(|slice| bytes.extend_from_slice(slice));
-        Grid { width, height, bytes }
+        Grid {
+            width,
+            height,
+            bytes,
+        }
     }
 }
 
@@ -103,7 +107,11 @@ pub fn parse(input: &str) -> Input {
     // Some people hard-coded this but this is nice
     let mut corner = grid.find(b'S').unwrap();
 
-    let mut direction = if matches!(grid[corner + UP], b'|' | b'7' | b'F') { UP } else { DOWN };
+    let mut direction = if matches!(grid[corner + UP], b'|' | b'7' | b'F') {
+        UP
+    } else {
+        DOWN
+    };
     let mut position = corner + direction;
 
     let mut perimeter = 1;

@@ -36,9 +36,9 @@ fn find_reflection(values: &[u64]) -> Option<usize> {
             continue;
         }
         let mut reflection_pos = 1;
-        while i as i32 - reflection_pos >= 0 && i as i32 + reflection_pos + 1 < values.len() as i32 {
+        while i as i32 - reflection_pos >= 0 && i as i32 + reflection_pos + 1 < values.len() as i32
+        {
             if values[i - reflection_pos as usize] != values[i + reflection_pos as usize + 1] {
-
                 continue 'outer;
             }
             reflection_pos += 1;
@@ -58,7 +58,8 @@ fn find_smudged_reflection(values: &[u64]) -> Option<usize> {
             smudge_seen = true;
         }
         let mut reflection_pos = 1;
-        while i as i32 - reflection_pos >= 0 && i as i32 + reflection_pos + 1 < values.len() as i32 {
+        while i as i32 - reflection_pos >= 0 && i as i32 + reflection_pos + 1 < values.len() as i32
+        {
             let left = values[i - reflection_pos as usize];
             let right = values[i + reflection_pos as usize + 1];
             if left != right && (left ^ right).count_ones() != 1 {

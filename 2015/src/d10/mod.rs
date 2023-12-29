@@ -105,8 +105,10 @@ const ELEMENTS: &str = "\
 type Result = (i64, i64);
 
 pub fn parse(input: &str) -> Result {
-    let elements: Vec<Vec<_>> =
-        ELEMENTS.lines().map(|line| line.split_ascii_whitespace().collect()).collect();
+    let elements: Vec<Vec<_>> = ELEMENTS
+        .lines()
+        .map(|line| line.split_ascii_whitespace().collect())
+        .collect();
     let mut indices = HashMap::with_capacity(92);
 
     for (i, tokens) in elements.iter().enumerate() {
@@ -173,7 +175,11 @@ fn decay(current: &[i64; 92], decays: &[[Option<i64>; 6]; 92]) -> [i64; 92] {
 }
 
 fn length(current: &[i64; 92], sequence: &[&str; 92]) -> i64 {
-    current.iter().zip(sequence.iter()).map(|(c, s)| c * s.len() as i64).sum()
+    current
+        .iter()
+        .zip(sequence.iter())
+        .map(|(c, s)| c * s.len() as i64)
+        .sum()
 }
 
 pub fn fn1(input: &str) -> i64 {

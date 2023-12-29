@@ -1,6 +1,6 @@
 extern crate core;
 
-use std::{str::FromStr, collections::HashMap};
+use std::{collections::HashMap, str::FromStr};
 
 #[derive(Clone)]
 struct Reindeer {
@@ -106,21 +106,29 @@ mod tests {
 
     #[test]
     fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| { fn1(input, 1000) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| {
+            fn1(input, 1000)
+        });
     }
 
     #[test]
     fn test_fn1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| { fn1(input, 2503) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| {
+            fn1(input, 2503)
+        });
     }
 
     #[test]
     fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| { fn2(input, 1000) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| {
+            fn2(input, 1000)
+        });
     }
 
     #[test]
     fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| { fn2(input, 2503) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| {
+            fn2(input, 2503)
+        });
     }
 }

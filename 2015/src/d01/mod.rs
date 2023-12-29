@@ -1,11 +1,14 @@
 extern crate core;
 
 pub fn fn1(input: &str) -> i64 {
-    input.chars().map(|c| match c {
-        '(' => 1,
-         ')' => -1,
-         _ => 0,
-     }).fold(0, |sum, i| sum + i)
+    input
+        .chars()
+        .map(|c| match c {
+            '(' => 1,
+            ')' => -1,
+            _ => 0,
+        })
+        .fold(0, |sum, i| sum + i)
 }
 
 pub fn fn2(input: &str) -> i64 {
@@ -13,11 +16,11 @@ pub fn fn2(input: &str) -> i64 {
     for (i, c) in input.chars().enumerate() {
         match c {
             '(' => n += 1,
-            ')' => n-=1,
+            ')' => n -= 1,
             _ => (),
         }
         if n == -1 {
-            return i as i64+1
+            return i as i64 + 1;
         }
     }
 

@@ -52,7 +52,8 @@ fn tilt_east(grid: &mut Vec<Vec<char>>) {
         for col in (0..grid[row].len()).rev() {
             if grid[row][col] == 'O' {
                 let mut new_resting_col = col;
-                while new_resting_col < grid[row].len() - 1 && grid[row][new_resting_col + 1] == '.' {
+                while new_resting_col < grid[row].len() - 1 && grid[row][new_resting_col + 1] == '.'
+                {
                     grid[row][new_resting_col] = '.';
                     grid[row][new_resting_col + 1] = 'O';
                     new_resting_col += 1;
@@ -96,7 +97,7 @@ pub fn fn2(input: &str) -> i64 {
 
     let mut cycle_found_at = 0;
 
-    for j in 0..1000 { 
+    for j in 0..1000 {
         spin_cycle(&mut grid);
 
         let grid_fingerprint = grid

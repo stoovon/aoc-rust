@@ -1,7 +1,7 @@
 extern crate core;
 
-use std::collections::BinaryHeap;
 use itertools::Itertools;
+use std::collections::BinaryHeap;
 
 fn parse_grid(input: &str) -> (Vec<usize>, usize, usize) {
     let input = input.trim();

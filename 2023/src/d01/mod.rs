@@ -26,8 +26,8 @@ const DIGITS: [(&str, i64); 20] = [
 ];
 
 pub fn fn1(input: &str) -> i64 {
-
-    let numbers: Vec<i64> = input.lines()
+    let numbers: Vec<i64> = input
+        .lines()
         .map(|l| {
             let numbers = l.chars().filter(|c| c.is_numeric()).collect_vec();
             let first = numbers[0];
@@ -37,7 +37,6 @@ pub fn fn1(input: &str) -> i64 {
             joined.parse::<i64>().ok().unwrap_or_default()
         })
         .collect();
-
 
     numbers.iter().sum()
 }

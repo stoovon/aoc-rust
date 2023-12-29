@@ -6,7 +6,11 @@ pub fn fn1(input: &str) -> i64 {
         .map(|v| v.parse::<i64>().ok().unwrap_or_default())
         .collect();
 
-    data.windows(2).filter(|d| d[0] < d[1]).count().try_into().unwrap()
+    data.windows(2)
+        .filter(|d| d[0] < d[1])
+        .count()
+        .try_into()
+        .unwrap()
 }
 
 pub fn fn2(input: &str) -> i64 {
@@ -18,7 +22,9 @@ pub fn fn2(input: &str) -> i64 {
     data.windows(3)
         .zip(data.windows(3).skip(1))
         .filter(|(a, b)| a.iter().sum::<i64>() < b.iter().sum())
-        .count().try_into().unwrap_or_default()
+        .count()
+        .try_into()
+        .unwrap_or_default()
 }
 
 #[cfg(test)]

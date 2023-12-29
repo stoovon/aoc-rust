@@ -29,7 +29,6 @@ mod tests {
     const YEAR: i16 = 2015;
     const DAY: i16 = 4;
 
-    
     #[test]
     fn test_fn1_example_1() {
         scaffold_test(YEAR, DAY, "example.1.1.txt", "example-spec.1.1.txt", fn1);

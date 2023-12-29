@@ -21,7 +21,9 @@ struct BrightGrid {
 
 impl BrightGrid {
     fn new() -> Self {
-        Self { grid: HashMap::new() }
+        Self {
+            grid: HashMap::new(),
+        }
     }
 
     fn turn_on(&mut self, start: (usize, usize), end: (usize, usize)) {
@@ -60,13 +62,18 @@ struct FadingGrid {
 
 impl FadingGrid {
     fn new() -> Self {
-        Self { grid: HashMap::new() }
+        Self {
+            grid: HashMap::new(),
+        }
     }
 
     fn turn_on(&mut self, start: (usize, usize), end: (usize, usize)) {
         for x in start.0..=end.0 {
             for y in start.1..=end.1 {
-                self.grid.entry((x, y)).and_modify(|brightness| *brightness += 1 ).or_insert(1);
+                self.grid
+                    .entry((x, y))
+                    .and_modify(|brightness| *brightness += 1)
+                    .or_insert(1);
             }
         }
     }
@@ -74,13 +81,16 @@ impl FadingGrid {
     fn turn_off(&mut self, start: (usize, usize), end: (usize, usize)) {
         for x in start.0..=end.0 {
             for y in start.1..=end.1 {
-                self.grid.entry((x, y)).and_modify(|brightness| {
-                    let new_brightness = *brightness - 1;
-                    if new_brightness > 0 {
-                        *brightness = new_brightness;
-                    } else {
-                        *brightness = 0;
-                    } })
+                self.grid
+                    .entry((x, y))
+                    .and_modify(|brightness| {
+                        let new_brightness = *brightness - 1;
+                        if new_brightness > 0 {
+                            *brightness = new_brightness;
+                        } else {
+                            *brightness = 0;
+                        }
+                    })
                     .or_insert(0);
             }
         }
@@ -89,7 +99,10 @@ impl FadingGrid {
     fn toggle(&mut self, start: (usize, usize), end: (usize, usize)) {
         for x in start.0..=end.0 {
             for y in start.1..=end.1 {
-                self.grid.entry((x, y)).and_modify(|brightness| *brightness += 2 ).or_insert(2);
+                self.grid
+                    .entry((x, y))
+                    .and_modify(|brightness| *brightness += 2)
+                    .or_insert(2);
             }
         }
     }
@@ -99,21 +112,29 @@ impl FadingGrid {
     }
 }
 
-
 fn parse(input: &str) -> Vec<Instruction> {
     let re = Regex::new(r"^(turn on|turn off|toggle) (\d+),(\d+) through (\d+),(\d+)$").unwrap();
-    input.lines().map(|line| {
-        let caps = re.captures(line).unwrap().unwrap();
-        let action = match &caps[1] {
-            "turn on" => Action::TurnOn,
-            "turn off" => Action::TurnOff,
-            "toggle" => Action::Toggle,
-            _ => panic!("Unknown action"),
-        };
-        let start = (caps[2].parse::<usize>().unwrap(), caps[3].parse::<usize>().unwrap());
-        let end = (caps[4].parse::<usize>().unwrap(), caps[5].parse::<usize>().unwrap());
-        Instruction { action, start, end }
-    }).collect()
+    input
+        .lines()
+        .map(|line| {
+            let caps = re.captures(line).unwrap().unwrap();
+            let action = match &caps[1] {
+                "turn on" => Action::TurnOn,
+                "turn off" => Action::TurnOff,
+                "toggle" => Action::Toggle,
+                _ => panic!("Unknown action"),
+            };
+            let start = (
+                caps[2].parse::<usize>().unwrap(),
+                caps[3].parse::<usize>().unwrap(),
+            );
+            let end = (
+                caps[4].parse::<usize>().unwrap(),
+                caps[5].parse::<usize>().unwrap(),
+            );
+            Instruction { action, start, end }
+        })
+        .collect()
 }
 
 pub fn fn1(input: &str) -> i64 {

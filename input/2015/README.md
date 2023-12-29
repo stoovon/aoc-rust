@@ -6,8 +6,8 @@
 |-----------------------|-----------------------------------------------|--------------|----------|
 | [01](./d01/README.md) | Not Quite Lisp                                | `*.........` | `**`     |
 | [02](./d02/README.md) | I Was Told There Would Be No Math             | `*.........` | `**`     |
-| [03](./d03/README.md) | Perfectly Spherical Houses in a Vacuum        | `US-EP.....` | `..`     |
-| [04](./d04/README.md) | The Ideal Stocking Stuffer                    | `US-EP.....` | `..`     |
+| [03](./d03/README.md) | Perfectly Spherical Houses in a Vacuum        | `*.........` | `**`     |
+| [04](./d04/README.md) | The Ideal Stocking Stuffer                    | `**........` | `**`     |
 | [05](./d05/README.md) | Doesn't He Have Intern-Elves For This?        | `US-MP.....` | `..`     |
 | [06](./d06/README.md) | Probably a Fire Hazard                        | `US-MP.....` | `..`     |
 | [07](./d07/README.md) | Some Assembly Required                        | `US-HP.....` | `..`     |

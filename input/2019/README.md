@@ -27,7 +27,7 @@ THE INTCODE YEAR (Apollo 50th Anniversary)
 | [19](./d19/README.md) | Tractor Beam                                  | `US-EP-ICP.` | `..`     | ICP
 | [20](./d20/README.md) | Donut Maze                                    | `US-MP.....` | `..`     |
 | [21](./d21/README.md) | Springdroid Adventure                         | `US-MP-ICPH` | `..`     | ICP
-| [22](./d22/README.md) | Slam Shuffle                                  | `US-THP....` | `..`     |
+| [22](./d22/README.md) | Slam Shuffle                                  | `*********.` | `**`     |
 | [23](./d23/README.md) | Category Six                                  | `US-EP-ICP.` | `..`     | ICP
 | [24](./d24/README.md) | Planet of Discord                             | `US-MP.....` | `..`     |
 | [25](./d25/README.md) | Cryostasis                                    | `US-MP-ICP.` | `..`     | ICP

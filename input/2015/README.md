@@ -19,8 +19,8 @@
 | [13](./d13/README.md) | Knights of the Dinner Table                   | `***.......` | `**`     |
 | [14](./d14/README.md) | Reindeer Olympics                             | `**........` | `**`     |
 | [15](./d15/README.md) | Science for Hungry People                     | `***.......` | `**`     |
-| [16](./d16/README.md) | Aunt Sue                                      | `US-EP.....` | `..`     |
-| [17](./d17/README.md) | No Such Thing as Too Much                     | `US-MP.....` | `..`     |
+| [16](./d16/README.md) | Aunt Sue                                      | `**........` | `**`     |
+| [17](./d17/README.md) | No Such Thing as Too Much                     | `***.......` | `**`     |
 | [18](./d18/README.md) | Like GIF For Your Yard                        | `***.......` | `**`     |
 | [19](./d19/README.md) | Medicine for Rudolph                          | `******....` | `**`     |
 | [20](./d20/README.md) | Infinite Elves and Infinite Houses            | `US-EP.....` | `..`     |

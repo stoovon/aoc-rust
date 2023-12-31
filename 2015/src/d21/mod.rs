@@ -92,12 +92,6 @@ impl ItemShoppe {
         Self {
             weapons: vec![
                 Item {
-                    name: "Harsh language".to_string(),
-                    cost: 0,
-                    dmg: 0,
-                    armor: 0,
-                },
-                Item {
                     name: "Dagger".to_string(),
                     cost: 8,
                     dmg: 4,
@@ -261,7 +255,6 @@ pub fn fn2(input: &str) -> i64 {
         let player = Player::new(100, wep, arm, ring1, ring2);
 
         if !player.wins(&mut boss.clone()) && player.cost > max_cost {
-            println!("{:?} {}", player, player.cost);
             max_cost = player.cost;
         }
     }

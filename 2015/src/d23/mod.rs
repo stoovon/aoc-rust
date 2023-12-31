@@ -176,7 +176,6 @@ mod tests {
     // }
 
     #[test]
-    #[ignore]
     fn test_fn2_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
     }

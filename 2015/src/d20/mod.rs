@@ -4,10 +4,10 @@ pub fn solve(input: &str, presents_per_elf: usize, limit: usize) -> i64 {
     let threshold = input.trim().parse::<usize>().unwrap();
     let mut houses = vec![0; threshold / 10 + 1];
 
-    for elf in 1..houses.len(){
+    for elf in 1..houses.len() {
         let mut loc = elf;
         let mut delivered = 0;
-        while loc < houses.len()  && delivered < limit {
+        while loc < houses.len() && delivered < limit {
             houses[loc] += elf * presents_per_elf;
             loc += elf;
             delivered += 1;

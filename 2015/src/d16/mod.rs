@@ -100,7 +100,7 @@ fn eq(candidate_aunt_prop: &Option<i64>, default_aunt_prop: &Option<i64>) -> boo
 
 fn leq(candidate_aunt_prop: &Option<i64>, default_aunt_prop: &Option<i64>) -> bool {
     if let Some(prop) = candidate_aunt_prop {
-        return *prop <= default_aunt_prop.unwrap()
+        return *prop <= default_aunt_prop.unwrap();
     }
 
     true
@@ -108,7 +108,7 @@ fn leq(candidate_aunt_prop: &Option<i64>, default_aunt_prop: &Option<i64>) -> bo
 
 fn gt(candidate_aunt_prop: &Option<i64>, default_aunt_prop: &Option<i64>) -> bool {
     if let Some(prop) = candidate_aunt_prop {
-        return *prop > default_aunt_prop.unwrap()
+        return *prop > default_aunt_prop.unwrap();
     }
 
     true
@@ -163,15 +163,15 @@ pub fn fn2(input: &str) -> i64 {
 
     for aunt in aunts {
         let matches = eq(&aunt.children, &default_sue.children)
-        && gt(&aunt.cats, &default_sue.cats)
-        && eq(&aunt.samoyeds, &default_sue.samoyeds)
-        && leq(&aunt.pomeranians, &default_sue.pomeranians)
-        && eq(&aunt.akitas, &default_sue.akitas)
-        && eq(&aunt.vizslas, &default_sue.vizslas)
-        && leq(&aunt.goldfish, &default_sue.goldfish)
-        && gt(&aunt.trees, &default_sue.trees)
-        && eq(&aunt.cars, &default_sue.cars)
-        && eq(&aunt.perfumes, &default_sue.perfumes);
+            && gt(&aunt.cats, &default_sue.cats)
+            && eq(&aunt.samoyeds, &default_sue.samoyeds)
+            && leq(&aunt.pomeranians, &default_sue.pomeranians)
+            && eq(&aunt.akitas, &default_sue.akitas)
+            && eq(&aunt.vizslas, &default_sue.vizslas)
+            && leq(&aunt.goldfish, &default_sue.goldfish)
+            && gt(&aunt.trees, &default_sue.trees)
+            && eq(&aunt.cars, &default_sue.cars)
+            && eq(&aunt.perfumes, &default_sue.perfumes);
 
         if matches {
             return aunt.number;

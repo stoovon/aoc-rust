@@ -9,7 +9,11 @@ pub fn solve(input: &str, seeking_capacity: i64) -> (i64, i64) {
     let mut part2 = 0;
 
     for i in 1..containers.len() {
-        let c = containers.iter().combinations(i).filter(|c| c.iter().map(|&x| *x).sum::<i64>() == seeking_capacity).count();
+        let c = containers
+            .iter()
+            .combinations(i)
+            .filter(|c| c.iter().map(|&x| *x).sum::<i64>() == seeking_capacity)
+            .count();
         count += c as i64;
         if part2 == 0 && c > 0 {
             part2 = c as i64;
@@ -37,21 +41,29 @@ mod tests {
 
     #[test]
     fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| { fn1(input, 25) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| {
+            fn1(input, 25)
+        });
     }
 
     #[test]
     fn test_fn1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| { fn1(input, 150) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| {
+            fn1(input, 150)
+        });
     }
 
     #[test]
     fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| { fn2(input, 25) });
+        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| {
+            fn2(input, 25)
+        });
     }
 
     #[test]
     fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| { fn2(input, 150) });
+        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", |input| {
+            fn2(input, 150)
+        });
     }
 }

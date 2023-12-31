@@ -3,7 +3,7 @@ extern crate core;
 use itertools::iproduct;
 use std::str::FromStr;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 struct Player {
     hp: i64,
     dmg: i64,
@@ -221,7 +221,12 @@ pub fn fn1(input: &str) -> i64 {
 
     let mut min_cost = i64::MAX;
 
-    for (wep, arm, ring1, ring2) in iproduct!(shoppe.weapons, shoppe.armor, shoppe.rings.clone(), shoppe.rings) {
+    for (wep, arm, ring1, ring2) in iproduct!(
+        shoppe.weapons,
+        shoppe.armor,
+        shoppe.rings.clone(),
+        shoppe.rings
+    ) {
         if ring1.name == ring2.name && ring1.name != "Ring 'o Nothing" {
             continue;
         }
@@ -243,7 +248,12 @@ pub fn fn2(input: &str) -> i64 {
 
     let mut max_cost = i64::MIN;
 
-    for (wep, arm, ring1, ring2) in iproduct!(shoppe.weapons, shoppe.armor, shoppe.rings.clone(), shoppe.rings) {
+    for (wep, arm, ring1, ring2) in iproduct!(
+        shoppe.weapons,
+        shoppe.armor,
+        shoppe.rings.clone(),
+        shoppe.rings
+    ) {
         if ring1.name == ring2.name && ring1.name != "Ring 'o Nothing" {
             continue;
         }
@@ -251,6 +261,7 @@ pub fn fn2(input: &str) -> i64 {
         let player = Player::new(100, wep, arm, ring1, ring2);
 
         if !player.wins(&mut boss.clone()) && player.cost > max_cost {
+            println!("{:?} {}", player, player.cost);
             max_cost = player.cost;
         }
     }

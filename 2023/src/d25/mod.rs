@@ -53,8 +53,7 @@ fn split(graph: &BTreeMap<String, Vec<String>>) -> (u32, u32) {
                         }
                         found = true;
                         break;
-                    }
-                    else if !seen.contains(c) && !path.contains(&c) && !tested.contains(c) {
+                    } else if !seen.contains(c) && !path.contains(&c) && !tested.contains(c) {
                         let mut new_path = path.clone();
                         new_path.push(c.clone());
                         q.push_back((c.clone(), new_path));

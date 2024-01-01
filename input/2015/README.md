@@ -23,10 +23,10 @@
 | [17](./d17/README.md) | No Such Thing as Too Much                     | `***.......` | `**`     |
 | [18](./d18/README.md) | Like GIF For Your Yard                        | `***.......` | `**`     |
 | [19](./d19/README.md) | Medicine for Rudolph                          | `******....` | `**`     |
-| [20](./d20/README.md) | Infinite Elves and Infinite Houses            | `US-EP.....` | `..`     |
-| [21](./d21/README.md) | RPG Simulator 20XX                            | `US-MP.....` | `..`     |
-| [22](./d22/README.md) | Wizard Simulator 20XX                         | `US-THP....` | `..`     |
-| [23](./d23/README.md) | Opening the Turing Lock                       | `US-EP.....` | `..`     |
-| [24](./d24/README.md) | It Hangs in the Balance                       | `US-HP.....` | `..`     |
+| [20](./d20/README.md) | Infinite Elves and Infinite Houses            | `***.......` | `**`     |
+| [21](./d21/README.md) | RPG Simulator 20XX                            | `******....` | `**`     |
+| [22](./d22/README.md) | Wizard Simulator 20XX                         | `********..` | `**`     |
+| [23](./d23/README.md) | Opening the Turing Lock                       | `**........` | `**`     |
+| [24](./d24/README.md) | It Hangs in the Balance                       | `*****.....` | `**`     |
 | [25](./d25/README.md) | Let It Snow                                   | `**........` | `**`     |
 

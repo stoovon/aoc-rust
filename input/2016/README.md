@@ -4,8 +4,8 @@
 
 | Day                   | Puzzle Title                                  | Difficulty.  | Progress |
 |-----------------------|-----------------------------------------------|--------------|----------|
-| [01](./d01/README.md) | No Time for a Taxicab                         | `US-MP.....` | `..`     |
-| [02](./d02/README.md) | Bathroom Security                             | `US-EP.....` | `..`     |
+| [01](./d01/README.md) | No Time for a Taxicab                         | `**........` | `**`     |
+| [02](./d02/README.md) | Bathroom Security                             | `**........` | `**`     |
 | [03](./d03/README.md) | Squares With Three Sides                      | `US-EP.....` | `..`     |
 | [04](./d04/README.md) | Security Through Obscurity                    | `US-MP.....` | `..`     |
 | [05](./d05/README.md) | How About a Nice Game of Chess?               | `US-EP.....` | `..`     |

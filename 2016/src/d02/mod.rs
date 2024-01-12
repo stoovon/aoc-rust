@@ -1,26 +1,20 @@
 extern crate core;
 
 fn parse_line(line: &str) -> Vec<Instruction> {
-    line
-        .chars()
+    line.chars()
         .enumerate()
-        .map(|s| {
-            match s.1 {
-                'U' => Instruction::Up,
-                'R' => Instruction::Right,
-                'D' => Instruction::Down,
-                'L' => Instruction::Left,
-                _ => panic!("Invalid direction: {}", s.1),
-            }
+        .map(|s| match s.1 {
+            'U' => Instruction::Up,
+            'R' => Instruction::Right,
+            'D' => Instruction::Down,
+            'L' => Instruction::Left,
+            _ => panic!("Invalid direction: {}", s.1),
         })
         .collect()
 }
 
 fn parse(input: &str) -> Vec<Vec<Instruction>> {
-    input
-        .lines()
-        .map(|line| parse_line(line))
-        .collect()
+    input.lines().map(|line| parse_line(line)).collect()
 }
 
 #[derive(Debug)]
@@ -63,7 +57,6 @@ impl Pos {
     }
 
     fn number_representation(self) -> i64 {
-
         // 1 2 3
         // 4 5 6
         // 7 8 9
@@ -144,14 +137,14 @@ impl PosEnhanced {
         let up = PosEnhanced::new(self.x, self.y + 1);
 
         match (self.x, self.y) {
-            (2, 0) => up,               // D
-            (1, 1) => up,               // A
-            (2, 1) => up,               // B
-            (3, 1) => up,               // C
-            (1, 2) => up,               // 6
-            (2, 2) => up,               // 7
-            (3, 2) => up,               // 8
-            (2, 3) => up,               // 3
+            (2, 0) => up,      // D
+            (1, 1) => up,      // A
+            (2, 1) => up,      // B
+            (3, 1) => up,      // C
+            (1, 2) => up,      // 6
+            (2, 2) => up,      // 7
+            (3, 2) => up,      // 8
+            (2, 3) => up,      // 3
             _ => self.clone(), // Not a legal move, so just return ourself
         }
     }
@@ -160,14 +153,14 @@ impl PosEnhanced {
         let right = PosEnhanced::new(self.x + 1, self.y);
 
         match (self.x, self.y) {
-            (1, 1) => right,            // A
-            (2, 1) => right,            // B
-            (0, 2) => right,            // 5
-            (1, 2) => right,            // 6
-            (2, 2) => right,            // 7
-            (3, 2) => right,            // 8
-            (1, 3) => right,            // 2
-            (2, 3) => right,            // 3
+            (1, 1) => right,   // A
+            (2, 1) => right,   // B
+            (0, 2) => right,   // 5
+            (1, 2) => right,   // 6
+            (2, 2) => right,   // 7
+            (3, 2) => right,   // 8
+            (1, 3) => right,   // 2
+            (2, 3) => right,   // 3
             _ => self.clone(), // Not a legal move, so just return ourself
         }
     }
@@ -176,14 +169,14 @@ impl PosEnhanced {
         let down = PosEnhanced::new(self.x, self.y - 1);
 
         match (self.x, self.y) {
-            (2, 1) => down,             // B
-            (1, 2) => down,             // 6
-            (2, 2) => down,             // 7
-            (3, 2) => down,             // 8
-            (1, 3) => down,             // 2
-            (2, 3) => down,             // 3
-            (3, 3) => down,             // 4
-            (2, 4) => down,             // 1
+            (2, 1) => down,    // B
+            (1, 2) => down,    // 6
+            (2, 2) => down,    // 7
+            (3, 2) => down,    // 8
+            (1, 3) => down,    // 2
+            (2, 3) => down,    // 3
+            (3, 3) => down,    // 4
+            (2, 4) => down,    // 1
             _ => self.clone(), // Not a legal move, so just return ourself
         }
     }
@@ -192,14 +185,14 @@ impl PosEnhanced {
         let left = PosEnhanced::new(self.x - 1, self.y);
 
         match (self.x, self.y) {
-            (2, 1) => left,             // B
-            (3, 1) => left,             // C
-            (1, 2) => left,             // 6
-            (2, 2) => left,             // 7
-            (3, 2) => left,             // 8
-            (4, 2) => left,             // 9
-            (2, 3) => left,             // 3
-            (3, 3) => left,             // 4
+            (2, 1) => left,    // B
+            (3, 1) => left,    // C
+            (1, 2) => left,    // 6
+            (2, 2) => left,    // 7
+            (3, 2) => left,    // 8
+            (4, 2) => left,    // 9
+            (2, 3) => left,    // 3
+            (3, 3) => left,    // 4
             _ => self.clone(), // Not a legal move, so just return ourself
         }
     }

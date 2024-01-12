@@ -75,7 +75,7 @@ pub fn fn1(input: &str) -> i64 {
             Direction::West => x -= dist,
         }
     }
-    
+
     x.abs() + y.abs()
 }
 
@@ -131,7 +131,6 @@ mod tests {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
     }
 
-    
     #[test]
     fn test_fn2_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);

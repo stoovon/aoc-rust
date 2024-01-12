@@ -33,9 +33,7 @@ pub fn fn2(input: &str) -> i64 {
             panic!("line does not have three lengths");
         };
         for i in 0..3 {
-            buffer[i][index] = line_strs[i]
-                .parse()
-                .unwrap();
+            buffer[i][index] = line_strs[i].parse().unwrap();
         }
 
         index += 1;

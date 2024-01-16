@@ -81,27 +81,42 @@ pub fn fn2(input: &str) -> i64 {
         }
     };
 
-    input.iter().filter(|line| {
-		let trimmed = line.iter().scan(true, &filter_ip7).filter_map(|ch| ch.ok()).collect::<String>();
-		let hypernet = line.iter().scan(false, &filter_ip7).filter_map(|ch| ch.ok()).collect::<String>();
+    input
+        .iter()
+        .filter(|line| {
+            let trimmed = line
+                .iter()
+                .scan(true, &filter_ip7)
+                .filter_map(|ch| ch.ok())
+                .collect::<String>();
+            let hypernet = line
+                .iter()
+                .scan(false, &filter_ip7)
+                .filter_map(|ch| ch.ok())
+                .collect::<String>();
 
-		let mut abas = HashSet::new();
-		trimmed.split_whitespace().map(|chunk| chunk.chars().collect::<Vec<_>>())
-			.for_each(|chunk| chunk.windows(3)
-				.for_each(|aba| {
-					let arr = aba.iter().cloned().collect::<Vec<_>>();
-					if arr[0] != arr[1] && arr[0] == arr[2] {
-						abas.insert(arr.clone());
-					}
-				}));
+            let mut abas = HashSet::new();
+            trimmed
+                .split_whitespace()
+                .map(|chunk| chunk.chars().collect::<Vec<_>>())
+                .for_each(|chunk| {
+                    chunk.windows(3).for_each(|aba| {
+                        let arr = aba.iter().cloned().collect::<Vec<_>>();
+                        if arr[0] != arr[1] && arr[0] == arr[2] {
+                            abas.insert(arr.clone());
+                        }
+                    })
+                });
 
-		hypernet.split_whitespace().any(|chunk| chunk.chars().collect::<Vec<_>>().windows(3)
-			.any(|bab| {
-				let arr = bab.iter().collect::<Vec<_>>();
-				let aba = vec![arr[1].clone(),arr[0].clone(),arr[1].clone()];
-				arr[0] != arr[1] && arr[0] == arr[2] && abas.contains(&aba)
-			}))
-	}).count() as i64
+            hypernet.split_whitespace().any(|chunk| {
+                chunk.chars().collect::<Vec<_>>().windows(3).any(|bab| {
+                    let arr = bab.iter().collect::<Vec<_>>();
+                    let aba = vec![arr[1].clone(), arr[0].clone(), arr[1].clone()];
+                    arr[0] != arr[1] && arr[0] == arr[2] && abas.contains(&aba)
+                })
+            })
+        })
+        .count() as i64
 }
 
 #[cfg(test)]

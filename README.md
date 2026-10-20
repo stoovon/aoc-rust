@@ -1,16 +1,6 @@
 # aoc
 Advent of Code solutions
 
-- [2023](./input/2023/README.md)
-- [2022](./input/2022/README.md)
-- [2021](./input/2021/README.md)
-- [2020](./input/2020/README.md)
-- [2019](./input/2019/README.md)
-- [2018](./input/2018/README.md)
-- [2017](./input/2017/README.md)
-- [2016](./input/2016/README.md)
-- [2015](./input/2015/README.md)
-
 `cargo test`
 
 Run the local-file harness (year, day, part, input path, optional answer path) from the repository root:
@@ -50,9 +40,7 @@ cargo test -p aoc2023 d03::
 cargo test -p aoc-runner
 ```
 
-The existing file-based Day 3 tests read fixtures at runtime from
-`input/2023/d03/`: `input.txt`, `example.txt`, and their corresponding
-`input-spec.1.txt`, `input-spec.2.txt`, `example-spec.1.txt`, and
-`example-spec.2.txt` answer files. These paths are ignored by Git. Missing fixtures
-fail those tests; the synthetic regression tests and runner test need no private
-fixtures. The runner itself accepts explicit paths and requires no fixture setup.
+Legacy file-based tests require locally supplied private fixtures and expected
+answers; missing fixtures fail those tests. Synthetic regression tests and runner
+tests need no private fixtures. Use the runner's explicit file paths to check
+solutions against an existing external cache.

@@ -1,3 +1,6 @@
+# Local legacy test fixtures; never publish puzzle inputs or personal answers.
+/input/
+
 example.txt
 example-spec.txt
 input.*

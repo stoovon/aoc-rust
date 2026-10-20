@@ -1,11 +1,11 @@
 {
-	"name": "Codespaces Rust Starter",
-	"dockerFile": "Dockerfile",
+	"name": "Advent of Code Rust",
+	"image": "mcr.microsoft.com/devcontainers/rust:2-1-trixie",
+	"remoteUser": "vscode",
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"rust-lang.rust-analyzer",
-				"ms-azuretools.vscode-docker",
 				"vadimcn.vscode-lldb"
 			]
 		}

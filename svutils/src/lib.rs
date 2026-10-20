@@ -1,6 +1,18 @@
 use std::fs::File;
 use std::io::{self, Read};
 
+mod error;
+pub use error::SolveError;
+
+pub type Solver = fn(&str) -> Result<String, SolveError>;
+
+pub fn scaffold_test_result(year: i16, day: i16, input: &str, spec: &str, func: Solver) {
+    let input = load_file(year, day, input).expect("could not read input fixture");
+    let expected = load_file(year, day, spec).expect("could not read expected-answer fixture");
+    let answer = func(&input).expect("solver failed");
+    assert_eq!(answer, expected.trim());
+}
+
 pub fn parse_spec(input: &str) -> i64 {
     input.parse::<i64>().unwrap_or_default()
 }

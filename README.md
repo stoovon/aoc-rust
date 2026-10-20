@@ -3,6 +3,13 @@ Advent of Code solutions
 
 `cargo test`
 
+For a container environment, open the repository in VS Code and choose
+**Dev Containers: Reopen in Container**, or open it in GitHub Codespaces.
+The configuration uses the maintained Microsoft Rust devcontainer image with
+stable Rust, rustfmt, Clippy, rust-analyzer, and LLDB, running as the non-root
+`vscode` user. Local Cargo commands below work inside the container too; supply
+input and answer files separately.
+
 Run the local-file harness (year, day, part, input path, optional answer path) from the repository root:
 
 ```sh

@@ -13,11 +13,11 @@ Advent of Code solutions
 
 `cargo test`
 
-Run the local-file harness for 2023 Day 3 from the repository root:
+Run the local-file harness (year, day, part, input path, optional answer path) from the repository root:
 
 ```sh
-cargo run -p aoc2023 --bin aoc -- 1 /path/to/input.txt
-cargo run -p aoc2023 --bin aoc -- 2 /path/to/input.txt /path/to/solution_2.txt
+cargo run -p aoc-runner -- 2023 3 1 /path/to/input.txt
+cargo run -p aoc-runner -- 2023 3 2 /path/to/input.txt /path/to/solution_2.txt
 ```
 
 The optional final argument checks the computed answer against an existing answer
@@ -29,15 +29,24 @@ For an existing `smelter-solves` cache, pass its files directly (adjust the path
 
 ```sh
 AOC_CACHE=/path/to/smelter-solves/.cache/2023/03
-cargo run -p aoc2023 --bin aoc -- 1 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_1.txt"
-cargo run -p aoc2023 --bin aoc -- 2 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_2.txt"
+cargo run -p aoc-runner -- 2023 3 1 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_1.txt"
+cargo run -p aoc-runner -- 2023 3 2 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_2.txt"
 ```
 
-Run the Day 3 and runner tests with:
+Currently registered: 2023 Days 1 and 3, both parts. Other selections return an error.
+
+To register another migrated day, export its module from the year's `src/lib.rs`
+and add one `Day` entry to `select_solver` in `runner/src/main.rs`. Each solver
+has the signature `fn(&str) -> Result<String, svutils::SolveError>`. Set `part2`
+to `None` when that day has no second solver. A new year also needs a path
+dependency in `runner/Cargo.toml`.
+
+Run the migrated-day and runner tests with:
 
 ```sh
+cargo test -p aoc2023 d01::
 cargo test -p aoc2023 d03::
-cargo test -p aoc2023 --test local_runner
+cargo test -p aoc-runner
 ```
 
 The existing file-based Day 3 tests read fixtures at runtime from

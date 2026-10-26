@@ -201,18 +201,6 @@ mod tests {
     const DAY: i16 = 10;
 
     #[test]
-    fn test_fn1_examples() {
-        // Note that none of these test cases work with the decay approach,
-        // because none of the seqences are in the decay. That's OK.
-
-        //assert_eq!(fn1("1"), "11".len());
-        //assert_eq!(fn1("21"), "21".len());
-        //assert_eq!(fn1("21"), "1211".len());
-        //assert_eq!(fn1("1211"), "111221".len());
-        //assert_eq!(fn1("111221"), "312211".len());
-    }
-
-    #[test]
     fn test_fn1_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
     }

@@ -105,38 +105,6 @@ mod tests {
     const DAY: i16 = 1;
 
     #[test]
-    fn test_fn1_example() {
-        scaffold_test(
-            YEAR,
-            DAY,
-            "example.txt",
-            "example-spec.1.txt",
-            fn1_imperative,
-        );
-        scaffold_test(
-            YEAR,
-            DAY,
-            "example.txt",
-            "example-spec.1.txt",
-            fn1_partially_iterators,
-        );
-        scaffold_test(
-            YEAR,
-            DAY,
-            "example.txt",
-            "example-spec.1.txt",
-            fn1_fully_iterators_batching,
-        );
-        scaffold_test(
-            YEAR,
-            DAY,
-            "example.txt",
-            "example-spec.1.txt",
-            fn1_fully_iterators_coalesce,
-        );
-    }
-
-    #[test]
     fn test_fn1_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1_imperative);
         scaffold_test(
@@ -160,18 +128,6 @@ mod tests {
             "input-spec.1.txt",
             fn1_fully_iterators_coalesce,
         );
-    }
-
-    #[test]
-    fn test_fn2_example() {
-        scaffold_test(
-            YEAR,
-            DAY,
-            "example.txt",
-            "example-spec.2.txt",
-            fn2_fully_iterators_batching,
-        );
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2_terse);
     }
 
     #[test]

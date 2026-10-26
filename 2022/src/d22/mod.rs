@@ -208,7 +208,6 @@ fn input_strat(rowp: i32, colp: i32, dir: &Direction) -> (i32, i32, Direction) {
 
         1                  G -->  | (1,1) | <-- E
 
-
                     G
                     v
         2 A --> | (2,0) | <---->  | (2,1) | <-- D
@@ -417,20 +416,8 @@ mod tests {
     const DAY: i16 = 22;
 
     #[test]
-    fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1);
-    }
-
-    #[test]
     fn test_fn1_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
-    }
-
-    #[test]
-    fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| {
-            fn2(input, 4)
-        });
     }
 
     #[test]

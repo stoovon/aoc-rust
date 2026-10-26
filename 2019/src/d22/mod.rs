@@ -190,22 +190,10 @@ mod tests {
     const YEAR: i16 = 2019;
     const DAY: i16 = 22;
 
-    // #[test]
-    // #[ignore]
-    // fn test_fn1_example() {
-    //     scaffold_test_wide(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1);
-    // }
-
     #[test]
     fn test_fn1_input() {
         scaffold_test_wide(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
     }
-
-    // #[test]
-    // #[ignore]
-    // fn test_fn2_example() {
-    //     scaffold_test_wide(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2);
-    // }
 
     #[test]
     fn test_fn2_input() {

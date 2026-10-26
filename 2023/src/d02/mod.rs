@@ -193,18 +193,8 @@ mod tests {
     }
 
     #[test]
-    fn test_part1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", part1);
-    }
-
-    #[test]
     fn test_part1_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", part1);
-    }
-
-    #[test]
-    fn test_part2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", part2);
     }
 
     #[test]

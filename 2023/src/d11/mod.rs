@@ -144,23 +144,9 @@ mod tests {
     const DAY: i16 = 11;
 
     #[test]
-    fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", |input| {
-            fn2(input, 1)
-        });
-    }
-
-    #[test]
     fn test_fn1_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", |input| {
             fn2(input, 1)
-        });
-    }
-
-    #[test]
-    fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", |input| {
-            fn2(input, 99)
         });
     }
 

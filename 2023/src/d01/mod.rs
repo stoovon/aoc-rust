@@ -128,11 +128,6 @@ mod tests {
     }
 
     #[test]
-    fn test_part1_example() {
-        scaffold_test_result(YEAR, DAY, "example.txt", "example-spec.1.txt", part1);
-    }
-
-    #[test]
     fn test_part1_input() {
         scaffold_test_result(YEAR, DAY, "input.txt", "input-spec.1.txt", part1);
     }

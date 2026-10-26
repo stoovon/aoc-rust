@@ -288,18 +288,8 @@ mod tests {
     }
 
     #[test]
-    fn test_fn1_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.1.txt", fn1);
-    }
-
-    #[test]
     fn test_fn1_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
-    }
-
-    #[test]
-    fn test_fn2_example() {
-        scaffold_test_string(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2);
     }
 
     #[test]

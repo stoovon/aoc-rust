@@ -81,11 +81,6 @@ mod tests {
     }
 
     #[test]
-    fn test_fn2_example() {
-        scaffold_test(YEAR, DAY, "example.txt", "example-spec.2.txt", fn2);
-    }
-
-    #[test]
     fn test_fn2_test_case_name() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
     }

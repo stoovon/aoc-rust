@@ -28,7 +28,7 @@ fn solver_failure_exits_unsuccessfully_without_printing_an_answer() {
 #[test]
 fn unknown_solver_is_rejected_before_reading_input() {
     let output = Command::new(env!("CARGO_BIN_EXE_aoc-runner"))
-        .args(["2023", "4", "1", "nonexistent-input"])
+        .args(["2023", "26", "1", "nonexistent-input"])
         .output()
         .unwrap();
     assert!(!output.status.success());

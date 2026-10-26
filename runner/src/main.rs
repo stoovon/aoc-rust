@@ -38,6 +38,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d03::part1,
             part2: Some(aoc2023::d03::part2),
         },
+        (2023, 4) => Day {
+            part1: aoc2023::d04::part1,
+            part2: Some(aoc2023::d04::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -104,6 +108,14 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn scratchcard_solvers_are_registered_and_propagate_errors() {
+        let input = "Card 1: 1 | 2";
+        assert_eq!(select_solver(2023, 4, 1).unwrap()(input).unwrap(), "0");
+        assert_eq!(select_solver(2023, 4, 2).unwrap()(input).unwrap(), "1");
+        assert!(select_solver(2023, 4, 2).unwrap()("Card 1: 1 | 1").is_err());
+    }
 
     #[test]
     fn a_day_without_part_two_rejects_that_selection() {

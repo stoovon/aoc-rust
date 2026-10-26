@@ -42,6 +42,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d04::part1,
             part2: Some(aoc2023::d04::part2),
         },
+        (2023, 5) => Day {
+            part1: aoc2023::d05::part1,
+            part2: Some(aoc2023::d05::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -108,6 +112,14 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn almanac_solvers_are_registered_and_propagate_errors() {
+        let input = "seeds: 12 3\n\nseed-to-location map:\n100 12 3";
+        assert_eq!(select_solver(2023, 5, 1).unwrap()(input).unwrap(), "3");
+        assert_eq!(select_solver(2023, 5, 2).unwrap()(input).unwrap(), "100");
+        assert!(select_solver(2023, 5, 2).unwrap()("seeds: 12").is_err());
+    }
 
     #[test]
     fn scratchcard_solvers_are_registered_and_propagate_errors() {

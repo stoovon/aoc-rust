@@ -46,6 +46,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d05::part1,
             part2: Some(aoc2023::d05::part2),
         },
+        (2023, 6) => Day {
+            part1: aoc2023::d06::part1,
+            part2: Some(aoc2023::d06::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -112,6 +116,14 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn race_solvers_are_registered_and_propagate_errors() {
+        let input = "Time: 1 02\nDistance: 0 00";
+        assert_eq!(select_solver(2023, 6, 1).unwrap()(input).unwrap(), "0");
+        assert_eq!(select_solver(2023, 6, 2).unwrap()(input).unwrap(), "101");
+        assert!(select_solver(2023, 6, 1).unwrap()("Time: 8 10\nDistance: 12").is_err());
+    }
 
     #[test]
     fn almanac_solvers_are_registered_and_propagate_errors() {

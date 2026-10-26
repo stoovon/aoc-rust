@@ -30,7 +30,7 @@ cargo run -p aoc-runner -- 2023 3 1 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_
 cargo run -p aoc-runner -- 2023 3 2 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_2.txt"
 ```
 
-Currently registered: 2023 Days 1–5, both parts. Other selections return an error.
+Currently registered: 2023 Days 1–6, both parts. Other selections return an error.
 
 To register another migrated day, export its module from the year's `src/lib.rs`
 and add one `Day` entry to `select_solver` in `runner/src/main.rs`. Each solver
@@ -46,6 +46,7 @@ cargo test -p aoc2023 d02::
 cargo test -p aoc2023 d03::
 cargo test -p aoc2023 d04::
 cargo test -p aoc2023 d05::
+cargo test -p aoc2023 d06::
 cargo test -p aoc-runner
 ```
 

@@ -50,6 +50,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d06::part1,
             part2: Some(aoc2023::d06::part2),
         },
+        (2023, 7) => Day {
+            part1: aoc2023::d07::part1,
+            part2: Some(aoc2023::d07::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -116,6 +120,14 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn camel_card_solvers_are_registered_and_propagate_errors() {
+        let input = "JJJJ2 10\nQQQQ2 1";
+        assert_eq!(select_solver(2023, 7, 1).unwrap()(input).unwrap(), "12");
+        assert_eq!(select_solver(2023, 7, 2).unwrap()(input).unwrap(), "21");
+        assert!(select_solver(2023, 7, 1).unwrap()("AAAAA 1\nAAAAA 2").is_err());
+    }
 
     #[test]
     fn race_solvers_are_registered_and_propagate_errors() {

@@ -62,6 +62,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d09::part1,
             part2: Some(aoc2023::d09::part2),
         },
+        (2023, 10) => Day {
+            part1: aoc2023::d10::part1,
+            part2: Some(aoc2023::d10::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -128,6 +132,16 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn pipe_solvers_are_registered_and_propagate_errors() {
+        let input = "S--7\n|..|\nL--J";
+        assert_eq!(select_solver(2023, 10, 1).unwrap()(input).unwrap(), "5");
+        assert_eq!(select_solver(2023, 10, 2).unwrap()(input).unwrap(), "2");
+        for part in [1, 2] {
+            assert!(select_solver(2023, 10, part).unwrap()("S--7\n|..-\nL--J").is_err());
+        }
+    }
 
     #[test]
     fn history_solvers_are_registered_and_propagate_errors() {

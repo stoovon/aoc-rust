@@ -1,4 +1,4 @@
-# Local legacy test fixtures; never publish puzzle inputs or personal answers.
+# Local test fixtures; never publish inputs, public examples or personal answers.
 /input/
 
 example.txt

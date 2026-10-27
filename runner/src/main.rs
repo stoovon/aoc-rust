@@ -94,6 +94,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d17::part1,
             part2: Some(aoc2023::d17::part2),
         },
+        (2023, 18) => Day {
+            part1: aoc2023::d18::part1,
+            part2: Some(aoc2023::d18::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -160,6 +164,17 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn lagoon_solvers_are_registered_and_propagate_errors() {
+        let input = "R 2 (#000020)\nD 1 (#000011)\nL 2 (#000022)\nU 1 (#000013)";
+        for part in [1, 2] {
+            let solver = select_solver(2023, 18, part).unwrap();
+            assert_eq!(solver(input).unwrap(), "6");
+            assert!(solver("nonsense").is_err());
+            assert!(solver("R 2 (#000020)").is_err());
+        }
+    }
 
     #[test]
     fn crucible_solvers_are_registered_and_propagate_errors() {

@@ -109,8 +109,7 @@ fn parse_hands(input: &str) -> Result<Vec<Hand<'_>>, SolveError> {
         .lines()
         .enumerate()
         .map(|(idx, line)| {
-            let invalid =
-                |message: &str| SolveError::InvalidInput(format!("line {}: {message}", idx + 1));
+            let invalid = |message: &str| SolveError::InvalidInput(message.into()).at_line(idx + 1);
             let mut fields = line.split_whitespace();
             let cards = fields.next().ok_or_else(|| invalid("missing hand"))?;
             if cards.len() != 5 || !cards.bytes().all(|card| b"23456789TJQKA".contains(&card)) {
@@ -119,7 +118,8 @@ fn parse_hands(input: &str) -> Result<Vec<Hand<'_>>, SolveError> {
             let bid: i64 = fields
                 .next()
                 .ok_or_else(|| invalid("missing bid"))?
-                .parse()?;
+                .parse()
+                .map_err(|error| SolveError::from(error).at_line(idx + 1))?;
             if bid < 0 {
                 return Err(invalid("bid cannot be negative"));
             }
@@ -133,6 +133,8 @@ fn parse_hands(input: &str) -> Result<Vec<Hand<'_>>, SolveError> {
 
 fn total_winnings(mut hands: Vec<RankedHand>) -> Result<String, SolveError> {
     hands.sort_unstable_by_key(|hand| hand.strength);
+    // Exact duplicates have no puzzle-defined ordering. Reject them rather than
+    // let an unstable sort assign different ranks (and winnings) arbitrarily.
     // The original-card tie-break key uniquely identifies a validated hand.
     if hands
         .windows(2)
@@ -168,7 +170,7 @@ pub fn part2(input: &str) -> Result<String, SolveError> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::scaffold_test_result as scaffold_test;
+    use svutils::scaffold_test_result;
 
     const YEAR: i16 = 2023;
     const DAY: i16 = 7;
@@ -297,11 +299,25 @@ mod tests {
 
     #[test]
     fn test_part1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", part1);
+        scaffold_test_result(YEAR, DAY, "input.txt", "input-spec.1.txt", part1);
     }
 
     #[test]
     fn test_part2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", part2);
+        scaffold_test_result(YEAR, DAY, "input.txt", "input-spec.2.txt", part2);
+    }
+
+    #[test]
+    fn malformed_number_retains_its_line_and_source() {
+        use std::error::Error;
+        let error = part1("AAAAA 1\n22222 nope").unwrap_err();
+        assert!(matches!(error, SolveError::AtLine { line: 2, .. }));
+        let source = error
+            .source()
+            .unwrap()
+            .downcast_ref::<SolveError>()
+            .unwrap();
+        assert!(matches!(source, SolveError::InvalidNumber(_)));
+        assert!(source.source().is_some());
     }
 }

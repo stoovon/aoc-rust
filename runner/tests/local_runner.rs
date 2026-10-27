@@ -56,5 +56,5 @@ fn missing_calibration_digit_exits_without_printing_an_answer() {
     assert!(output.stdout.is_empty());
     assert!(String::from_utf8(output.stderr)
         .unwrap()
-        .contains("line 1 contains no recognised digit"));
+        .contains("line 1: invalid puzzle input: line contains no recognised digit"));
 }

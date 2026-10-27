@@ -1,5 +1,3 @@
-extern crate core;
-
 use std::collections::{HashMap, HashSet};
 use svutils::SolveError;
 
@@ -16,12 +14,6 @@ struct Symbol {
 }
 
 #[derive(Debug)]
-struct Component {
-    symbol: Symbol,
-    nearby_nums: Vec<i64>,
-}
-
-#[derive(Debug)]
 struct Number {
     digit_cells: Vec<Coords>,
     value: i64,
@@ -29,162 +21,119 @@ struct Number {
 
 #[derive(Debug)]
 struct Schematic {
-    components: Vec<Symbol>,
+    symbols: HashMap<Coords, char>,
     numbers: Vec<Number>,
 }
 
-fn neighboring_symbols<'number, 'map: 'number>(
-    number: &'number Number,
-    components: &'map HashMap<Coords, Component>,
-) -> impl Iterator<Item = &'map Component> + 'number {
+fn neighboring_symbols<'a>(
+    number: &'a Number,
+    symbols: &'a HashMap<Coords, char>,
+) -> impl Iterator<Item = Symbol> + 'a {
     number.digit_cells.iter().flat_map(move |cell| {
         (cell.x - 1..=cell.x + 1).flat_map(move |x| {
             (cell.y - 1..=cell.y + 1).filter_map(move |y| {
-                if x == cell.x && y == cell.y {
-                    return None;
-                }
-                components.get(&Coords { x, y })
+                let position = Coords { x, y };
+                symbols.get(&position).map(|&character| Symbol {
+                    position,
+                    character,
+                })
             })
         })
     })
 }
 
-fn has_neighbor(number: &Number, components: &HashMap<Coords, Component>) -> bool {
-    neighboring_symbols(number, components).next().is_some()
-}
-
-fn find_neighbors<'a>(
-    number: &Number,
-    components: &'a HashMap<Coords, Component>,
-) -> Vec<&'a Component> {
+fn unique_neighboring_symbols<'a>(
+    number: &'a Number,
+    symbols: &'a HashMap<Coords, char>,
+) -> impl Iterator<Item = Symbol> + 'a {
     let mut seen = HashSet::new();
-    neighboring_symbols(number, components)
-        .filter(|component| seen.insert(component.symbol.position))
-        .collect()
+    neighboring_symbols(number, symbols).filter(move |symbol| seen.insert(symbol.position))
 }
 
-fn component_map(components: &[Symbol]) -> HashMap<Coords, Component> {
-    let mut coords: HashMap<Coords, Component> = HashMap::new();
-
-    for comp in components {
-        coords.insert(
-            comp.position,
-            Component {
-                symbol: *comp,
-                nearby_nums: Vec::new(),
-            },
-        );
-    }
-    coords
-}
-
-fn link(input: &Schematic) -> Vec<Component> {
-    let coords = component_map(&input.components);
-
-    let mut bindings: HashMap<Symbol, Vec<i64>> = HashMap::new();
-
-    for number in input.numbers.iter() {
-        for component_hit in find_neighbors(number, &coords) {
-            let key = component_hit.symbol;
-
-            bindings.entry(key).or_default().push(number.value);
+fn gear_numbers(schematic: &Schematic) -> HashMap<Coords, Vec<i64>> {
+    let mut gears: HashMap<Coords, Vec<i64>> = HashMap::new();
+    for number in &schematic.numbers {
+        for symbol in unique_neighboring_symbols(number, &schematic.symbols) {
+            if symbol.character == '*' {
+                gears.entry(symbol.position).or_default().push(number.value);
+            }
         }
     }
-
-    bindings
-        .into_iter()
-        .map(|(coords, vals)| Component {
-            symbol: coords,
-            nearby_nums: vals,
-        })
-        .collect()
+    gears
 }
 
 fn parse_lines(input: &str) -> Result<Schematic, SolveError> {
-    let mut components: Vec<Symbol> = Vec::new();
+    let mut symbols = HashMap::new();
     let mut numbers: Vec<Number> = Vec::new();
 
     for (y, line) in input.lines().enumerate() {
         let y = y as i64;
 
-        let mut built_part_number = "".to_string();
+        let mut digits = String::new();
         let mut digit_cells = Vec::new();
 
         for (x, c) in line.chars().chain(std::iter::once('.')).enumerate() {
             let x = x as i64;
             if c.is_ascii_digit() {
-                built_part_number.push(c);
+                digits.push(c);
                 digit_cells.push(Coords { x, y })
             } else {
-                if !built_part_number.is_empty() {
+                if !digits.is_empty() {
                     numbers.push(Number {
                         digit_cells,
-                        value: built_part_number.parse::<i64>()?,
+                        value: digits.parse::<i64>()?,
                     });
 
-                    built_part_number.clear();
+                    digits.clear();
                     digit_cells = Vec::new();
                 }
 
                 if c != '.' {
-                    components.push(Symbol {
-                        position: Coords { x, y },
-                        character: c,
-                    })
+                    symbols.insert(Coords { x, y }, c);
                 }
             }
         }
     }
 
-    Ok(Schematic {
-        components,
-        numbers,
-    })
+    Ok(Schematic { symbols, numbers })
 }
 
 pub fn part1(input: &str) -> Result<String, SolveError> {
-    let mut result = 0_i64;
-
-    let pr = parse_lines(input)?;
-    let coords = component_map(&pr.components);
-
-    for number in &pr.numbers {
-        if has_neighbor(number, &coords) {
-            result = result
+    let schematic = parse_lines(input)?;
+    let mut total = 0_i64;
+    for number in &schematic.numbers {
+        if neighboring_symbols(number, &schematic.symbols)
+            .next()
+            .is_some()
+        {
+            total = total
                 .checked_add(number.value)
                 .ok_or(SolveError::ArithmeticOverflow)?;
         }
     }
-
-    Ok(result.to_string())
+    Ok(total.to_string())
 }
 
 pub fn part2(input: &str) -> Result<String, SolveError> {
-    let mut result = 0_i64;
-
-    let pr = parse_lines(input)?;
-    let linked = link(&pr);
-
-    for component in linked.iter() {
-        if component.symbol.character == '*' {
-            if let [left, right] = component.nearby_nums.as_slice() {
-                let ratio = left
-                    .checked_mul(*right)
-                    .ok_or(SolveError::ArithmeticOverflow)?;
-                result = result
-                    .checked_add(ratio)
-                    .ok_or(SolveError::ArithmeticOverflow)?;
-            }
+    let schematic = parse_lines(input)?;
+    let mut total = 0_i64;
+    for numbers in gear_numbers(&schematic).values() {
+        if let [left, right] = numbers.as_slice() {
+            let ratio = left
+                .checked_mul(*right)
+                .ok_or(SolveError::ArithmeticOverflow)?;
+            total = total
+                .checked_add(ratio)
+                .ok_or(SolveError::ArithmeticOverflow)?;
         }
     }
-
-    Ok(result.to_string())
+    Ok(total.to_string())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::scaffold_test_result as scaffold_test;
+    use svutils::scaffold_test_result;
 
     const YEAR: i16 = 2023;
     const DAY: i16 = 3;
@@ -201,7 +150,7 @@ mod tests {
         let parsed = parse_lines("12\n34.\n...").unwrap();
         let values: Vec<_> = parsed.numbers.iter().map(|number| number.value).collect();
         assert_eq!(values, vec![12, 34]);
-        assert!(parsed.components.is_empty());
+        assert!(parsed.symbols.is_empty());
     }
 
     #[test]
@@ -243,11 +192,19 @@ mod tests {
 
     #[test]
     fn test_part1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", part1);
+        scaffold_test_result(YEAR, DAY, "input.txt", "input-spec.1.txt", part1);
     }
 
     #[test]
     fn test_part2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", part2);
+        scaffold_test_result(YEAR, DAY, "input.txt", "input-spec.2.txt", part2);
+    }
+
+    #[test]
+    fn equal_values_at_different_positions_are_distinct_gear_numbers() {
+        assert_eq!(part1("12*12").unwrap(), "24");
+        assert_eq!(part2("12*12").unwrap(), "144");
+        assert_eq!(part1("12+12").unwrap(), "24");
+        assert_eq!(part2("12+12").unwrap(), "0");
     }
 }

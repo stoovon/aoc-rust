@@ -38,6 +38,11 @@ has the signature `fn(&str) -> Result<String, svutils::SolveError>`. Set `part2`
 to `None` when that day has no second solver. A new year also needs a path
 dependency in `runner/Cargo.toml`.
 
+Migrated solvers validate their input and report arithmetic overflow. Parsing errors
+can carry structured line context while retaining the underlying error as their
+source. Day 7 deliberately rejects duplicate exact hands: the puzzle does not
+specify their relative order, and assigning ranks arbitrarily could change winnings.
+
 Run the migrated-day and runner tests with:
 
 ```sh

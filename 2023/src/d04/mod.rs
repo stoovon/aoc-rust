@@ -69,7 +69,7 @@ fn parse_all(input: &str) -> Result<Vec<Card>, SolveError> {
 pub fn part1(input: &str) -> Result<String, SolveError> {
     let cards = parse_all(input)?;
     let mut total = 0_i64;
-    for card in cards.iter() {
+    for card in &cards {
         let numbers_won = card.matches();
         if numbers_won > 0 {
             let exponent =

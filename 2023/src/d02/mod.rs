@@ -29,7 +29,7 @@ impl CubeDraw {
             .ok_or(SolveError::ArithmeticOverflow)
     }
 
-    fn new(value: &str) -> Result<Self, SolveError> {
+    fn parse(value: &str) -> Result<Self, SolveError> {
         let mut draw = CubeDraw::default();
         for part in value.split(',') {
             let mut split = part.split_whitespace();
@@ -75,8 +75,7 @@ fn parse_games(input: &str) -> Result<HashMap<i64, Vec<CubeDraw>>, SolveError> {
     }
     let mut games = HashMap::new();
     for (index, line) in input.lines().enumerate() {
-        let invalid =
-            |message: &str| SolveError::InvalidInput(format!("line {}: {message}", index + 1));
+        let invalid = |message: &str| SolveError::InvalidInput(message.into()).at_line(index + 1);
         let (header, draws) = line
             .split_once(':')
             .ok_or_else(|| invalid("missing ':' after game header"))?;
@@ -84,14 +83,16 @@ fn parse_games(input: &str) -> Result<HashMap<i64, Vec<CubeDraw>>, SolveError> {
             .strip_prefix("Game ")
             .ok_or_else(|| invalid("expected 'Game ' before game ID"))?
             .trim()
-            .parse()?;
+            .parse()
+            .map_err(|error| SolveError::from(error).at_line(index + 1))?;
         if id <= 0 {
             return Err(invalid("game ID must be positive"));
         }
         let draws = draws
             .split(';')
-            .map(CubeDraw::new)
-            .collect::<Result<Vec<_>, _>>()?;
+            .map(CubeDraw::parse)
+            .collect::<Result<Vec<_>, _>>()
+            .map_err(|error| error.at_line(index + 1))?;
         if games.insert(id, draws).is_some() {
             return Err(invalid("duplicate game ID"));
         }
@@ -132,7 +133,7 @@ pub fn part2(input: &str) -> Result<String, SolveError> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::scaffold_test_result as scaffold_test;
+    use svutils::scaffold_test_result;
 
     const YEAR: i16 = 2023;
     const DAY: i16 = 2;
@@ -165,7 +166,10 @@ mod tests {
         let input = format!("Game {}: 1 red\nGame 1: 1 blue", i64::MAX);
         assert!(matches!(part1(&input), Err(SolveError::ArithmeticOverflow)));
         let input = format!("Game 1: {} red, 1 red", i64::MAX);
-        assert!(matches!(part1(&input), Err(SolveError::ArithmeticOverflow)));
+        assert!(
+            matches!(part1(&input), Err(SolveError::AtLine { line: 1, error })
+            if matches!(*error, SolveError::ArithmeticOverflow))
+        );
     }
 
     #[test]
@@ -194,11 +198,25 @@ mod tests {
 
     #[test]
     fn test_part1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", part1);
+        scaffold_test_result(YEAR, DAY, "input.txt", "input-spec.1.txt", part1);
     }
 
     #[test]
     fn test_part2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", part2);
+        scaffold_test_result(YEAR, DAY, "input.txt", "input-spec.2.txt", part2);
+    }
+
+    #[test]
+    fn malformed_number_retains_its_line_and_source() {
+        use std::error::Error;
+        let error = part1("Game 1: 1 red\nGame 2: nope blue").unwrap_err();
+        assert!(matches!(error, SolveError::AtLine { line: 2, .. }));
+        let source = error
+            .source()
+            .unwrap()
+            .downcast_ref::<SolveError>()
+            .unwrap();
+        assert!(matches!(source, SolveError::InvalidNumber(_)));
+        assert!(source.source().is_some());
     }
 }

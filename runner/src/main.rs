@@ -26,6 +26,10 @@ impl Day {
 
 fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
     let registered = match (year, day) {
+        (2015, 22) => Day {
+            part1: aoc2015::d22::part1,
+            part2: Some(aoc2015::d22::part2),
+        },
         (2023, 1) => Day {
             part1: aoc2023::d01::part1,
             part2: Some(aoc2023::d01::part2),
@@ -168,6 +172,17 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn wizard_solvers_are_registered_and_propagate_errors() {
+        let input = "Hit Points: 4\nDamage: 8";
+        for part in [1, 2] {
+            let solver = select_solver(2015, 22, part).unwrap();
+            assert_eq!(solver(input).unwrap(), "53");
+            assert!(solver("Hit Points: nope\nDamage: 8").is_err());
+            assert!(solver("Hit Points: 4").is_err());
+        }
+    }
 
     #[test]
     fn workflow_solvers_are_registered_and_propagate_errors() {

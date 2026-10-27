@@ -49,13 +49,11 @@ mod tests {
     const DAY: i16 = 1;
 
     #[test]
-    #[ignore]
     fn test_fn1_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
     }
 
     #[test]
-    #[ignore]
     fn test_fn2_input() {
         scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
     }

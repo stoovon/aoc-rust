@@ -30,7 +30,7 @@ cargo run -p aoc-runner -- 2023 3 1 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_
 cargo run -p aoc-runner -- 2023 3 2 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_2.txt"
 ```
 
-Currently registered: 2023 Days 1–13, both parts. Other selections return an error.
+Currently registered: 2023 Days 1–14, both parts. Other selections return an error.
 
 To register another migrated day, export its module from the year's `src/lib.rs`
 and add one `Day` entry to `select_solver` in `runner/src/main.rs`. Each solver
@@ -44,7 +44,8 @@ source. Day 7 deliberately rejects duplicate exact hands: the puzzle does not
 specify their relative order, and assigning ranks arbitrarily could change winnings.
 Day 11 requires at least two galaxies; Day 12 rejects a record whose final
 arrangement count is zero. Day 13 requires exactly one qualifying reflection per
-pattern across both orientations. These are deliberate suspicious-input policies.
+pattern across both orientations. Day 14 requires at least one round rock.
+These are deliberate suspicious-input policies.
 
 Run the migrated-day and runner tests with:
 
@@ -62,6 +63,7 @@ cargo test -p aoc2023 d10::
 cargo test -p aoc2023 d11::
 cargo test -p aoc2023 d12::
 cargo test -p aoc2023 d13::
+cargo test -p aoc2023 d14::
 cargo test -p aoc-runner
 ```
 

@@ -70,6 +70,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d11::part1,
             part2: Some(aoc2023::d11::part2),
         },
+        (2023, 12) => Day {
+            part1: aoc2023::d12::part1,
+            part2: Some(aoc2023::d12::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -136,6 +140,15 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn spring_solvers_are_registered_and_propagate_errors() {
+        assert_eq!(select_solver(2023, 12, 1).unwrap()("?? 1").unwrap(), "2");
+        assert_eq!(select_solver(2023, 12, 2).unwrap()("?? 1").unwrap(), "252");
+        for part in [1, 2] {
+            assert!(select_solver(2023, 12, part).unwrap()("# 2").is_err());
+        }
+    }
 
     #[test]
     fn galaxy_solvers_are_registered_and_propagate_errors() {

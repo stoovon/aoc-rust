@@ -90,6 +90,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d16::part1,
             part2: Some(aoc2023::d16::part2),
         },
+        (2023, 17) => Day {
+            part1: aoc2023::d17::part1,
+            part2: Some(aoc2023::d17::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -156,6 +160,17 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn crucible_solvers_are_registered_and_propagate_errors() {
+        let input = "11111\n11111\n11111\n11111\n11111";
+        assert_eq!(select_solver(2023, 17, 1).unwrap()(input).unwrap(), "8");
+        assert_eq!(select_solver(2023, 17, 2).unwrap()(input).unwrap(), "8");
+        for part in [1, 2] {
+            assert!(select_solver(2023, 17, part).unwrap()("x").is_err());
+        }
+        assert!(select_solver(2023, 17, 2).unwrap()("11111\n11111").is_err());
+    }
 
     #[test]
     fn beam_solvers_are_registered_and_propagate_errors() {

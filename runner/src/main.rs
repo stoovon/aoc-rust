@@ -98,6 +98,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d18::part1,
             part2: Some(aoc2023::d18::part2),
         },
+        (2023, 19) => Day {
+            part1: aoc2023::d19::part1,
+            part2: Some(aoc2023::d19::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -164,6 +168,21 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn workflow_solvers_are_registered_and_propagate_errors() {
+        let input = "in{A}\n\n{x=1,m=2,a=3,s=4}";
+        assert_eq!(select_solver(2023, 19, 1).unwrap()(input).unwrap(), "10");
+        assert_eq!(
+            select_solver(2023, 19, 2).unwrap()(input).unwrap(),
+            4000_i64.pow(4).to_string()
+        );
+        for part in [1, 2] {
+            let solver = select_solver(2023, 19, part).unwrap();
+            assert!(solver("in{missing}\n\n").is_err());
+            assert!(solver("in{in}\n\n{x=1,m=2,a=3,s=4}").is_err());
+        }
+    }
 
     #[test]
     fn lagoon_solvers_are_registered_and_propagate_errors() {

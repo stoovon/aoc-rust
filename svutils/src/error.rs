@@ -7,9 +7,17 @@ pub enum SolveError {
     InvalidNumber(ParseIntError),
     ArithmeticOverflow,
     AtLine { line: usize, error: Box<SolveError> },
+    AtStep { step: usize, error: Box<SolveError> },
 }
 
 impl SolveError {
+    pub fn at_step(self, step: usize) -> Self {
+        Self::AtStep {
+            step,
+            error: Box::new(self),
+        }
+    }
+
     pub fn at_line(self, line: usize) -> Self {
         Self::AtLine {
             line,
@@ -26,6 +34,7 @@ impl fmt::Display for SolveError {
             Self::InvalidNumber(error) => write!(f, "could not parse puzzle number: {error}"),
             Self::ArithmeticOverflow => write!(f, "puzzle arithmetic exceeded the i64 range"),
             Self::AtLine { line, error } => write!(f, "line {line}: {error}"),
+            Self::AtStep { step, error } => write!(f, "step {step}: {error}"),
         }
     }
 }
@@ -34,7 +43,7 @@ impl Error for SolveError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
             Self::InvalidNumber(error) => Some(error),
-            Self::AtLine { error, .. } => Some(error.as_ref()),
+            Self::AtLine { error, .. } | Self::AtStep { error, .. } => Some(error.as_ref()),
             Self::EmptyInput | Self::InvalidInput(_) | Self::ArithmeticOverflow => None,
         }
     }

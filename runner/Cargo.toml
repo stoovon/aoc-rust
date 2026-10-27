@@ -4,5 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+aoc2015 = { path = "../2015" }
 aoc2023 = { path = "../2023" }
 svutils = { path = "../svutils" }

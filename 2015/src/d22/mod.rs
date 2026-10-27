@@ -1,397 +1,361 @@
-extern crate core;
+use std::cmp::Reverse;
+use std::collections::{BinaryHeap, HashMap};
+use svutils::SolveError;
 
-use std::fmt;
-
-use std::str::FromStr;
-
-#[derive(Debug, Clone, PartialEq, Eq)]
 struct Boss {
-    hp: isize,
-    dmg: isize,
-    effects: Vec<Effect>,
+    hp: i64,
+    damage: i64,
 }
 
-impl FromStr for Boss {
-    type Err = ();
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut hp = 0 as isize;
-        let mut dmg = 0 as isize;
-
-        for line in s.lines() {
-            let mut parts = line.split(": ");
-            let name = parts.next().unwrap();
-            let value = parts.next().unwrap().parse::<isize>().unwrap();
-
-            match name {
-                "Hit Points" => hp = value,
-                "Damage" => dmg = value,
-                _ => panic!("Unknown boss stat: {}", name),
-            }
+impl Boss {
+    fn parse(input: &str) -> Result<Self, SolveError> {
+        if input.trim().is_empty() {
+            return Err(SolveError::EmptyInput);
         }
-
+        let (mut hp, mut damage) = (None, None);
+        for (index, line) in input.lines().enumerate() {
+            let mut parse = || {
+                let (name, value) = line
+                    .split_once(": ")
+                    .ok_or_else(|| SolveError::InvalidInput("expected boss stat: value".into()))?;
+                let slot = match name {
+                    "Hit Points" => &mut hp,
+                    "Damage" => &mut damage,
+                    _ => {
+                        return Err(SolveError::InvalidInput(format!(
+                            "unknown boss stat '{name}'"
+                        )))
+                    }
+                };
+                if value.is_empty() || !value.bytes().all(|byte| byte.is_ascii_digit()) {
+                    return Err(SolveError::InvalidInput(
+                        "boss stats must be positive decimal integers".into(),
+                    ));
+                }
+                let value: i64 = value.parse()?;
+                if value == 0 {
+                    return Err(SolveError::InvalidInput(
+                        "boss stats must be positive".into(),
+                    ));
+                }
+                if slot.replace(value).is_some() {
+                    return Err(SolveError::InvalidInput(format!(
+                        "duplicate boss stat '{name}'"
+                    )));
+                }
+                Ok(())
+            };
+            parse().map_err(|error: SolveError| error.at_line(index + 1))?;
+        }
         Ok(Self {
-            hp,
-            dmg,
-            effects: vec![],
+            hp: hp.ok_or_else(|| SolveError::InvalidInput("missing Hit Points".into()))?,
+            damage: damage.ok_or_else(|| SolveError::InvalidInput("missing Damage".into()))?,
         })
     }
 }
 
-impl Fighter for Boss {
-    fn damage(&self) -> isize {
-        self.dmg
-    }
-    fn health(&self) -> isize {
-        self.hp
-    }
-    fn health_mut(&mut self) -> &mut isize {
-        &mut self.hp
-    }
-    fn mana(&self) -> isize {
-        0
-    }
-    fn mana_mut(&mut self) -> &mut isize {
-        unimplemented!()
-    }
-    fn effects(&self) -> &[Effect] {
-        &self.effects
-    }
-    fn effects_mut(&mut self) -> &mut Vec<Effect> {
-        &mut self.effects
-    }
+#[derive(Clone, Copy)]
+enum Difficulty {
+    Normal,
+    Hard,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Effect {
-    id: usize,
-    duration: usize,
-    armor_boost_while_active: isize, // while active
-    health_per_turn: isize,          // each tick
-    mana_per_turn: isize,            // each tick
-}
-
-#[derive(Debug, PartialEq, Eq)]
-pub struct Spell {
-    name: String,
-    hp_self: isize,
-    hp_target: isize,
-    mp_self: isize,
-    mp_target: isize,
-    effect_self: Option<Effect>,
-    effect_target: Option<Effect>,
+#[derive(Clone, Copy, Debug)]
+enum Spell {
+    MagicMissile,
+    Drain,
+    Shield,
+    Poison,
+    Recharge,
 }
 
 impl Spell {
-    fn mana_usage(&self) -> isize {
-        if self.mp_self < 0 {
-            -self.mp_self
-        } else {
-            0
+    const ALL: [Self; 5] = [
+        Self::MagicMissile,
+        Self::Drain,
+        Self::Shield,
+        Self::Poison,
+        Self::Recharge,
+    ];
+
+    fn cost(self) -> i64 {
+        match self {
+            Self::MagicMissile => 53,
+            Self::Drain => 73,
+            Self::Shield => 113,
+            Self::Poison => 173,
+            Self::Recharge => 229,
         }
     }
 }
 
-fn spell_book() -> Vec<Spell> {
-    vec![
-        Spell {
-            name: "magic missile".to_string(),
-            hp_self: 0,
-            hp_target: -4,
-            mp_self: -53,
-            mp_target: 0,
-            effect_self: None,
-            effect_target: None,
-        },
-        Spell {
-            name: "drain".to_string(),
-            hp_self: 2,
-            hp_target: -2,
-            mp_self: -73,
-            mp_target: 0,
-            effect_self: None,
-            effect_target: None,
-        },
-        Spell {
-            name: "shield".to_string(),
-            hp_self: 0,
-            hp_target: 0,
-            mp_self: -113,
-            mp_target: 0,
-            effect_self: Some(Effect {
-                id: 1,
-                duration: 6,
-                armor_boost_while_active: 7,
-                health_per_turn: 0,
-                mana_per_turn: 0,
-            }),
-            effect_target: None,
-        },
-        Spell {
-            name: "poison".to_string(),
-            hp_self: 0,
-            hp_target: 0,
-            mp_self: -173,
-            mp_target: 0,
-            effect_target: Some(Effect {
-                id: 2,
-                duration: 6,
-                armor_boost_while_active: 0,
-                health_per_turn: -3,
-                mana_per_turn: 0,
-            }),
-            effect_self: None,
-        },
-        Spell {
-            name: "recharge".to_string(),
-            hp_self: 0,
-            hp_target: 0,
-            mp_self: -229,
-            mp_target: 0,
-            effect_self: Some(Effect {
-                id: 3,
-                duration: 5,
-                armor_boost_while_active: 0,
-                health_per_turn: 0,
-                mana_per_turn: 101,
-            }),
-            effect_target: None,
-        },
-    ]
+// Every queued state is immediately before a player's turn, or an already won fight.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+struct BattleState {
+    hp: i64,
+    mana: i64,
+    boss_hp: i64,
+    shield: u8,
+    poison: u8,
+    recharge: u8,
 }
 
-pub trait Fighter: Sized {
-    fn damage(&self) -> isize;
-    fn health(&self) -> isize;
-    fn health_mut(&mut self) -> &mut isize;
-    fn mana(&self) -> isize;
-    fn mana_mut(&mut self) -> &mut isize;
-    fn effects(&self) -> &[Effect];
-    fn effects_mut(&mut self) -> &mut Vec<Effect>;
-
-    fn alive(&self) -> bool {
-        self.health() <= 0
-    }
-
-    fn take_damage(&mut self, dmg: isize) {
-        if dmg != 0 {
-            *self.health_mut() -= dmg;
+impl BattleState {
+    fn new(hp: i64, mana: i64, boss_hp: i64) -> Self {
+        Self {
+            hp,
+            mana,
+            boss_hp,
+            shield: 0,
+            poison: 0,
+            recharge: 0,
         }
     }
 
-    fn drain(&mut self, mn: isize) {
-        if mn != 0 {
-            *self.mana_mut() -= mn;
+    fn apply_effects(&mut self) -> Result<(), SolveError> {
+        if self.shield > 0 {
+            self.shield -= 1;
         }
-    }
-
-    fn has_effect(&self, effect: &Effect) -> bool {
-        self.effects().iter().any(|e| e.id == effect.id)
-    }
-
-    fn add_effect(&mut self, effect: Effect) {
-        self.effects_mut().push(effect);
-    }
-
-    fn apply_effects(&mut self) {
-        let mut hpt = 0;
-        let mut mpt = 0;
-        for effect in self.effects_mut() {
-            hpt += effect.health_per_turn;
-            mpt += effect.mana_per_turn;
-            effect.duration -= 1;
+        if self.poison > 0 {
+            self.boss_hp -= 3;
+            self.poison -= 1;
         }
-        self.take_damage(-hpt);
-        self.drain(-mpt);
-        self.effects_mut().retain(|e| e.duration > 0);
-    }
-
-    fn armor(&self) -> isize {
-        self.effects()
-            .iter()
-            .map(|e| e.armor_boost_while_active)
-            .sum()
-    }
-
-    fn attack<F: Fighter>(&mut self, target: &mut F) {
-        let damage = self.damage() - target.armor();
-        target.take_damage(if damage > 0 { damage } else { 1 });
-    }
-
-    fn can_cast<F: Fighter>(&self, target: &F, spell: &Spell) -> bool {
-        spell.mana_usage() <= self.mana()
-            && (spell.effect_self.is_none()
-                || !self.has_effect(spell.effect_self.as_ref().unwrap()))
-            && (spell.effect_target.is_none()
-                || !target.has_effect(spell.effect_target.as_ref().unwrap()))
-    }
-
-    fn cast<F: Fighter>(&mut self, target: &mut F, spell: &Spell) -> isize {
-        if !self.can_cast(target, spell) {
-            return 0;
+        if self.recharge > 0 {
+            self.mana = self
+                .mana
+                .checked_add(101)
+                .ok_or(SolveError::ArithmeticOverflow)?;
+            self.recharge -= 1;
         }
-        self.take_damage(-spell.hp_self);
-        target.take_damage(-spell.hp_target);
-        self.drain(-spell.mp_self);
-        target.drain(-spell.mp_target);
-        if let Some(ref effect) = spell.effect_self {
-            self.add_effect(effect.clone());
+        Ok(())
+    }
+
+    fn start_player_turn(mut self, difficulty: Difficulty) -> Result<Option<Self>, SolveError> {
+        if matches!(difficulty, Difficulty::Hard) {
+            self.hp -= 1;
         }
-        if let Some(ref effect) = spell.effect_target {
-            target.add_effect(effect.clone());
+        if self.hp <= 0 {
+            return Ok(None);
         }
-        spell.mana_usage()
+        self.apply_effects()?;
+        Ok(Some(self))
+    }
+
+    fn can_cast(self, spell: Spell) -> bool {
+        self.mana >= spell.cost()
+            && match spell {
+                Spell::Shield => self.shield == 0,
+                Spell::Poison => self.poison == 0,
+                Spell::Recharge => self.recharge == 0,
+                Spell::MagicMissile | Spell::Drain => true,
+            }
+    }
+
+    // Called after player-turn effects, and only while the boss is alive.
+    fn cast_and_boss_turn(
+        mut self,
+        spell: Spell,
+        boss_damage: i64,
+    ) -> Result<Option<Self>, SolveError> {
+        if !self.can_cast(spell) {
+            return Ok(None);
+        }
+        self.mana -= spell.cost();
+        match spell {
+            Spell::MagicMissile => self.boss_hp -= 4,
+            Spell::Drain => {
+                self.boss_hp -= 2;
+                self.hp = self
+                    .hp
+                    .checked_add(2)
+                    .ok_or(SolveError::ArithmeticOverflow)?;
+            }
+            Spell::Shield => self.shield = 6,
+            Spell::Poison => self.poison = 6,
+            Spell::Recharge => self.recharge = 5,
+        }
+        if self.boss_hp <= 0 {
+            return Ok(Some(self));
+        }
+        self.apply_effects()?;
+        if self.boss_hp <= 0 {
+            return Ok(Some(self));
+        }
+        // Shield ending at the start of this turn no longer provides armour.
+        let armour = if self.shield > 0 { 7 } else { 0 };
+        self.hp -= (boss_damage - armour).max(1);
+        Ok((self.hp > 0).then_some(self))
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Player {
-    hp: isize,
-    mp: isize,
-    effects: Vec<Effect>,
-}
-
-impl Player {
-    fn new(hp: isize, mp: isize) -> Player {
-        Player {
-            hp: hp,
-            mp: mp,
-            effects: vec![],
+fn minimum_mana(
+    boss: &Boss,
+    difficulty: Difficulty,
+    hp: i64,
+    mana: i64,
+) -> Result<i64, SolveError> {
+    let start = BattleState::new(hp, mana, boss.hp);
+    let mut queue = BinaryHeap::from([Reverse((0_i64, start))]);
+    let mut cheapest = HashMap::from([(start, 0_i64)]);
+    while let Some(Reverse((spent, state))) = queue.pop() {
+        if cheapest.get(&state) != Some(&spent) {
+            continue;
         }
-    }
-}
-
-impl Fighter for Player {
-    fn damage(&self) -> isize {
-        0
-    }
-    fn health(&self) -> isize {
-        self.hp
-    }
-    fn health_mut(&mut self) -> &mut isize {
-        &mut self.hp
-    }
-    fn mana(&self) -> isize {
-        self.mp
-    }
-    fn mana_mut(&mut self) -> &mut isize {
-        &mut self.mp
-    }
-    fn effects(&self) -> &[Effect] {
-        &self.effects
-    }
-    fn effects_mut(&mut self) -> &mut Vec<Effect> {
-        &mut self.effects
-    }
-}
-
-impl fmt::Display for Player {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_fmt(format_args!("Player({}|{})", self.hp, self.mp))
-    }
-}
-
-fn bfs(player: &Player, boss: &Boss, min_mp: &mut isize, mp: isize, hard: bool) {
-    for spell in spell_book().iter() {
-        let mut player = player.clone();
-        let mut boss = boss.clone();
-
-        if hard {
-            player.take_damage(1);
-            if player.alive() {
+        if state.boss_hp <= 0 {
+            return Ok(spent);
+        }
+        let Some(state) = state.start_player_turn(difficulty)? else {
+            continue;
+        };
+        // This is already the cheapest pending path: poison needs no further spell.
+        if state.boss_hp <= 0 {
+            return Ok(spent);
+        }
+        for spell in Spell::ALL {
+            let Some(next) = state.cast_and_boss_turn(spell, boss.damage)? else {
+                continue;
+            };
+            let next_cost = spent
+                .checked_add(spell.cost())
+                .ok_or(SolveError::ArithmeticOverflow)?;
+            if cheapest.get(&next).is_some_and(|&known| known <= next_cost) {
                 continue;
             }
+            cheapest.insert(next, next_cost);
+            // A win discovered here must still compete with cheaper pending routes.
+            queue.push(Reverse((next_cost, next)));
         }
-
-        player.apply_effects();
-        boss.apply_effects();
-        if player.alive() {
-            continue;
-        }
-        if boss.alive() {
-            if mp < *min_mp {
-                *min_mp = mp
-            };
-            continue;
-        }
-
-        if !player.can_cast(&boss, &spell) {
-            continue;
-        }
-        if mp + spell.mana_usage() >= *min_mp {
-            continue;
-        }
-
-        let mp_used = player.cast(&mut boss, spell);
-        if player.alive() {
-            continue;
-        }
-        if boss.alive() {
-            if mp + mp_used < *min_mp {
-                *min_mp = mp + mp_used
-            };
-            continue;
-        }
-
-        player.apply_effects();
-        boss.apply_effects();
-        if player.alive() {
-            continue;
-        }
-        if boss.alive() {
-            if mp + mp_used < *min_mp {
-                *min_mp = mp + mp_used
-            };
-            continue;
-        }
-
-        boss.attack(&mut player);
-        if player.alive() {
-            continue;
-        }
-        if boss.alive() {
-            if mp + mp_used < *min_mp {
-                *min_mp = mp + mp_used
-            };
-            continue;
-        }
-
-        bfs(&player, &boss, min_mp, mp + mp_used, hard);
     }
+    Err(SolveError::InvalidInput("no winning spell sequence".into()))
 }
 
-fn find_min_mana(boss: &Boss, hard: bool) -> isize {
-    let player = Player::new(50, 500);
-    let mut min_mp = isize::max_value();
-    bfs(&player, boss, &mut min_mp, 0, hard);
-    min_mp
+pub fn part1(input: &str) -> Result<String, SolveError> {
+    let boss = Boss::parse(input)?;
+    Ok(minimum_mana(&boss, Difficulty::Normal, 50, 500)?.to_string())
 }
 
-pub fn fn1(input: &str) -> i64 {
-    let boss: Boss = input.parse().unwrap();
-    find_min_mana(&boss, false) as i64
-}
-
-pub fn fn2(input: &str) -> i64 {
-    let boss: Boss = input.parse().unwrap();
-    find_min_mana(&boss, true) as i64
+pub fn part2(input: &str) -> Result<String, SolveError> {
+    let boss = Boss::parse(input)?;
+    Ok(minimum_mana(&boss, Difficulty::Hard, 50, 500)?.to_string())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::scaffold_test;
-
-    const YEAR: i16 = 2015;
-    const DAY: i16 = 22;
+    use svutils::scaffold_test_result;
 
     #[test]
-    fn test_fn1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
+    fn test_part1_input() {
+        scaffold_test_result(2015, 22, "input.txt", "input-spec.1.txt", part1);
     }
 
     #[test]
-    fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
+    fn test_part2_input() {
+        scaffold_test_result(2015, 22, "input.txt", "input-spec.2.txt", part2);
+    }
+
+    #[test]
+    fn poison_wins_before_casting_but_after_hard_mode_penalty() {
+        let mut state = BattleState::new(1, 0, 3);
+        state.poison = 1;
+        let won = state
+            .start_player_turn(Difficulty::Normal)
+            .unwrap()
+            .unwrap();
+        assert!(won.boss_hp <= 0);
+        assert_eq!(won.mana, 0);
+        assert!(state.start_player_turn(Difficulty::Hard).unwrap().is_none());
+    }
+
+    #[test]
+    fn effects_expire_and_can_be_recast_on_that_turn() {
+        let mut state = BattleState::new(20, 500, 50);
+        state.shield = 1;
+        state.poison = 1;
+        state.recharge = 1;
+        assert!(!state.can_cast(Spell::Shield));
+        let state = state
+            .start_player_turn(Difficulty::Normal)
+            .unwrap()
+            .unwrap();
+        assert_eq!((state.shield, state.poison, state.recharge), (0, 0, 0));
+        assert_eq!((state.boss_hp, state.mana), (47, 601));
+        assert!(state.can_cast(Spell::Shield));
+        assert!(state.can_cast(Spell::Poison));
+        assert!(state.can_cast(Spell::Recharge));
+    }
+
+    #[test]
+    fn shield_expiry_and_minimum_boss_damage() {
+        let mut state = BattleState::new(20, 500, 50);
+        state.shield = 1;
+        let next = state
+            .cast_and_boss_turn(Spell::MagicMissile, 8)
+            .unwrap()
+            .unwrap();
+        assert_eq!(next.hp, 12);
+        state.shield = 2;
+        let next = state
+            .cast_and_boss_turn(Spell::MagicMissile, 3)
+            .unwrap()
+            .unwrap();
+        assert_eq!(next.hp, 19);
+    }
+
+    #[test]
+    fn immediate_and_boss_turn_poison_wins_prevent_attacks() {
+        let state = BattleState::new(1, 53, 4);
+        let next = state
+            .cast_and_boss_turn(Spell::MagicMissile, 100)
+            .unwrap()
+            .unwrap();
+        assert!(next.boss_hp <= 0);
+        assert_eq!(next.hp, 1);
+        let state = BattleState::new(1, 173, 3);
+        let next = state
+            .cast_and_boss_turn(Spell::Poison, 100)
+            .unwrap()
+            .unwrap();
+        assert!(next.boss_hp <= 0);
+        assert_eq!(next.hp, 1);
+    }
+
+    #[test]
+    fn tiny_searches_and_unwinnable_fights() {
+        let boss = Boss { hp: 5, damage: 1 };
+        assert_eq!(
+            minimum_mana(&boss, Difficulty::Normal, 10, 106).unwrap(),
+            106
+        );
+        assert!(minimum_mana(&boss, Difficulty::Normal, 1, 0).is_err());
+        assert!(minimum_mana(&boss, Difficulty::Hard, 1, 500).is_err());
+    }
+
+    #[test]
+    fn invalid_boss_stats_are_rejected() {
+        for input in [
+            "",
+            "Hit Points: 5",
+            "Damage: 8",
+            "Hit Points: 0\nDamage: 8",
+            "Hit Points: -1\nDamage: 8",
+            "Hit Points: 5\nDamage: 8\nDamage: 9",
+            "Hit Points: 5\nArmour: 8",
+            "Hit Points: nope\nDamage: 8",
+            "Hit Points: 5\n\nDamage: 8",
+            "Hit Points: 5\nDamage: +8",
+        ] {
+            assert!(Boss::parse(input).is_err(), "{input:?}");
+        }
+        assert_eq!(part1("Damage: 8\r\nHit Points: 4\r\n").unwrap(), "53");
+    }
+    #[test]
+    fn recharge_overflow_is_an_error() {
+        let mut state = BattleState::new(10, i64::MAX, 10);
+        state.recharge = 1;
+        assert!(matches!(
+            state.apply_effects(),
+            Err(SolveError::ArithmeticOverflow)
+        ));
     }
 }

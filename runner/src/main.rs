@@ -86,6 +86,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d15::part1,
             part2: Some(aoc2023::d15::part2),
         },
+        (2023, 16) => Day {
+            part1: aoc2023::d16::part1,
+            part2: Some(aoc2023::d16::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -152,6 +156,16 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn beam_solvers_are_registered_and_propagate_errors() {
+        let input = "..\n..\n..";
+        assert_eq!(select_solver(2023, 16, 1).unwrap()(input).unwrap(), "2");
+        assert_eq!(select_solver(2023, 16, 2).unwrap()(input).unwrap(), "3");
+        for part in [1, 2] {
+            assert!(select_solver(2023, 16, part).unwrap()("x").is_err());
+        }
+    }
 
     #[test]
     fn lens_solvers_are_registered_and_propagate_errors() {

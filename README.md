@@ -30,7 +30,7 @@ cargo run -p aoc-runner -- 2023 3 1 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_
 cargo run -p aoc-runner -- 2023 3 2 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_2.txt"
 ```
 
-Currently registered: 2023 Days 1–11, both parts. Other selections return an error.
+Currently registered: 2023 Days 1–12, both parts. Other selections return an error.
 
 To register another migrated day, export its module from the year's `src/lib.rs`
 and add one `Day` entry to `select_solver` in `runner/src/main.rs`. Each solver
@@ -42,6 +42,8 @@ Migrated solvers validate their input and report arithmetic overflow. Parsing er
 can carry structured line context while retaining the underlying error as their
 source. Day 7 deliberately rejects duplicate exact hands: the puzzle does not
 specify their relative order, and assigning ranks arbitrarily could change winnings.
+Day 11 requires at least two galaxies; Day 12 rejects a record whose final
+arrangement count is zero. These are deliberate suspicious-input policies.
 
 Run the migrated-day and runner tests with:
 
@@ -57,6 +59,7 @@ cargo test -p aoc2023 d08::
 cargo test -p aoc2023 d09::
 cargo test -p aoc2023 d10::
 cargo test -p aoc2023 d11::
+cargo test -p aoc2023 d12::
 cargo test -p aoc-runner
 ```
 

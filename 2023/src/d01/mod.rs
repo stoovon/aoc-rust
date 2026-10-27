@@ -33,9 +33,9 @@ fn solve(input: &str, recognise: impl Fn(&str) -> Option<i64>) -> Result<String,
         let mut digits = line
             .char_indices()
             .filter_map(|(offset, _)| recognise(&line[offset..]));
-        let first = digits
-            .next()
-            .ok_or(SolveError::MissingDigit { line: index + 1 })?;
+        let first = digits.next().ok_or_else(|| {
+            SolveError::InvalidInput("line contains no recognised digit".into()).at_line(index + 1)
+        })?;
         let last = digits.next_back().unwrap_or(first);
         let value = 10 * first + last;
         total = total
@@ -81,7 +81,7 @@ mod tests {
         assert_eq!(part2("zero7").unwrap(), "77");
         assert!(matches!(
             part2("zero"),
-            Err(SolveError::MissingDigit { line: 1 })
+            Err(SolveError::AtLine { line: 1, .. })
         ));
     }
 
@@ -105,7 +105,7 @@ mod tests {
     fn part_two_reports_missing_digits() {
         assert!(matches!(
             part2("one\nletters"),
-            Err(SolveError::MissingDigit { line: 2 })
+            Err(SolveError::AtLine { line: 2, .. })
         ));
     }
 
@@ -123,7 +123,7 @@ mod tests {
     fn missing_digit_reports_its_line() {
         assert!(matches!(
             part1("a7b\nletters"),
-            Err(SolveError::MissingDigit { line: 2 })
+            Err(SolveError::AtLine { line: 2, .. })
         ));
     }
 

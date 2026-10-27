@@ -12,7 +12,7 @@ fn parse_history(line: &str) -> Result<Vec<i64>, SolveError> {
 
 fn difference_edges(
     mut history: Vec<i64>,
-    edge: fn(&[i64]) -> i64,
+    edge: impl Fn(&[i64]) -> i64,
 ) -> Result<Vec<i64>, SolveError> {
     let mut next = Vec::new();
     let mut edges = Vec::new();
@@ -51,7 +51,7 @@ fn preceding_value(history: Vec<i64>) -> Result<i64, SolveError> {
 
 fn sum_histories(
     input: &str,
-    predict: fn(Vec<i64>) -> Result<i64, SolveError>,
+    predict: impl Fn(Vec<i64>) -> Result<i64, SolveError>,
 ) -> Result<String, SolveError> {
     if input.trim().is_empty() {
         return Err(SolveError::EmptyInput);

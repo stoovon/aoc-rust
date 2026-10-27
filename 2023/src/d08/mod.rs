@@ -335,7 +335,7 @@ pub fn part2(input: &str) -> Result<String, SolveError> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::scaffold_test_result as scaffold_test;
+    use svutils::scaffold_test_result;
 
     const YEAR: i16 = 2023;
     const DAY: i16 = 8;
@@ -538,11 +538,11 @@ mod tests {
 
     #[test]
     fn test_part1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", part1);
+        scaffold_test_result(YEAR, DAY, "input.txt", "input-spec.1.txt", part1);
     }
 
     #[test]
     fn test_part2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", part2);
+        scaffold_test_result(YEAR, DAY, "input.txt", "input-spec.2.txt", part2);
     }
 }

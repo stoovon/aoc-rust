@@ -58,6 +58,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d08::part1,
             part2: Some(aoc2023::d08::part2),
         },
+        (2023, 9) => Day {
+            part1: aoc2023::d09::part1,
+            part2: Some(aoc2023::d09::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -124,6 +128,16 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn history_solvers_are_registered_and_propagate_errors() {
+        let input = "1 4 9 16";
+        assert_eq!(select_solver(2023, 9, 1).unwrap()(input).unwrap(), "25");
+        assert_eq!(select_solver(2023, 9, 2).unwrap()(input).unwrap(), "0");
+        for part in [1, 2] {
+            assert!(select_solver(2023, 9, part).unwrap()("2 nope 8").is_err());
+        }
+    }
 
     #[test]
     fn network_solvers_are_registered_and_propagate_errors() {

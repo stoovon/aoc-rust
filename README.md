@@ -30,7 +30,7 @@ cargo run -p aoc-runner -- 2023 3 1 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_
 cargo run -p aoc-runner -- 2023 3 2 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_2.txt"
 ```
 
-Currently registered: 2015 Day 22 and 2023 Days 1–19, both parts. Other selections
+Currently registered: 2015 Day 22 and 2023 Days 1–20, both parts. Other selections
 return an error.
 
 To register another migrated day, export its module from the year's `src/lib.rs`
@@ -52,7 +52,12 @@ sequence for both parts, preserves raw spelling for hashing, and accepts positiv
 `i64` focal lengths; removing an absent label remains a valid no-op. All steps are
 parsed and validated before hashing or executing the instruction sequence;
 errors prevent an answer from being returned. Newline characters are ignored as required by the initialization
-sequence.
+sequence. Day 20 shares a FIFO pulse simulator: part 1 completes 1,000 button
+presses, while part 2 observes low pulses reaching `rx`. Independent branches use
+state-proven cycles and phase alignment, followed by a replay to verify pulse
+ordering; coupled networks use whole-network state repetition. Presses must finish
+processing their pulses; whole-network search and phase combinations can be costly
+on large networks.
 
 Run the migrated-day and runner tests with:
 
@@ -77,6 +82,7 @@ cargo test -p aoc2023 d16::
 cargo test -p aoc2023 d17::
 cargo test -p aoc2023 d18::
 cargo test -p aoc2023 d19::
+cargo test -p aoc2023 d20::
 cargo test -p aoc-runner
 ```
 

@@ -106,6 +106,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d19::part1,
             part2: Some(aoc2023::d19::part2),
         },
+        (2023, 20) => Day {
+            part1: aoc2023::d20::part1,
+            part2: Some(aoc2023::d20::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -172,6 +176,24 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn pulse_solvers_are_registered_and_propagate_errors() {
+        let input = "broadcaster -> a\n%a -> con\n&con -> rx\n";
+        assert_eq!(
+            select_solver(2023, 20, 1).unwrap()(input).unwrap(),
+            "3000000"
+        );
+        assert_eq!(select_solver(2023, 20, 2).unwrap()(input).unwrap(), "1");
+        for part in [1, 2] {
+            let solver = select_solver(2023, 20, part).unwrap();
+            assert!(solver("broadcaster -> a\ninvalid")
+                .unwrap_err()
+                .to_string()
+                .starts_with("line 2:"));
+        }
+        assert!(select_solver(2023, 20, 2).unwrap()("broadcaster -> output").is_err());
+    }
 
     #[test]
     fn wizard_solvers_are_registered_and_propagate_errors() {

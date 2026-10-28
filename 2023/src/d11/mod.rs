@@ -236,7 +236,6 @@ mod tests {
 
     #[test]
     fn sorted_axis_sum_matches_direct_pair_distances() {
-        // Exhaust all subsets of a small grid, including shared coordinates.
         for mask in 0_u32..(1 << 9) {
             let points: Vec<_> = (0..9)
                 .filter(|index| mask & (1 << index) != 0)

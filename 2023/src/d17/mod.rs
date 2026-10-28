@@ -96,7 +96,7 @@ impl Direction {
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 struct Node {
-    // Derived ordering compares fields in declaration order: cost is primary.
+    // Keep cost first so the heap prioritizes the cheapest routes.
     cost: i64,
     pos: usize,
     dir: Option<Direction>,
@@ -130,7 +130,6 @@ fn minimum_heat(grid: &HeatMap, rules: MovementRules) -> Result<i64, SolveError>
         cost,
     })) = pending.pop()
     {
-        // The directionless start is separate from the positive-length moving states.
         if let Some(direction) = dir {
             let key = state_key(pos, direction, distance, rules.max_straight);
             if best_cost[key] != Some(cost) {
@@ -259,7 +258,7 @@ mod tests {
     #[test]
     fn an_invalid_cheap_arrival_does_not_beat_a_legal_goal() {
         let input = "111119\n999919\n999919\n999919\n999911";
-        // Cost9 reaches the goal after only one final eastward move; legal minimum is41.
+        // Cost 9 ends with one eastward move; a legal final run costs at least 41.
         assert_eq!(part2(input).unwrap(), "41");
     }
 

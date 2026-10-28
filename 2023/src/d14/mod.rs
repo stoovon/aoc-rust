@@ -38,7 +38,6 @@ impl Platform {
                 "platform must contain at least one round rock".into(),
             ));
         }
-        // Nonempty input and at least one rock guarantee a nonzero width.
         Ok(Self {
             width: cells.len() / height,
             height,
@@ -138,7 +137,6 @@ impl Platform {
         first_seen.insert(self.cells.clone(), 0);
         for completed in 1..=target {
             self.spin_cycle();
-            // Borrow the current bytes for lookup; clone only for a new snapshot.
             if let Some(&previous) = first_seen.get(self.cells.as_slice()) {
                 let period = completed - previous;
                 let remaining = (target - completed) % period;

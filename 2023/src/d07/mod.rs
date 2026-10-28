@@ -39,7 +39,6 @@ enum HandKind {
 
 fn hand_kind(counts: &[i64], jokers: i64) -> HandKind {
     match (*counts.iter().max().unwrap_or(&0), jokers) {
-        // Also covers JJJJJ.
         (a, b) if a + b == 5 => HandKind::FiveOfAKind,
         (a, b) if a + b == 4 => HandKind::FourOfAKind,
         (3, 0) => {
@@ -133,9 +132,7 @@ fn parse_hands(input: &str) -> Result<Vec<Hand<'_>>, SolveError> {
 
 fn total_winnings(mut hands: Vec<RankedHand>) -> Result<String, SolveError> {
     hands.sort_unstable_by_key(|hand| hand.strength);
-    // Exact duplicates have no puzzle-defined ordering. Reject them rather than
-    // let an unstable sort assign different ranks (and winnings) arbitrarily.
-    // The original-card tie-break key uniquely identifies a validated hand.
+    // Duplicate hands have no puzzle-defined ordering, so their winnings are ambiguous.
     if hands
         .windows(2)
         .any(|pair| pair[0].strength == pair[1].strength)

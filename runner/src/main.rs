@@ -34,6 +34,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d15::part1,
             part2: Some(aoc2015::d15::part2),
         },
+        (2015, 19) => Day {
+            part1: aoc2015::d19::part1,
+            part2: Some(aoc2015::d19::part2),
+        },
         (2015, 22) => Day {
             part1: aoc2015::d22::part1,
             part2: Some(aoc2015::d22::part2),
@@ -188,6 +192,22 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn molecule_solvers_are_registered_and_propagate_errors() {
+        let input = "e => A\nA => AB\n\nAB";
+        assert_eq!(select_solver(2015, 19, 1).unwrap()(input).unwrap(), "1");
+        assert_eq!(select_solver(2015, 19, 2).unwrap()(input).unwrap(), "2");
+        for part in [1, 2] {
+            assert!(
+                select_solver(2015, 19, part).unwrap()("e => A\ninvalid\n\nA")
+                    .unwrap_err()
+                    .to_string()
+                    .starts_with("line 2:")
+            );
+        }
+        assert!(select_solver(2015, 19, 2).unwrap()("A => AA\n\nAA").is_err());
+    }
 
     #[test]
     fn recipe_solvers_are_registered_and_propagate_errors() {

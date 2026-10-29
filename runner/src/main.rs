@@ -30,6 +30,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
         },
+        (2015, 15) => Day {
+            part1: aoc2015::d15::part1,
+            part2: Some(aoc2015::d15::part2),
+        },
         (2015, 22) => Day {
             part1: aoc2015::d22::part1,
             part2: Some(aoc2015::d22::part2),
@@ -184,6 +188,23 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn recipe_solvers_are_registered_and_propagate_errors() {
+        let input = "Sugar: capacity 1, durability 1, flavor 1, texture 1, calories 5";
+        for part in [1, 2] {
+            let solver = select_solver(2015, 15, part).unwrap();
+            assert_eq!(solver(input).unwrap(), "100000000");
+            assert!(solver(&format!("{input}\ninvalid"))
+                .unwrap_err()
+                .to_string()
+                .starts_with("line 2:"));
+        }
+        assert!(
+            select_solver(2015, 15, 2).unwrap()(&input.replace("calories 5", "calories 1"))
+                .is_err()
+        );
+    }
 
     #[test]
     fn seating_solvers_are_registered_and_propagate_errors() {

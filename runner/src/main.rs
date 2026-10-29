@@ -110,6 +110,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d20::part1,
             part2: Some(aoc2023::d20::part2),
         },
+        (2023, 21) => Day {
+            part1: aoc2023::d21::part1,
+            part2: Some(aoc2023::d21::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -176,6 +180,20 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn garden_solvers_are_registered_and_propagate_errors() {
+        assert_eq!(select_solver(2023, 21, 1).unwrap()("S").unwrap(), "0");
+        let expected = (26_501_365i64 + 1).pow(2).to_string();
+        assert_eq!(select_solver(2023, 21, 2).unwrap()("S").unwrap(), expected);
+        for part in [1, 2] {
+            assert!(select_solver(2023, 21, part).unwrap()("S\n?")
+                .unwrap_err()
+                .to_string()
+                .starts_with("line 2:"));
+        }
+        assert!(select_solver(2023, 21, 2).unwrap()("S.").is_err());
+    }
 
     #[test]
     fn pulse_solvers_are_registered_and_propagate_errors() {

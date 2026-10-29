@@ -42,6 +42,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d22::part1,
             part2: Some(aoc2015::d22::part2),
         },
+        (2018, 15) => Day {
+            part1: aoc2018::d15::part1,
+            part2: Some(aoc2018::d15::part2),
+        },
         (2023, 1) => Day {
             part1: aoc2023::d01::part1,
             part2: Some(aoc2023::d01::part2),
@@ -192,6 +196,20 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn combat_solvers_are_registered_and_propagate_errors() {
+        assert_eq!(select_solver(2018, 15, 1).unwrap()("GE").unwrap(), "134");
+        assert_eq!(select_solver(2018, 15, 2).unwrap()("GE").unwrap(), "2500");
+        for part in [1, 2] {
+            let solver = select_solver(2018, 15, part).unwrap();
+            assert!(solver("EG\n?G")
+                .unwrap_err()
+                .to_string()
+                .starts_with("line 2:"));
+            assert!(solver("E#G").is_err());
+        }
+    }
 
     #[test]
     fn molecule_solvers_are_registered_and_propagate_errors() {

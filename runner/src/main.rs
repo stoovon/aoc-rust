@@ -26,6 +26,10 @@ impl Day {
 
 fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
     let registered = match (year, day) {
+        (2015, 13) => Day {
+            part1: aoc2015::d13::part1,
+            part2: Some(aoc2015::d13::part2),
+        },
         (2015, 22) => Day {
             part1: aoc2015::d22::part1,
             part2: Some(aoc2015::d22::part2),
@@ -180,6 +184,22 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn seating_solvers_are_registered_and_propagate_errors() {
+        let input = "Alice would lose 5 happiness units by sitting next to Bob.\nBob would lose 7 happiness units by sitting next to Alice.";
+        assert_eq!(select_solver(2015, 13, 1).unwrap()(input).unwrap(), "-24");
+        assert_eq!(select_solver(2015, 13, 2).unwrap()(input).unwrap(), "-12");
+        for part in [1, 2] {
+            let solver = select_solver(2015, 13, part).unwrap();
+            let invalid = "Alice would gain 1 happiness units by sitting next to Bob.\ninvalid";
+            assert!(solver(invalid)
+                .unwrap_err()
+                .to_string()
+                .starts_with("line 2:"));
+            assert!(solver("Alice would gain 1 happiness units by sitting next to Bob.").is_err());
+        }
+    }
 
     #[test]
     fn garden_solvers_are_registered_and_propagate_errors() {

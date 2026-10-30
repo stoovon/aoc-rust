@@ -6,6 +6,7 @@ pub enum SolveError {
     InvalidInput(String),
     InvalidNumber(ParseIntError),
     ArithmeticOverflow,
+    ResourceLimit(&'static str),
     AtLine { line: usize, error: Box<SolveError> },
     AtStep { step: usize, error: Box<SolveError> },
 }
@@ -32,6 +33,7 @@ impl fmt::Display for SolveError {
             Self::EmptyInput => write!(f, "puzzle input is empty"),
             Self::InvalidInput(message) => write!(f, "invalid puzzle input: {message}"),
             Self::InvalidNumber(error) => write!(f, "could not parse puzzle number: {error}"),
+            Self::ResourceLimit(message) => write!(f, "resource limit exceeded: {message}"),
             Self::ArithmeticOverflow => write!(f, "puzzle arithmetic exceeded the i64 range"),
             Self::AtLine { line, error } => write!(f, "line {line}: {error}"),
             Self::AtStep { step, error } => write!(f, "step {step}: {error}"),
@@ -44,7 +46,10 @@ impl Error for SolveError {
         match self {
             Self::InvalidNumber(error) => Some(error),
             Self::AtLine { error, .. } | Self::AtStep { error, .. } => Some(error.as_ref()),
-            Self::EmptyInput | Self::InvalidInput(_) | Self::ArithmeticOverflow => None,
+            Self::EmptyInput
+            | Self::InvalidInput(_)
+            | Self::ArithmeticOverflow
+            | Self::ResourceLimit(_) => None,
         }
     }
 }

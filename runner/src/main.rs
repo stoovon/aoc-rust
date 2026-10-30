@@ -46,6 +46,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2018::d15::part1,
             part2: Some(aoc2018::d15::part2),
         },
+        (2020, 20) => Day {
+            part1: aoc2020::d20::part1,
+            part2: Some(aoc2020::d20::part2),
+        },
         (2023, 1) => Day {
             part1: aoc2023::d01::part1,
             part2: Some(aoc2023::d01::part2),
@@ -196,6 +200,19 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn jigsaw_solvers_are_registered_and_propagate_errors() {
+        for part in [1, 2] {
+            assert!(select_solver(2020, 20, part).unwrap()("Tile broken:").is_err());
+        }
+        let single_tile = format!("Tile 37:\n{}", "..........\n".repeat(10));
+        assert_eq!(
+            select_solver(2020, 20, 2).unwrap()(&single_tile).unwrap(),
+            "0"
+        );
+        assert!(select_solver(2020, 20, 1).unwrap()(&single_tile).is_err());
+    }
 
     #[test]
     fn combat_solvers_are_registered_and_propagate_errors() {

@@ -138,6 +138,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2023::d21::part1,
             part2: Some(aoc2023::d21::part2),
         },
+        (2023, 22) => Day {
+            part1: aoc2023::d22::part1,
+            part2: Some(aoc2023::d22::part2),
+        },
         _ => {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -204,6 +208,21 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn brick_solvers_are_registered_and_propagate_errors() {
+        for part in [1, 2] {
+            assert!(select_solver(2023, 22, part).unwrap()("0,0,0~0,0,1").is_err());
+        }
+        assert_eq!(
+            select_solver(2023, 22, 1).unwrap()("0,0,7~0,0,7").unwrap(),
+            "1"
+        );
+        assert_eq!(
+            select_solver(2023, 22, 2).unwrap()("0,0,7~0,0,7").unwrap(),
+            "0"
+        );
+    }
 
     #[test]
     fn robot_solvers_are_registered_and_propagate_errors() {

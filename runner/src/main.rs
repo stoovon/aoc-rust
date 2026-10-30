@@ -42,6 +42,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d22::part1,
             part2: Some(aoc2015::d22::part2),
         },
+        (2018, 1) => Day {
+            part1: aoc2018::d01::part1,
+            part2: Some(aoc2018::d01::part2),
+        },
         (2018, 15) => Day {
             part1: aoc2018::d15::part1,
             part2: Some(aoc2018::d15::part2),
@@ -212,6 +216,16 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn frequency_solvers_are_registered_and_propagate_errors() {
+        for part in [1, 2] {
+            assert!(select_solver(2018, 1, part).unwrap()("+6\n-6\njunk").is_err());
+        }
+        assert_eq!(select_solver(2018, 1, 1).unwrap()("+6\n-4").unwrap(), "2");
+        assert_eq!(select_solver(2018, 1, 2).unwrap()("+6\n-6").unwrap(), "0");
+        assert!(select_solver(2018, 1, 2).unwrap()("+2").is_err());
+    }
 
     #[test]
     fn hail_solvers_are_registered_and_propagate_errors() {

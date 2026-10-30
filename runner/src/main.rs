@@ -50,6 +50,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2020::d20::part1,
             part2: Some(aoc2020::d20::part2),
         },
+        (2022, 19) => Day {
+            part1: aoc2022::d19::part1,
+            part2: Some(aoc2022::d19::part2),
+        },
         (2023, 1) => Day {
             part1: aoc2023::d01::part1,
             part2: Some(aoc2023::d01::part2),
@@ -200,6 +204,13 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn robot_solvers_are_registered_and_propagate_errors() {
+        for part in [1, 2] {
+            assert!(select_solver(2022, 19, part).unwrap()("bad blueprint").is_err());
+        }
+    }
 
     #[test]
     fn jigsaw_solvers_are_registered_and_propagate_errors() {

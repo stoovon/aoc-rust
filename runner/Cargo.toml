@@ -7,5 +7,6 @@ edition = "2021"
 aoc2015 = { path = "../2015" }
 aoc2018 = { path = "../2018" }
 aoc2020 = { path = "../2020" }
+aoc2022 = { path = "../2022" }
 aoc2023 = { path = "../2023" }
 svutils = { path = "../svutils" }

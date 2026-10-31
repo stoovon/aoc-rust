@@ -20,7 +20,7 @@ Missing fixtures fail those tests; synthetic tests and runner tests need no
 private files. To focus on one module and the runner:
 
 ```sh
-cargo test -p aoc2018 d01::
+cargo test -p aoc2023 d23::
 cargo test -p aoc-runner
 ```
 
@@ -29,8 +29,8 @@ cargo test -p aoc-runner
 Supply year, day, part, input path and optionally an expected-answer path:
 
 ```sh
-cargo run -p aoc-runner -- 2018 1 1 /path/to/input.txt
-cargo run -p aoc-runner -- 2018 1 2 /path/to/input.txt /path/to/solution_2.txt
+cargo run -p aoc-runner -- 2023 23 1 /path/to/input.txt
+cargo run -p aoc-runner -- 2023 23 2 /path/to/input.txt /path/to/solution_2.txt
 ```
 
 The optional answer file is checked before the result is printed. File errors,
@@ -40,8 +40,8 @@ files and does not download inputs or submit answers.
 For an existing cache, pass its files directly:
 
 ```sh
-AOC_CACHE=/path/to/smelter-solves/.cache/2018/01
-cargo run -p aoc-runner -- 2018 1 1 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_1.txt"
+AOC_CACHE=/path/to/smelter-solves/.cache/2023/23
+cargo run -p aoc-runner -- 2023 23 1 "$AOC_CACHE/input.txt" "$AOC_CACHE/solution_1.txt"
 ```
 
 ## Register a migrated solver

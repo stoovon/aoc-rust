@@ -30,6 +30,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d01::part1,
             part2: Some(aoc2015::d01::part2),
         },
+        (2015, 2) => Day {
+            part1: aoc2015::d02::part1,
+            part2: Some(aoc2015::d02::part2),
+        },
         (2015, 13) => Day {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
@@ -224,6 +228,15 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn parcel_solvers_are_registered_and_propagate_errors() {
+        assert_eq!(select_solver(2015, 2, 1).unwrap()("4x5x6").unwrap(), "168");
+        assert_eq!(select_solver(2015, 2, 2).unwrap()("4x5x6").unwrap(), "138");
+        for part in [1, 2] {
+            assert!(select_solver(2015, 2, part).unwrap()("4xjunkx5x6").is_err());
+        }
+    }
 
     #[test]
     fn floor_solvers_are_registered_and_propagate_errors() {

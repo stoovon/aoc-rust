@@ -38,6 +38,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d03::part1,
             part2: Some(aoc2015::d03::part2),
         },
+        (2015, 4) => Day {
+            part1: aoc2015::d04::part1,
+            part2: Some(aoc2015::d04::part2),
+        },
         (2015, 13) => Day {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
@@ -232,6 +236,15 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn mining_solvers_are_registered_and_propagate_errors() {
+        for part in [1, 2] {
+            let solver = select_solver(2015, 4, part).unwrap();
+            assert!(solver("").is_err());
+            assert!(solver("invalid key").is_err());
+        }
+    }
 
     #[test]
     fn delivery_solvers_are_registered_and_propagate_errors() {

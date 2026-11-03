@@ -46,6 +46,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d05::part1,
             part2: Some(aoc2015::d05::part2),
         },
+        (2015, 6) => Day {
+            part1: aoc2015::d06::part1,
+            part2: Some(aoc2015::d06::part2),
+        },
         (2015, 13) => Day {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
@@ -240,6 +244,16 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn light_solvers_are_registered_and_propagate_errors() {
+        let input = "toggle 997,997 through 999,999";
+        assert_eq!(select_solver(2015, 6, 1).unwrap()(input).unwrap(), "9");
+        assert_eq!(select_solver(2015, 6, 2).unwrap()(input).unwrap(), "18");
+        for part in [1, 2] {
+            assert!(select_solver(2015, 6, part).unwrap()("toggle 0,0 through 1000,1000").is_err());
+        }
+    }
 
     #[test]
     fn nice_string_solvers_are_registered_and_propagate_errors() {

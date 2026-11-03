@@ -42,6 +42,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d04::part1,
             part2: Some(aoc2015::d04::part2),
         },
+        (2015, 5) => Day {
+            part1: aoc2015::d05::part1,
+            part2: Some(aoc2015::d05::part2),
+        },
         (2015, 13) => Day {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
@@ -236,6 +240,15 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn nice_string_solvers_are_registered_and_propagate_errors() {
+        assert_eq!(select_solver(2015, 5, 1).unwrap()("uueeff").unwrap(), "1");
+        assert_eq!(select_solver(2015, 5, 2).unwrap()("zzzz").unwrap(), "1");
+        for part in [1, 2] {
+            assert!(select_solver(2015, 5, part).unwrap()("invalid record").is_err());
+        }
+    }
 
     #[test]
     fn mining_solvers_are_registered_and_propagate_errors() {

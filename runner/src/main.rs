@@ -26,6 +26,10 @@ impl Day {
 
 fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
     let registered = match (year, day) {
+        (2015, 1) => Day {
+            part1: aoc2015::d01::part1,
+            part2: Some(aoc2015::d01::part2),
+        },
         (2015, 13) => Day {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
@@ -220,6 +224,17 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn floor_solvers_are_registered_and_propagate_errors() {
+        let input = "((()))())";
+        assert_eq!(select_solver(2015, 1, 1).unwrap()(input).unwrap(), "-1");
+        assert_eq!(select_solver(2015, 1, 2).unwrap()(input).unwrap(), "9");
+        assert!(select_solver(2015, 1, 2).unwrap()("(((())))").is_err());
+        for part in [1, 2] {
+            assert!(select_solver(2015, 1, part).unwrap()(")invalid").is_err());
+        }
+    }
 
     #[test]
     fn hike_parts_propagate_errors() {

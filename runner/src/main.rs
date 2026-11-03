@@ -54,6 +54,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d07::part1,
             part2: Some(aoc2015::d07::part2),
         },
+        (2015, 8) => Day {
+            part1: aoc2015::d08::part1,
+            part2: Some(aoc2015::d08::part2),
+        },
         (2015, 13) => Day {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
@@ -248,6 +252,16 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn literal_solvers_are_registered_and_propagate_errors() {
+        let input = r#""rrrr""#;
+        assert_eq!(select_solver(2015, 8, 1).unwrap()(input).unwrap(), "2");
+        assert_eq!(select_solver(2015, 8, 2).unwrap()(input).unwrap(), "4");
+        for part in [1, 2] {
+            assert!(select_solver(2015, 8, part).unwrap()(r#""\q""#).is_err());
+        }
+    }
 
     #[test]
     fn circuit_solvers_are_registered_and_propagate_errors() {

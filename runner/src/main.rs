@@ -86,6 +86,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d15::part1,
             part2: Some(aoc2015::d15::part2),
         },
+        (2015, 16) => Day {
+            part1: aoc2015::d16::part1,
+            part2: Some(aoc2015::d16::part2),
+        },
         (2015, 19) => Day {
             part1: aoc2015::d19::part1,
             part2: Some(aoc2015::d19::part2),
@@ -272,6 +276,18 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn sue_solvers_are_registered_and_require_unique_matches() {
+        let input = "Sue 41: goldfish: 5\nSue 72: goldfish: 4";
+        assert_eq!(select_solver(2015, 16, 1).unwrap()(input).unwrap(), "41");
+        assert_eq!(select_solver(2015, 16, 2).unwrap()(input).unwrap(), "72");
+        for part in [1, 2] {
+            let solver = select_solver(2015, 16, part).unwrap();
+            assert!(solver("Sue 41: cars: 2\nSue 72: cars: 2").is_err());
+            assert!(solver("broken").is_err());
+        }
+    }
 
     #[test]
     fn reindeer_solvers_are_registered_and_propagate_errors() {

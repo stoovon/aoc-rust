@@ -114,6 +114,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d22::part1,
             part2: Some(aoc2015::d22::part2),
         },
+        (2015, 23) => Day {
+            part1: aoc2015::d23::part1,
+            part2: Some(aoc2015::d23::part2),
+        },
         (2018, 1) => Day {
             part1: aoc2018::d01::part1,
             part2: Some(aoc2018::d01::part2),
@@ -294,10 +298,32 @@ mod tests {
     use super::*;
 
     #[test]
+    fn interpreter_parts_keep_their_initial_states_and_propagate_errors() {
+        let first = select_solver(2015, 23, 1).unwrap();
+        let second = select_solver(2015, 23, 2).unwrap();
+        let program = "jio a, +3\ninc b\ninc b\ninc b";
+        assert_eq!(first(program).unwrap(), "3");
+        assert_eq!(second(program).unwrap(), "1");
+        for solve in [first, second] {
+            assert!(matches!(
+                solve("jmp 1"),
+                Err(svutils::SolveError::AtLine { line: 1, .. })
+            ));
+            assert!(matches!(
+                solve("jmp +0"),
+                Err(svutils::SolveError::NoSolution(_))
+            ));
+        }
+    }
+
+    #[test]
     fn equipment_solvers_distinguish_parse_and_no_solution_errors() {
         let first = select_solver(2015, 21, 1).unwrap();
         let second = select_solver(2015, 21, 2).unwrap();
-        assert!(matches!(first(""), Err(svutils::SolveError::InvalidInput(_))));
+        assert!(matches!(
+            first(""),
+            Err(svutils::SolveError::InvalidInput(_))
+        ));
         assert!(matches!(
             second("Hit Points: 1\nDamage: 0\nArmor: 0"),
             Err(svutils::SolveError::NoSolution("no losing loadout"))

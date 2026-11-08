@@ -36,7 +36,7 @@ impl fmt::Display for SolveError {
             Self::InvalidInput(message) => write!(f, "invalid puzzle input: {message}"),
             Self::InvalidNumber(error) => write!(f, "could not parse puzzle number: {error}"),
             Self::ResourceLimit(message) => write!(f, "resource limit exceeded: {message}"),
-            Self::ArithmeticOverflow => write!(f, "puzzle arithmetic exceeded the i64 range"),
+            Self::ArithmeticOverflow => write!(f, "puzzle arithmetic exceeded the supported range"),
             Self::AtLine { line, error } => write!(f, "line {line}: {error}"),
             Self::AtStep { step, error } => write!(f, "step {step}: {error}"),
         }

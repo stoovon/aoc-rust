@@ -130,6 +130,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2016::d01::part1,
             part2: Some(aoc2016::d01::part2),
         },
+        (2016, 2) => Day {
+            part1: aoc2016::d02::part1,
+            part2: Some(aoc2016::d02::part2),
+        },
         (2018, 1) => Day {
             part1: aoc2018::d01::part1,
             part2: Some(aoc2018::d01::part2),
@@ -308,6 +312,24 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn keypad_parts_are_registered_and_propagate_syntax_errors() {
+        let input = "RR\nDD\nLL\nUU";
+        assert_eq!(select_solver(2016, 2, 1).unwrap()(input).unwrap(), "6971");
+        assert_eq!(select_solver(2016, 2, 2).unwrap()(input).unwrap(), "7DD7");
+        for part in [1, 2] {
+            let solve = select_solver(2016, 2, part).unwrap();
+            assert!(matches!(
+                solve("R\n\nD"),
+                Err(svutils::SolveError::AtLine { line: 2, .. })
+            ));
+            assert!(matches!(
+                solve("R\nX"),
+                Err(svutils::SolveError::AtLine { line: 2, .. })
+            ));
+        }
+    }
 
     #[test]
     fn taxicab_parts_are_registered_and_distinguish_no_revisit() {

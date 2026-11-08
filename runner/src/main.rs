@@ -106,6 +106,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d20::part1,
             part2: Some(aoc2015::d20::part2),
         },
+        (2015, 21) => Day {
+            part1: aoc2015::d21::part1,
+            part2: Some(aoc2015::d21::part2),
+        },
         (2015, 22) => Day {
             part1: aoc2015::d22::part1,
             part2: Some(aoc2015::d22::part2),
@@ -288,6 +292,17 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn equipment_solvers_distinguish_parse_and_no_solution_errors() {
+        let first = select_solver(2015, 21, 1).unwrap();
+        let second = select_solver(2015, 21, 2).unwrap();
+        assert!(matches!(first(""), Err(svutils::SolveError::InvalidInput(_))));
+        assert!(matches!(
+            second("Hit Points: 1\nDamage: 0\nArmor: 0"),
+            Err(svutils::SolveError::NoSolution("no losing loadout"))
+        ));
+    }
 
     #[test]
     fn present_solvers_are_registered_and_handle_small_thresholds() {

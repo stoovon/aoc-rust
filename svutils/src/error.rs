@@ -3,6 +3,7 @@ use std::{error::Error, fmt, num::ParseIntError};
 #[derive(Debug)]
 pub enum SolveError {
     EmptyInput,
+    NoSolution(&'static str),
     InvalidInput(String),
     InvalidNumber(ParseIntError),
     ArithmeticOverflow,
@@ -30,6 +31,7 @@ impl SolveError {
 impl fmt::Display for SolveError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::NoSolution(message) => write!(f, "no solution: {message}"),
             Self::EmptyInput => write!(f, "puzzle input is empty"),
             Self::InvalidInput(message) => write!(f, "invalid puzzle input: {message}"),
             Self::InvalidNumber(error) => write!(f, "could not parse puzzle number: {error}"),
@@ -47,6 +49,7 @@ impl Error for SolveError {
             Self::InvalidNumber(error) => Some(error),
             Self::AtLine { error, .. } | Self::AtStep { error, .. } => Some(error.as_ref()),
             Self::EmptyInput
+            | Self::NoSolution(_)
             | Self::InvalidInput(_)
             | Self::ArithmeticOverflow
             | Self::ResourceLimit(_) => None,

@@ -66,6 +66,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d10::part1,
             part2: Some(aoc2015::d10::part2),
         },
+        (2015, 11) => Day {
+            part1: aoc2015::d11::part1,
+            part2: Some(aoc2015::d11::part2),
+        },
         (2015, 13) => Day {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
@@ -260,6 +264,19 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn password_solvers_are_registered_and_propagate_errors() {
+        assert_eq!(
+            select_solver(2015, 11, 1).unwrap()("abcaaaba").unwrap(),
+            "abcaaabb"
+        );
+        for part in [1, 2] {
+            let solver = select_solver(2015, 11, part).unwrap();
+            assert!(solver("short").is_err());
+            assert!(solver("zzzzzzzz").is_err());
+        }
+    }
 
     #[test]
     fn look_and_say_solvers_are_registered_and_propagate_errors() {

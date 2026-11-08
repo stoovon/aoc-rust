@@ -122,6 +122,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d24::part1,
             part2: Some(aoc2015::d24::part2),
         },
+        (2015, 25) => Day {
+            part1: aoc2015::d25::part1,
+            part2: None,
+        },
         (2018, 1) => Day {
             part1: aoc2018::d01::part1,
             part2: Some(aoc2018::d01::part2),
@@ -300,6 +304,19 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn code_grid_has_one_part_and_propagates_coordinate_errors() {
+        let solve = select_solver(2015, 25, 1).unwrap();
+        let input = "row 17, column 9";
+        assert_eq!(solve(input).unwrap(), aoc2015::d25::part1(input).unwrap());
+        assert!(solve("row 0, column 9").is_err());
+        assert!(matches!(
+            solve("row 18446744073709551615, column 9"),
+            Err(svutils::SolveError::ArithmeticOverflow)
+        ));
+        assert!(select_solver(2015, 25, 2).is_err());
+    }
 
     #[test]
     fn package_parts_use_three_and_four_groups_and_propagate_errors() {

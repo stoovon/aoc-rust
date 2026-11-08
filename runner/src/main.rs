@@ -102,6 +102,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d19::part1,
             part2: Some(aoc2015::d19::part2),
         },
+        (2015, 20) => Day {
+            part1: aoc2015::d20::part1,
+            part2: Some(aoc2015::d20::part2),
+        },
         (2015, 22) => Day {
             part1: aoc2015::d22::part1,
             part2: Some(aoc2015::d22::part2),
@@ -284,6 +288,16 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn present_solvers_are_registered_and_handle_small_thresholds() {
+        for part in [1, 2] {
+            let solver = select_solver(2015, 20, part).unwrap();
+            assert_eq!(solver("17").unwrap(), "2");
+            assert!(solver("0").is_err());
+            assert!(solver("not a threshold").is_err());
+        }
+    }
 
     #[test]
     fn light_solvers_are_registered_and_apply_stuck_corners() {

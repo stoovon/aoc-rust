@@ -78,6 +78,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
         },
+        (2015, 14) => Day {
+            part1: aoc2015::d14::part1,
+            part2: Some(aoc2015::d14::part2),
+        },
         (2015, 15) => Day {
             part1: aoc2015::d15::part1,
             part2: Some(aoc2015::d15::part2),
@@ -268,6 +272,16 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn reindeer_solvers_are_registered_and_propagate_errors() {
+        let input = "Copper can fly 7 km/s for 3 seconds, but then must rest for 0 seconds.";
+        assert_eq!(select_solver(2015, 14, 1).unwrap()(input).unwrap(), "17521");
+        assert_eq!(select_solver(2015, 14, 2).unwrap()(input).unwrap(), "2503");
+        for part in [1, 2] {
+            assert!(select_solver(2015, 14, part).unwrap()("broken record").is_err());
+        }
+    }
 
     #[test]
     fn json_solvers_are_registered_and_propagate_errors() {

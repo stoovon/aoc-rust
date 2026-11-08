@@ -118,6 +118,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d23::part1,
             part2: Some(aoc2015::d23::part2),
         },
+        (2015, 24) => Day {
+            part1: aoc2015::d24::part1,
+            part2: Some(aoc2015::d24::part2),
+        },
         (2018, 1) => Day {
             part1: aoc2018::d01::part1,
             part2: Some(aoc2018::d01::part2),
@@ -296,6 +300,25 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn package_parts_use_three_and_four_groups_and_propagate_errors() {
+        let first = select_solver(2015, 24, 1).unwrap();
+        let second = select_solver(2015, 24, 2).unwrap();
+        let input = "1\n1\n1\n1\n2\n2\n2\n2";
+        assert_eq!(first(input).unwrap(), "4");
+        assert_eq!(second(input).unwrap(), "2");
+        for solve in [first, second] {
+            assert!(matches!(
+                solve("2\ninvalid"),
+                Err(svutils::SolveError::AtLine { line: 2, .. })
+            ));
+            assert!(matches!(
+                solve("1\n1\n3"),
+                Err(svutils::SolveError::NoSolution(_))
+            ));
+        }
+    }
 
     #[test]
     fn interpreter_parts_keep_their_initial_states_and_propagate_errors() {

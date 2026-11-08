@@ -58,6 +58,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d08::part1,
             part2: Some(aoc2015::d08::part2),
         },
+        (2015, 9) => Day {
+            part1: aoc2015::d09::part1,
+            part2: Some(aoc2015::d09::part2),
+        },
         (2015, 13) => Day {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
@@ -252,6 +256,16 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn routes_are_registered() {
+        let input = "Alder to Birch = 4\nBirch to Cedar = 9\nAlder to Cedar = 2";
+        assert_eq!(select_solver(2015, 9, 1).unwrap()(input).unwrap(), "6");
+        assert_eq!(select_solver(2015, 9, 2).unwrap()(input).unwrap(), "13");
+        for part in [1, 2] {
+            assert!(select_solver(2015, 9, part).unwrap()("bad route").is_err());
+        }
+    }
 
     #[test]
     fn literal_solvers_are_registered_and_propagate_errors() {

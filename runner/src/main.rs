@@ -90,6 +90,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d16::part1,
             part2: Some(aoc2015::d16::part2),
         },
+        (2015, 17) => Day {
+            part1: aoc2015::d17::part1,
+            part2: Some(aoc2015::d17::part2),
+        },
         (2015, 19) => Day {
             part1: aoc2015::d19::part1,
             part2: Some(aoc2015::d19::part2),
@@ -276,6 +280,16 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn container_solvers_are_registered_and_preserve_duplicate_choices() {
+        for part in [1, 2] {
+            let solver = select_solver(2015, 17, part).unwrap();
+            assert_eq!(solver("150\n150").unwrap(), "2");
+            assert_eq!(solver("150").unwrap(), "1");
+            assert!(solver("bad capacity").is_err());
+        }
+    }
 
     #[test]
     fn sue_solvers_are_registered_and_require_unique_matches() {

@@ -62,6 +62,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d09::part1,
             part2: Some(aoc2015::d09::part2),
         },
+        (2015, 10) => Day {
+            part1: aoc2015::d10::part1,
+            part2: Some(aoc2015::d10::part2),
+        },
         (2015, 13) => Day {
             part1: aoc2015::d13::part1,
             part2: Some(aoc2015::d13::part2),
@@ -256,6 +260,15 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn look_and_say_solvers_are_registered_and_propagate_errors() {
+        for part in [1, 2] {
+            let solver = select_solver(2015, 10, part).unwrap();
+            assert_eq!(solver("22").unwrap(), "2");
+            assert!(solver("invalid").is_err());
+        }
+    }
 
     #[test]
     fn routes_are_registered() {

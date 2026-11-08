@@ -94,6 +94,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d17::part1,
             part2: Some(aoc2015::d17::part2),
         },
+        (2015, 18) => Day {
+            part1: aoc2015::d18::part1,
+            part2: Some(aoc2015::d18::part2),
+        },
         (2015, 19) => Day {
             part1: aoc2015::d19::part1,
             part2: Some(aoc2015::d19::part2),
@@ -280,6 +284,17 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn light_solvers_are_registered_and_apply_stuck_corners() {
+        assert_eq!(select_solver(2015, 18, 1).unwrap()(".").unwrap(), "0");
+        assert_eq!(select_solver(2015, 18, 2).unwrap()(".").unwrap(), "1");
+        for part in [1, 2] {
+            let solver = select_solver(2015, 18, part).unwrap();
+            assert!(solver("x").is_err());
+            assert!(solver("#.\n#").is_err());
+        }
+    }
 
     #[test]
     fn container_solvers_are_registered_and_preserve_duplicate_choices() {

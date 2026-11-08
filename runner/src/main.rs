@@ -126,6 +126,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2015::d25::part1,
             part2: None,
         },
+        (2016, 1) => Day {
+            part1: aoc2016::d01::part1,
+            part2: Some(aoc2016::d01::part2),
+        },
         (2018, 1) => Day {
             part1: aoc2018::d01::part1,
             part2: Some(aoc2018::d01::part2),
@@ -304,6 +308,24 @@ fn main() -> ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn taxicab_parts_are_registered_and_distinguish_no_revisit() {
+        let first = select_solver(2016, 1, 1).unwrap();
+        let second = select_solver(2016, 1, 2).unwrap();
+        assert_eq!(first("L17, R23").unwrap(), "40");
+        assert_eq!(second("R7, R7, R7, R7").unwrap(), "0");
+        assert!(matches!(
+            second("L17, R23"),
+            Err(svutils::SolveError::NoSolution(_))
+        ));
+        for solve in [first, second] {
+            assert!(matches!(
+                solve("L0,Q7"),
+                Err(svutils::SolveError::AtStep { step: 2, .. })
+            ));
+        }
+    }
 
     #[test]
     fn code_grid_has_one_part_and_propagates_coordinate_errors() {

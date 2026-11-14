@@ -9,6 +9,7 @@ aoc2016 = { path = "../2016" }
 aoc2018 = { path = "../2018" }
 aoc2019 = { path = "../2019" }
 aoc2020 = { path = "../2020" }
+aoc2021 = { path = "../2021" }
 aoc2022 = { path = "../2022" }
 aoc2023 = { path = "../2023" }
 svutils = { path = "../svutils" }

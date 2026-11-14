@@ -162,6 +162,10 @@ fn select_solver(year: u16, day: u16, part: u16) -> io::Result<Solver> {
             part1: aoc2018::d01::part1,
             part2: Some(aoc2018::d01::part2),
         },
+        (2018, 10) => Day {
+            part1: aoc2018::d10::part1,
+            part2: Some(aoc2018::d10::part2),
+        },
         (2018, 15) => Day {
             part1: aoc2018::d15::part1,
             part2: Some(aoc2018::d15::part2),

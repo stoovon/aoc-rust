@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io::{self, Read};
 
 mod error;
+pub mod glyph_decoder;
 pub use error::SolveError;
 
 pub type Solver = fn(&str) -> Result<String, SolveError>;

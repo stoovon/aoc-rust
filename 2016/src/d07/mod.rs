@@ -1,139 +1,130 @@
-use itertools::Itertools;
-use std::collections::HashSet;
+use svutils::SolveError;
 
-extern crate core;
-
-pub fn fn1(input: &str) -> i64 {
-    let input: Vec<Vec<char>> = input
-        .lines()
-        .map(|line| line.chars().collect::<Vec<_>>())
-        .collect_vec();
-
-    let filter_ip7 = |state: &mut bool, &ch| {
-        if ch == '[' || ch == ']' {
-            *state = !*state;
+fn segments(line: &str) -> impl Iterator<Item = Result<(bool, &[u8]), SolveError>> {
+    let mut rest = Some(line.as_bytes());
+    let mut inside = false;
+    std::iter::from_fn(move || {
+        let bytes = rest.take()?;
+        let boundary = bytes.iter().position(|byte| matches!(byte, b'[' | b']'));
+        let segment = &bytes[..boundary.unwrap_or(bytes.len())];
+        let valid_boundary = match boundary {
+            Some(index) => bytes[index] == if inside { b']' } else { b'[' },
+            None => !inside,
+        };
+        if !valid_boundary || !segment.iter().all(u8::is_ascii_lowercase) {
+            return Some(Err(SolveError::InvalidInput(
+                "invalid address segment or bracket".into(),
+            )));
         }
 
-        if *state && (ch == ']' || ch == '[') {
-            Some(Ok(' '))
-        } else if *state {
-            Some(Ok(ch))
-        } else {
-            Some(Err(0))
+        let result = (inside, segment);
+        if let Some(index) = boundary {
+            rest = Some(&bytes[index + 1..]);
+            inside = !inside;
         }
-    };
-
-    let abba_detect = |quad: &[char]| {
-        let arr = quad.iter().collect::<Vec<_>>();
-        arr[0] != arr[1] && arr[0] == arr[3] && arr[1] == arr[2]
-    };
-
-    let abbas = input
-        .iter()
-        .filter(|line| {
-            let trimmed = line
-                .iter()
-                .scan(true, &filter_ip7)
-                .filter_map(|ch| ch.ok())
-                .collect::<String>();
-            let hypernet = line
-                .iter()
-                .scan(false, &filter_ip7)
-                .filter_map(|ch| ch.ok())
-                .collect::<String>();
-
-            trimmed.split_whitespace().any(|chunk| {
-                chunk
-                    .chars()
-                    .collect::<Vec<_>>()
-                    .windows(4)
-                    .any(&abba_detect)
-            }) && !hypernet.split_whitespace().any(|chunk| {
-                chunk
-                    .chars()
-                    .collect::<Vec<_>>()
-                    .windows(4)
-                    .any(&abba_detect)
-            })
-        })
-        .count();
-
-    abbas as i64
+        Some(Ok(result))
+    })
 }
 
-pub fn fn2(input: &str) -> i64 {
-    let input: Vec<Vec<char>> = input
-        .lines()
-        .map(|line| line.chars().collect::<Vec<_>>())
-        .collect_vec();
-
-    let filter_ip7 = |state: &mut bool, &ch| {
-        if ch == '[' || ch == ']' {
-            *state = !*state;
+fn supports_tls(line: &str) -> Result<bool, SolveError> {
+    let mut outside_match = false;
+    for segment in segments(line) {
+        let (inside, bytes) = segment?;
+        if bytes
+            .windows(4)
+            .any(|w| w[0] != w[1] && w[0] == w[3] && w[1] == w[2])
+        {
+            if inside {
+                return Ok(false);
+            }
+            outside_match = true;
         }
+    }
+    Ok(outside_match)
+}
 
-        if *state && (ch == ']' || ch == '[') {
-            Some(Ok(' '))
-        } else if *state {
-            Some(Ok(ch))
+fn supports_ssl(line: &str) -> Result<bool, SolveError> {
+    let mut outside = [[false; 26]; 26];
+    let mut inside = [[false; 26]; 26];
+    let mut matched = false;
+    for segment in segments(line) {
+        let (bracketed, bytes) = segment?;
+        if matched {
+            continue;
+        }
+        let (current, opposite) = if bracketed {
+            (&mut inside, &outside)
         } else {
-            Some(Err(0))
+            (&mut outside, &inside)
+        };
+        for window in bytes.windows(3) {
+            let [first, middle, last] = [window[0], window[1], window[2]];
+            if first == last && first != middle {
+                let a = usize::from(first - b'a');
+                let b = usize::from(middle - b'a');
+                if opposite[b][a] {
+                    matched = true;
+                    break;
+                }
+                current[a][b] = true;
+            }
         }
-    };
+    }
+    Ok(matched)
+}
 
-    input
-        .iter()
-        .filter(|line| {
-            let trimmed = line
-                .iter()
-                .scan(true, &filter_ip7)
-                .filter_map(|ch| ch.ok())
-                .collect::<String>();
-            let hypernet = line
-                .iter()
-                .scan(false, &filter_ip7)
-                .filter_map(|ch| ch.ok())
-                .collect::<String>();
+fn count_addresses(
+    input: &str,
+    supports: fn(&str) -> Result<bool, SolveError>,
+) -> Result<String, SolveError> {
+    if input.is_empty() {
+        return Err(SolveError::EmptyInput);
+    }
+    let mut count = 0usize;
+    for (index, line) in input.lines().enumerate() {
+        if line.is_empty() {
+            return Err(SolveError::InvalidInput("empty address".into()).at_line(index + 1));
+        }
+        count += usize::from(supports(line).map_err(|error| error.at_line(index + 1))?);
+    }
+    Ok(count.to_string())
+}
 
-            let mut abas = HashSet::new();
-            trimmed
-                .split_whitespace()
-                .map(|chunk| chunk.chars().collect::<Vec<_>>())
-                .for_each(|chunk| {
-                    chunk.windows(3).for_each(|aba| {
-                        let arr = aba.iter().cloned().collect::<Vec<_>>();
-                        if arr[0] != arr[1] && arr[0] == arr[2] {
-                            abas.insert(arr.clone());
-                        }
-                    })
-                });
+pub fn part1(input: &str) -> Result<String, SolveError> {
+    count_addresses(input, supports_tls)
+}
 
-            hypernet.split_whitespace().any(|chunk| {
-                chunk.chars().collect::<Vec<_>>().windows(3).any(|bab| {
-                    let arr = bab.iter().collect::<Vec<_>>();
-                    let aba = vec![arr[1].clone(), arr[0].clone(), arr[1].clone()];
-                    arr[0] != arr[1] && arr[0] == arr[2] && abas.contains(&aba)
-                })
-            })
-        })
-        .count() as i64
+pub fn part2(input: &str) -> Result<String, SolveError> {
+    count_addresses(input, supports_ssl)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::scaffold_test;
-
-    const YEAR: i16 = 2016;
-    const DAY: i16 = 7;
 
     #[test]
-    fn test_fn1_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
+    fn tls_respects_segment_boundaries_and_checks_later_segments() {
+        assert_eq!(
+            part1("mnnm[q]rs\nmn[q]nm\nmnnm[q]rs[twwt]uv\nssss").unwrap(),
+            "1"
+        );
+        assert_eq!(part1("mnnm[twwt]uv]").unwrap(), "0");
+        for line in ["mnnm]q", "mnnm[q", "mnnm[q[r]s]", "mnnm[Q]rs"] {
+            let input = format!("mnnm[q]rs\n{line}");
+            assert!(matches!(
+                part1(&input),
+                Err(SolveError::AtLine { line: 2, .. })
+            ));
+        }
     }
 
     #[test]
-    fn test_fn2_input() {
-        scaffold_test(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
+    fn ssl_matches_in_either_order_without_crossing_boundaries() {
+        let input = "kpk[pkp]r\nr[pkp]kpk\nkp[q]k[pkp]r\nkkk[ppp]r\nkpk[kpk]r";
+        assert_eq!(part2(input).unwrap(), "2");
+        assert!(matches!(
+            part2("kpk[pkp]r]"),
+            Err(SolveError::AtLine { line: 1, .. })
+        ));
     }
 }

@@ -1,68 +1,79 @@
-extern crate core;
+use std::cmp::Reverse;
+use svutils::SolveError;
 
-use std::collections::HashMap;
-
-fn solve(input: &str) -> (String, String) {
-    let input: Vec<Vec<char>> = input
+fn histograms(input: &str) -> Result<Vec<[usize; 26]>, SolveError> {
+    let width = input
         .lines()
-        .map(|line| line.chars().collect::<Vec<_>>())
-        .collect();
+        .next()
+        .filter(|line| !line.is_empty())
+        .ok_or(SolveError::EmptyInput)?
+        .len();
+    let mut counts = vec![[0; 26]; width];
 
-    let columns = input[0].len();
-    let mut part1 = Vec::new();
-    let mut part2 = Vec::new();
-
-    for i in 0..columns {
-        let mut hist = HashMap::new();
-        for line in &input {
-            *hist.entry(line[i]).or_insert(0) += 1;
+    for (index, line) in input.lines().enumerate() {
+        if line.len() != width {
+            return Err(
+                SolveError::InvalidInput("inconsistent row width".into()).at_line(index + 1)
+            );
         }
-
-        part1.push(
-            hist.iter()
-                .max_by_key(|&(_ch, freq)| freq)
-                .unwrap()
-                .0
-                .clone(),
-        );
-        part2.push(
-            hist.iter()
-                .min_by_key(|&(_ch, freq)| freq)
-                .unwrap()
-                .0
-                .clone(),
-        );
+        for (column, letter) in counts.iter_mut().zip(line.bytes()) {
+            if !letter.is_ascii_lowercase() {
+                return Err(
+                    SolveError::InvalidInput("expected lowercase ASCII letters".into())
+                        .at_line(index + 1),
+                );
+            }
+            column[usize::from(letter - b'a')] += 1;
+        }
     }
-
-    (
-        part1.into_iter().collect::<String>(),
-        part2.into_iter().collect::<String>(),
-    )
+    Ok(counts)
 }
 
-pub fn fn1(input: &str) -> String {
-    solve(input).0
+fn decode<K: Ord>(input: &str, rank: impl Fn(usize) -> K) -> Result<String, SolveError> {
+    let counts = histograms(input)?;
+    Ok(counts
+        .iter()
+        .map(|column| {
+            let (letter, _) = column
+                .iter()
+                .enumerate()
+                .filter(|&(_, &count)| count != 0)
+                .min_by_key(|&(_, &count)| rank(count))
+                .expect("each column has at least one letter");
+            char::from(b'a' + letter as u8)
+        })
+        .collect())
 }
 
-pub fn fn2(input: &str) -> String {
-    solve(input).1
+pub fn part1(input: &str) -> Result<String, SolveError> {
+    decode(input, Reverse)
+}
+
+pub fn part2(input: &str) -> Result<String, SolveError> {
+    decode(input, |count| count)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use svutils::scaffold_test_string;
-
-    const YEAR: i16 = 2016;
-    const DAY: i16 = 6;
 
     #[test]
-    fn test_fn1_input() {
-        scaffold_test_string(YEAR, DAY, "input.txt", "input-spec.1.txt", fn1);
+    fn selects_present_letters_and_breaks_ties_alphabetically() {
+        let input = "yb\r\nza\r\nyc\r\nzb";
+        assert_eq!(part1(input).unwrap(), "yb");
+        assert_eq!(part2(input).unwrap(), "ya");
     }
 
     #[test]
-    fn test_fn2_input() {
-        scaffold_test_string(YEAR, DAY, "input.txt", "input-spec.2.txt", fn2);
+    fn rejects_invalid_rows() {
+        for solve in [part1, part2] {
+            assert!(matches!(solve(""), Err(SolveError::EmptyInput)));
+            for input in ["ab\na", "ab\nabc", "ab\n\n", "ab\nAa", "ab\né"] {
+                assert!(matches!(
+                    solve(input),
+                    Err(SolveError::AtLine { line: 2, .. })
+                ));
+            }
+        }
     }
 }
